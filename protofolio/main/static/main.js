@@ -2,47 +2,123 @@
    main.js  –  Single-page scroll interactions
    ============================================= */
 
-// ── Page Transition System ────────────────────
+// ── Page Transition System (Card Stack) ────────
 (function () {
-  /* Build the overlay DOM */
-  const overlay = document.createElement('div');
-  overlay.className = 'page-transition';
-  overlay.innerHTML = '<div class="pt-strip"></div><div class="pt-strip"></div><div class="pt-strip"></div>';
-  document.body.appendChild(overlay);
-
-  const logo = document.createElement('div');
-  logo.className = 'pt-logo';
-  logo.innerHTML = '<span class="pt-logo-icon">⬡</span><span class="pt-logo-text">Loading…</span>';
-  document.body.appendChild(logo);
-
   let running = false;
 
   function pageTransition(targetId) {
     if (running) return;
     running = true;
 
-    /* 1 — Sweep IN */
-    overlay.classList.remove('pt-out');
-    overlay.classList.add('pt-in');
-    logo.classList.add('pt-logo-visible');
+    const targetSec = document.getElementById(targetId);
+    if (!targetSec) { running = false; return; }
 
-    /* 2 — After strips fully cover screen, scroll to target */
+    let currentSec = null;
+    const sections = document.querySelectorAll('section[id]');
+    sections.forEach(sec => {
+      const rect = sec.getBoundingClientRect();
+      if (rect.top <= window.innerHeight / 2 && rect.bottom >= window.innerHeight / 2) {
+        currentSec = sec;
+      }
+    });
+
+    if (!currentSec || currentSec === targetSec) {
+      if (window.globalLenis) {
+        window.globalLenis.scrollTo(targetSec, { duration: 1.2 });
+      } else {
+        targetSec.scrollIntoView({ behavior: 'smooth' });
+      }
+      running = false;
+      return;
+    }
+
+    const isForward = (Array.from(sections).indexOf(targetSec) > Array.from(sections).indexOf(currentSec));
+
+    if (window.globalLenis) window.globalLenis.stop();
+
+    // Create wrapper for the animation
+    const wrapper = document.createElement('div');
+    wrapper.className = 'pt-card-stack-wrapper';
+    wrapper.style.cssText = 'position:fixed; top:0; left:0; width:100vw; height:100vh; z-index:999999; overflow:hidden; background:var(--bg-main, #050505); pointer-events:none; perspective:1200px;';
+
+    // Clone sections to animate safely without breaking document flow
+    const cloneCurrent = currentSec.cloneNode(true);
+    const cloneTarget = targetSec.cloneNode(true);
+
+    // Force cloned target elements to be visible since they haven't scrolled into view yet
+    const hiddenEls = cloneTarget.querySelectorAll('.reveal-up, .reveal-left, .reveal-right, .scramble-text, .skill-bar-fill');
+    hiddenEls.forEach(el => {
+      el.classList.add('visible');
+      el.style.opacity = '1';
+      el.style.transform = 'translate(0,0) scale(1)';
+      if (el.classList.contains('skill-bar-fill') && el.dataset.width) el.style.width = el.dataset.width + '%';
+      if (el.classList.contains('scramble-text') && el.dataset.html) el.innerHTML = el.dataset.html;
+    });
+
+    const cRect = currentSec.getBoundingClientRect();
+    cloneCurrent.style.cssText = `position:absolute; top:${cRect.top}px; left:0; width:100%; height:${cRect.height}px; margin:0; transform-origin: center center; will-change: transform, opacity;`;
+    cloneTarget.style.cssText = `position:absolute; top:0px; left:0; width:100%; height:${targetSec.offsetHeight}px; margin:0; transform-origin: center center; will-change: transform, opacity;`;
+
+    // Stack: next section comes from behind
+    wrapper.appendChild(cloneTarget);
+    wrapper.appendChild(cloneCurrent);
+    document.body.appendChild(wrapper);
+
+    // Instantly scroll real page to target so it's ready when overlay is removed
+    if (window.globalLenis) {
+      window.globalLenis.scrollTo(targetSec, { immediate: true });
+    } else {
+      window.scrollTo(0, targetSec.offsetTop);
+    }
+
+    // Fallback if motion is not loaded yet
+    const animateFn = window.Motion ? window.Motion.animate : null;
+    const dur = 1.0;
+    
+    if (animateFn) {
+      const ease = [0.22, 1, 0.36, 1]; // Premium smooth ease
+      
+      if (isForward) {
+        animateFn(cloneCurrent, { 
+          scale: [1, 0.88],
+          y: [0, -window.innerHeight * 0.6],
+          opacity: [1, 0],
+          rotateX: [0, 5]
+        }, { duration: dur, easing: ease });
+
+        animateFn(cloneTarget, {
+          scale: [0.94, 1],
+          y: [window.innerHeight * 0.1, 0],
+          opacity: [0, 1],
+          rotateX: [-5, 0]
+        }, { duration: dur, easing: ease });
+      } else {
+        animateFn(cloneCurrent, {
+          scale: [1, 0.88],
+          y: [0, window.innerHeight * 0.6],
+          opacity: [1, 0],
+          rotateX: [0, -5]
+        }, { duration: dur, easing: ease });
+
+        animateFn(cloneTarget, {
+          scale: [0.94, 1],
+          y: [-window.innerHeight * 0.1, 0],
+          opacity: [0, 1],
+          rotateX: [5, 0]
+        }, { duration: dur, easing: ease });
+      }
+    } else {
+      // Emergency fallback if CDN failed
+      cloneCurrent.style.opacity = '0';
+      cloneTarget.style.opacity = '1';
+    }
+
     setTimeout(() => {
-      const target = document.getElementById(targetId);
-      if (target) target.scrollIntoView({ behavior: 'instant' });
-
-      /* 3 — Swap to sweep OUT */
-      overlay.classList.remove('pt-in');
-      overlay.classList.add('pt-out');
-      logo.classList.remove('pt-logo-visible');
-
-      /* 4 — Clean up after OUT finishes */
-      setTimeout(() => {
-        overlay.classList.remove('pt-out');
-        running = false;
-      }, 600);   // longest strip delay (0.10s) + animation (0.35s) + buffer
-
-    }, 550);     // wait for IN to complete (0.10 + 0.35 + small buffer)
+      wrapper.remove();
+      if (window.globalLenis) window.globalLenis.start();
+      if (window.ScrollTrigger) window.ScrollTrigger.refresh();
+      running = false;
+    }, dur * 1000 + 50);
   }
 
   /* Intercept all nav-link clicks + scroll-to buttons */
@@ -58,6 +134,15 @@
     if (!target) return;
 
     e.preventDefault();
+    
+    // Close mobile menu if open
+    const hamburger = document.getElementById('hamburger');
+    const navLinksList = document.getElementById('navLinks');
+    if (navLinksList && navLinksList.classList.contains('open')) {
+      navLinksList.classList.remove('open');
+      if (hamburger) hamburger.classList.remove('is-active');
+    }
+
     pageTransition(hash);
   });
 })();
@@ -147,22 +232,22 @@ window.addEventListener('scroll', () => {
   });
 }, { passive: true });
 
-// ── Smooth scroll for anchor links ───────────
-document.querySelectorAll('a[href^="#"]').forEach(a => {
-  a.addEventListener('click', e => {
-    const target = document.querySelector(a.getAttribute('href'));
-    if (!target) return;
-    e.preventDefault();
-    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    // close mobile menu if open
-    document.getElementById('navLinks').classList.remove('open');
-    hamburger.classList.remove('is-active');
-  });
-});
+// (Smooth scroll for anchor links handled by page transition interceptor)
 
 // Scroll hint click
-document.querySelector('.scroll-hint')?.addEventListener('click', () => {
-  document.getElementById('about').scrollIntoView({ behavior: 'smooth' });
+document.querySelector('.scroll-hint')?.addEventListener('click', (e) => {
+  e.preventDefault();
+  // We can trigger the same page transition logic by simulating an anchor click,
+  // or just let the global click handler catch it if it's an <a>.
+  // Assuming it's an <a> with href="#about":
+  const link = e.target.closest('a');
+  if (link && link.getAttribute('href') === '#about') {
+    // Interceptor will catch it
+  } else {
+    // Fallback if not caught
+    const target = document.getElementById('about');
+    if(target) target.scrollIntoView({ behavior: 'smooth' });
+  }
 });
 
 // ── Hamburger ────────────────────────────────

@@ -9,10 +9,10 @@ const CERTS = {
   excel:  { title:'Introduction to MS Excel',       issuer:'Microsoft & Simplilearn', icon:'📊', gradient:'linear-gradient(135deg,#107c41,#185c37)', pdfUrl:'/static/excel_cert.pdf' },
   ai:     { title:'Yuva AI for All',                issuer:'INDIAai & NASSCOM',       icon:'🤖', gradient:'linear-gradient(135deg,#f26522,#d94600)', pdfUrl:'/static/ai_cert.pdf' },
   docker: { title:'Docker Certified Associate',   issuer:'Docker Inc.',          icon:'🐳',gradient:'linear-gradient(135deg,#2496ed,#1a6fb5)', year:'2022', issued:'April 22, 2022',    expires:'April 22, 2025',   id:'DCA-2022-RK-0135',     level:'Associate',    score:'88%',            desc:'Covers Docker Engine, images, containers, networking, volumes, Swarm orchestration, and security for containerizing production applications.', skills:['Docker Engine','Dockerfile','Compose','Swarm','Networking','Volumes','Registry','Security','BuildKit','Multi-stage Builds'] },
-  github: { title:'GitHub Actions Certification', issuer:'GitHub',               icon:'🐙',gradient:'linear-gradient(135deg,#555,#999)',      year:'2024', issued:'January 18, 2024',   expires:'January 18, 2027', id:'GH-ACT-2024-RK-0304',  level:'Certified',    score:'91%',            desc:'Validates expertise in automating CI/CD workflows using GitHub Actions, including custom actions, secrets management, matrix builds, and cloud deployments.', skills:['GitHub Actions','CI/CD','YAML Workflows','Secrets','Matrix Builds','Container Jobs','Reusable Workflows','Environments','Self-hosted Runners','OIDC'] },
+  mypdf: { title:'My Certificate', issuer:'My PDF', icon:'📄', gradient:'linear-gradient(135deg,#9b59b6,#8e44ad)', pdfUrl:'/static/my pdf.pdf' }
 };
 
-const KEYS      = ['aws','cisco','excel','ai','docker','github'];
+const KEYS      = ['aws','cisco','excel','ai','docker','mypdf'];
 const TOTAL     = KEYS.length;
 const SPEED     = 0.006;
 let   angle     = -Math.PI / 2;
