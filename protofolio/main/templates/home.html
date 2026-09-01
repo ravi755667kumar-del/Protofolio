@@ -1,0 +1,163 @@
+{% load static %}
+<!-- ====== NAVBAR & HERO (SECTION 1: HOME) ====== -->
+<nav class="navbar" id="navbar">
+  <a href="#home" class="logo">
+    <span class="logo-icon">⬡</span>
+    <span class="logo-text">Portfolio</span>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#home"          class="nav-link active" data-section="home">Home</a></li>
+    <li><a href="#about"         class="nav-link"        data-section="about">About</a></li>
+    <li><a href="#experience"    class="nav-link"        data-section="experience">Experience</a></li>
+    <li><a href="#skills"        class="nav-link"        data-section="skills">Skills</a></li>
+    <li><a href="#projects"      class="nav-link"        data-section="projects">Projects</a></li>
+    <li><a href="#certifications" class="nav-link"       data-section="certifications">Certs</a></li>
+    <li><a href="#contact"       class="nav-link"        data-section="contact">Contact</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- Progress bar -->
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<!-- ========================================================
+     SECTION 1 — HOME / HERO
+     ======================================================== -->
+<section class="section-page hero-page" id="home">
+  <div class="hero-container">
+
+    <!-- Left: Text -->
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        Available for hire
+      </div>
+      <h1 class="hero-title">
+        Hi, I'm <span class="gradient-text">Ravi</span>
+      </h1>
+      <p class="hero-subtitle" id="heroSubtitle"><span class="type-cursor"></span></p>
+      <p class="hero-desc">
+        Crafting beautiful, high-performance web experiences with modern tech.
+        Turning ideas into elegant digital solutions.
+      </p>
+      <div class="hero-cta">
+        <a href="#projects" class="btn btn-primary scroll-to">View Projects</a>
+        <a href="#contact"  class="btn btn-outline scroll-to">Get In Touch</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat">
+          <span class="stat-num" data-target="4">0</span><span>+</span>
+          <span class="stat-label">Projects</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <span class="stat-num" data-target="1">0</span>
+          <span class="stat-label">Internship</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <span class="stat-num" data-target="6">0</span><span>+</span>
+          <span class="stat-label">Certifications</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: Hanging ID Card -->
+    <div class="id-card-wrapper" id="cardWrapper">
+      <div class="lanyard-container">
+        <svg class="lanyard-svg" viewBox="0 0 120 160" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="ropeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%"   style="stop-color:#0891b2"/>
+              <stop offset="50%"  style="stop-color:#22d3ee"/>
+              <stop offset="100%" style="stop-color:#0891b2"/>
+            </linearGradient>
+          </defs>
+          <path class="lanyard-path" d="M 60 0 C 60 40, 10 60, 10 100 C 10 130, 55 140, 60 160"
+                stroke="url(#ropeGrad)" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <path class="lanyard-path" d="M 60 0 C 60 40, 110 60, 110 100 C 110 130, 65 140, 60 160"
+                stroke="url(#ropeGrad)" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <rect x="50" y="0" width="20" height="8" rx="3" fill="#0891b2"/>
+          <circle cx="60" cy="4" r="3" fill="none" stroke="#020c1b" stroke-width="1.5"/>
+        </svg>
+      </div>
+
+      <div class="id-card" id="idCard">
+        <div class="id-card-inner">
+          <!-- Front -->
+          <div class="id-card-front">
+            <div class="card-header-strip">
+              <span class="card-company">DEVELOPER</span>
+              <span class="card-year">2024</span>
+            </div>
+            <div class="card-photo-wrapper">
+              <div class="card-photo-glow"></div>
+              <div style="width: 120px; height: 120px; border-radius: 50%; border: 3px solid rgba(255,255,255,0.15); overflow: hidden; margin: 0 auto; position: relative; z-index: 1; background: var(--bg-card);">
+                <img class="card-photo" src="{% static 'profile.jpg' %}" alt="Ravi Kumar"
+                     style="filter: contrast(1.05) saturate(1.1) brightness(1.05); transform: scale(2.2); object-fit: cover; object-position: center 15%; border: none; width: 100%; height: 100%;"
+                     onerror="this.src='{% static 'profile.jpg' %}';this.onerror=null;"/>
+                <div class="card-photo-fallback">R</div>
+              </div>
+            </div>
+            <div class="card-info">
+              <h3 class="card-name">Ravi Kumar</h3>
+              <p class="card-role">Full-Stack · AI/ML Engineer</p>
+              <div class="card-divider"></div>
+              <div class="card-details">
+                <span class="card-detail"><span class="detail-icon">📧</span> Ravikumar755667@gmail.com</span>
+                <span class="card-detail"><span class="detail-icon">🌐</span> portfolio.dev</span>
+                <span class="card-detail"><span class="detail-icon">📍</span> India</span>
+              </div>
+            </div>
+            <div class="card-barcode">
+              <div class="barcode-lines">
+                <span></span><span></span><span></span><span></span><span></span>
+                <span></span><span></span><span></span><span></span><span></span>
+                <span></span><span></span><span></span><span></span><span></span>
+              </div>
+              <p class="barcode-text">ID-2024-RK-0042</p>
+            </div>
+            <div class="card-hologram"></div>
+            <div class="card-flip-hint">↺ Hover to flip</div>
+          </div>
+          <!-- Back -->
+          <div class="id-card-back">
+            <div class="back-header"><span>SKILLS &amp; STACK</span></div>
+            <div class="back-skills">
+              <span class="skill-tag">Python</span><span class="skill-tag">Django</span>
+              <span class="skill-tag">TensorFlow</span><span class="skill-tag">Scikit-learn</span>
+              <span class="skill-tag">Pandas</span><span class="skill-tag">FastAPI</span>
+              <span class="skill-tag">Docker</span><span class="skill-tag">SQL</span>
+            </div>
+            <div class="back-qr">
+              <div class="qr-grid" id="qrGrid"></div>
+              <p class="qr-label">Scan to Connect</p>
+            </div>
+            <div class="back-signature">
+              <div class="sig-line"></div>
+              <p>Authorized Signature</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-shadow"></div>
+    </div>
+  </div>
+
+  <!-- Scroll hint arrow -->
+  <div class="scroll-hint">
+    <span>Scroll Down</span>
+    <div class="scroll-arrow">
+      <div class="arrow-line"></div>
+      <div class="arrow-head"></div>
+    </div>
+  </div>
+
+  <!-- Particles & orbs -->
+  <div class="particles" id="particles"></div>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+</section>

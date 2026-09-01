@@ -1,0 +1,153 @@
+<!-- ========================================================
+     SECTION 6 â€” CERTIFICATES (Rotating Page Orbit)
+     ======================================================== -->
+<section class="section-page section-alt" id="certifications">
+  <div class="section-divider-line"></div>
+  <div class="container">
+    <div class="section-header reveal-up">
+      <span class="section-tag">Credentials</span>
+      <h2 class="section-title scramble-text" data-text="My Certifications" data-html="My <span class='gradient-text'>Certifications</span>">My <span class="gradient-text">Certifications</span></h2>
+      <p class="cert-subtitle">Click any certificate page to view it</p>
+    </div>
+
+    <!-- Orbit scene — JS will position and rotate page thumbnails -->
+    <div class="cert-orbit-scene" id="certOrbitScene">
+
+      <!-- Center hub -->
+      <div class="cert-orbit-hub">
+        <div class="hub-glow"></div>
+        <span class="hub-icon">🏆</span>
+        <span class="hub-label">6 Certs</span>
+      </div>
+
+      <!-- Decorative rings -->
+      <div class="orbit-ring orbit-ring-1"></div>
+      <div class="orbit-ring orbit-ring-2"></div>
+
+      <!-- Cert page thumbnails — JS fills these in -->
+      <div class="cert-thumb" id="ct-aws" data-cert="aws" onclick="openCert('aws')">
+        <div class="ct-header" style="background:linear-gradient(135deg,#ff9900,#e65c00)">
+          <span class="ct-issuer-icon">☁️</span>
+          <span class="ct-issuer-name">Amazon Web Services</span>
+        </div>
+        <div class="ct-body">
+          <div class="ct-seal" style="--sc:#ff9900">☁️</div>
+          <div class="ct-label">CERTIFICATE OF ACHIEVEMENT</div>
+          <div class="ct-title">Introduction to<br>Machine Learning</div>
+          <div class="ct-recipient">Presented to<br><strong>Ravi Kumar</strong></div>
+          <div class="ct-lines"><span></span><span></span><span></span></div>
+          <div class="ct-meta">Completed • 2026</div>
+        </div>
+        <div class="ct-footer">
+          <span class="ct-id">AWS-ML-2026</span>
+          <span class="ct-valid">✔ Valid</span>
+        </div>
+      </div>
+
+      <div class="cert-thumb" id="ct-cisco" data-cert="cisco" onclick="openCert('cisco')">
+        <div class="ct-header" style="background:linear-gradient(135deg,#0ea5e9,#0284c7)">
+          <span class="ct-issuer-icon">🌐</span>
+          <span class="ct-issuer-name">Cisco Academy</span>
+        </div>
+        <div class="ct-body">
+          <div class="ct-seal" style="--sc:#0ea5e9">🌐</div>
+          <div class="ct-label">CERTIFICATE OF ACHIEVEMENT</div>
+          <div class="ct-title">Introduction to<br>Data Science</div>
+          <div class="ct-recipient">Presented to<br><strong>Ravi Kumar</strong></div>
+          <div class="ct-lines"><span></span><span></span><span></span></div>
+          <div class="ct-meta">Completed • 2026</div>
+        </div>
+        <div class="ct-footer">
+          <span class="ct-id">CISCO-DS-2026</span>
+          <span class="ct-valid">✔ Valid</span>
+        </div>
+      </div>
+
+      <div class="cert-thumb" id="ct-excel" data-cert="excel" onclick="openCert('excel')">
+        <div class="ct-header" style="background:linear-gradient(135deg,#107c41,#185c37)">
+          <span class="ct-issuer-icon">📊</span>
+          <span class="ct-issuer-name">Microsoft</span>
+        </div>
+        <div class="ct-body">
+          <div class="ct-seal" style="--sc:#107c41">📊</div>
+          <div class="ct-label">DECLARATION OF COMPLETION</div>
+          <div class="ct-title">Introduction to<br>MS Excel</div>
+          <div class="ct-recipient">Presented to<br><strong>Ravi Kumar</strong></div>
+          <div class="ct-lines"><span></span><span></span><span></span></div>
+          <div class="ct-meta">Completed • 2026</div>
+        </div>
+        <div class="ct-footer">
+          <span class="ct-id">MS-EXCEL-2026-9717110</span>
+          <span class="ct-valid">✔ Valid</span>
+        </div>
+      </div>
+
+      <div class="cert-thumb" id="ct-ai" data-cert="ai" onclick="openCert('ai')">
+        <div class="ct-header" style="background:linear-gradient(135deg,#f26522,#d94600)">
+          <span class="ct-issuer-icon">🤖</span>
+          <span class="ct-issuer-name">INDIAai & NASSCOM</span>
+        </div>
+        <div class="ct-body">
+          <div class="ct-seal" style="--sc:#f26522">🤖</div>
+          <div class="ct-label">CERTIFICATE OF PARTICIPATION</div>
+          <div class="ct-title">Yuva AI<br>for All</div>
+          <div class="ct-recipient">Presented to<br><strong>Ravi Kumar</strong></div>
+          <div class="ct-lines"><span></span><span></span><span></span></div>
+          <div class="ct-meta">Completed • 2025</div>
+        </div>
+        <div class="ct-footer">
+          <span class="ct-id">AI-ALL-2025</span>
+          <span class="ct-valid">✔ Valid</span>
+        </div>
+      </div>
+
+      <div class="cert-thumb" id="ct-docker" data-cert="docker" onclick="openCert('docker')">
+        <div class="ct-header" style="background:linear-gradient(135deg,#2496ed,#1a6fb5)">
+          <span class="ct-issuer-icon">🐳</span>
+          <span class="ct-issuer-name">Docker Inc.</span>
+        </div>
+        <div class="ct-body">
+          <div class="ct-seal" style="--sc:#2496ed">🐳</div>
+          <div class="ct-label">CERTIFICATE OF ACHIEVEMENT</div>
+          <div class="ct-title">Docker Certified<br>Associate</div>
+          <div class="ct-recipient">Presented to<br><strong>Ravi Kumar</strong></div>
+          <div class="ct-lines"><span></span><span></span><span></span></div>
+          <div class="ct-meta">Associate • 2022</div>
+        </div>
+        <div class="ct-footer">
+          <span class="ct-id">DCA-2022-RK-0135</span>
+          <span class="ct-valid">✔ Valid</span>
+        </div>
+      </div>
+
+      <div class="cert-thumb" id="ct-github" data-cert="github" onclick="openCert('github')">
+        <div class="ct-header" style="background:linear-gradient(135deg,#444,#888)">
+          <span class="ct-issuer-icon">🐙</span>
+          <span class="ct-issuer-name">GitHub</span>
+        </div>
+        <div class="ct-body">
+          <div class="ct-seal" style="--sc:#666">🐙</div>
+          <div class="ct-label">CERTIFICATE OF ACHIEVEMENT</div>
+          <div class="ct-title">GitHub Actions<br>Certification</div>
+          <div class="ct-recipient">Presented to<br><strong>Ravi Kumar</strong></div>
+          <div class="ct-lines"><span></span><span></span><span></span></div>
+          <div class="ct-meta">Certified • 2024</div>
+        </div>
+        <div class="ct-footer">
+          <span class="ct-id">GH-ACT-2024-RK-0304</span>
+          <span class="ct-valid">✔ Valid</span>
+        </div>
+      </div>
+
+    </div><!-- /cert-orbit-scene -->
+  </div>
+</section>
+
+<!-- ====== CERTIFICATE MODAL ====== -->
+<div class="cert-modal-overlay" id="certModal" onclick="closeCertModal(event)">
+  <div class="cert-modal-wrap">
+    <button class="cert-modal-close" id="certCloseBtn" onclick="closeCertModal()">✖</button>
+    <div class="cert-modal-page" id="certModalPage"></div>
+  </div>
+</div>
+

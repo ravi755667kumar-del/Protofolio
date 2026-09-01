@@ -1,0 +1,209 @@
+<!-- ========================================================
+     SECTION 5 — PROJECTS (3D Reflective Carousel)
+     ======================================================== -->
+<section class="section-page" id="projects">
+  <div class="section-divider-line"></div>
+  <div class="container">
+    <div class="section-header reveal-up" style="position: relative; z-index: 10;">
+      <span class="section-tag">What I've Built</span>
+      <h2 class="section-title scramble-text" data-text="Featured Projects" data-html="Featured <span class='gradient-text'>Projects</span>">Featured <span class="gradient-text">Projects</span></h2>
+      <p class="section-subtitle">Drag to spin the carousel. Click a card to view project details.</p>
+    </div>
+
+    <!-- 3D Carousel Scene -->
+    <div class="projects-carousel-wrapper" id="projectsCarousel">
+      <div class="carousel-scene">
+        <div class="carousel-ring" id="carouselRing">
+          
+          <!-- Card 1 -->
+          <div class="carousel-card" data-modal="proj-1" style="--color: #0ea5e9;">
+            <div class="card-content">
+              <span class="card-icon">🎬</span>
+              <h3>Movie Recommender</h3>
+              <p>ML & TF-IDF</p>
+            </div>
+            <div class="card-glow"></div>
+            <div class="card-reflection"></div>
+          </div>
+          
+          <!-- Card 2 -->
+          <div class="carousel-card" data-modal="proj-2" style="--color: #10b981;">
+            <div class="card-content">
+              <span class="card-icon">🏠</span>
+              <h3>Price Prediction</h3>
+              <p>Scikit-learn</p>
+            </div>
+            <div class="card-glow"></div>
+            <div class="card-reflection"></div>
+          </div>
+          
+          <!-- Card 3 -->
+          <div class="carousel-card" data-modal="proj-3" style="--color: #8b5cf6;">
+            <div class="card-content">
+              <span class="card-icon">🗣️</span>
+              <h3>Language API</h3>
+              <p>Django & NLP</p>
+            </div>
+            <div class="card-glow"></div>
+            <div class="card-reflection"></div>
+          </div>
+          
+          <!-- Card 4 -->
+          <div class="carousel-card" data-modal="proj-4" style="--color: #f97316;">
+            <div class="card-content">
+              <span class="card-icon">🛒</span>
+              <h3>E-Commerce</h3>
+              <p>Full-Stack Django</p>
+            </div>
+            <div class="card-glow"></div>
+            <div class="card-reflection"></div>
+          </div>
+
+          <!-- Card 5 (Duplicated for ring volume) -->
+          <div class="carousel-card" data-modal="proj-1" style="--color: #0ea5e9;">
+            <div class="card-content">
+              <span class="card-icon">🎬</span>
+              <h3>Movie Recommender</h3>
+              <p>ML & TF-IDF</p>
+            </div>
+            <div class="card-glow"></div>
+            <div class="card-reflection"></div>
+          </div>
+
+          <!-- Card 6 (Duplicated for ring volume) -->
+          <div class="carousel-card" data-modal="proj-2" style="--color: #10b981;">
+            <div class="card-content">
+              <span class="card-icon">🏠</span>
+              <h3>Price Prediction</h3>
+              <p>Scikit-learn</p>
+            </div>
+            <div class="card-glow"></div>
+            <div class="card-reflection"></div>
+          </div>
+
+          <!-- Card 7 (Duplicated for ring volume) -->
+          <div class="carousel-card" data-modal="proj-3" style="--color: #8b5cf6;">
+            <div class="card-content">
+              <span class="card-icon">🗣️</span>
+              <h3>Language API</h3>
+              <p>Django & NLP</p>
+            </div>
+            <div class="card-glow"></div>
+            <div class="card-reflection"></div>
+          </div>
+
+          <!-- Card 8 (Duplicated for ring volume) -->
+          <div class="carousel-card" data-modal="proj-4" style="--color: #f97316;">
+            <div class="card-content">
+              <span class="card-icon">🛒</span>
+              <h3>E-Commerce</h3>
+              <p>Full-Stack Django</p>
+            </div>
+            <div class="card-glow"></div>
+            <div class="card-reflection"></div>
+          </div>
+
+        </div>
+        <!-- The Reflective Pool Water -->
+        <div class="reflective-pool"></div>
+      </div>
+    </div>
+
+    <!-- Hidden Modals for Project Details -->
+    <div class="project-modals-container" id="projectModals">
+      
+      <!-- Modal 1 -->
+      <div class="project-modal" id="proj-1">
+        <div class="modal-overlay close-modal"></div>
+        <div class="modal-box" style="--border-color: #0ea5e9;">
+          <button class="close-modal-btn close-modal">✕</button>
+          <div class="modal-body">
+            <span class="featured-badge" style="background:rgba(14,165,233,0.2);color:#0ea5e9;">⭐ Featured</span>
+            <h3 class="stack-title">Movie Recommendation System</h3>
+            <p class="stack-desc">Engineered a personalized content-based recommendation system using Python and Machine Learning. Processes large-scale metadata and film attributes with TF-IDF vector similarity algorithms to deliver high-precision suggestions and tailored recommendation feeds.</p>
+            <div class="stack-highlights">
+              <div class="highlight-item"><span>⚡ Speed:</span> Sub-10ms query latency</div>
+              <div class="highlight-item"><span>🎯 Algorithm:</span> TF-IDF &amp; Cosine Similarity</div>
+            </div>
+            <div class="project-tags">
+              <span>Python</span><span>Machine Learning</span><span>Pandas</span><span>Scikit-learn</span>
+            </div>
+            <div class="stack-card-actions">
+              <a href="https://github.com/ravi755667kumar-del" target="_blank" class="btn btn-primary btn-sm">View Code ↗</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal 2 -->
+      <div class="project-modal" id="proj-2">
+        <div class="modal-overlay close-modal"></div>
+        <div class="modal-box" style="--border-color: #10b981;">
+          <button class="close-modal-btn close-modal">✕</button>
+          <div class="modal-body">
+            <span class="featured-badge" style="background:rgba(16,185,129,0.2);color:#10b981;">📊 Predictive Model</span>
+            <h3 class="stack-title">House Price Prediction Model</h3>
+            <p class="stack-desc">Designed and deployed an end-to-end regression modeling pipeline to forecast residential property market values. Implemented advanced data preprocessing, outlier removal, cross-validation, and gradient boosted feature optimization.</p>
+            <div class="stack-highlights">
+              <div class="highlight-item"><span>📈 Accuracy:</span> R² Score 0.89+</div>
+              <div class="highlight-item"><span>🔧 Pipeline:</span> Automated Feature Engineering</div>
+            </div>
+            <div class="project-tags">
+              <span>Scikit-learn</span><span>Regression</span><span>Pandas</span><span>Matplotlib</span>
+            </div>
+            <div class="stack-card-actions">
+              <a href="https://github.com/ravi755667kumar-del" target="_blank" class="btn btn-primary btn-sm">View Code ↗</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal 3 -->
+      <div class="project-modal" id="proj-3">
+        <div class="modal-overlay close-modal"></div>
+        <div class="modal-box" style="--border-color: #8b5cf6;">
+          <button class="close-modal-btn close-modal">✕</button>
+          <div class="modal-body">
+            <span class="featured-badge" style="background:rgba(139,92,246,0.2);color:#a78bfa;">🧠 NLP & Django</span>
+            <h3 class="stack-title">Language Detector Web App</h3>
+            <p class="stack-desc">Built a real-time multilingual language detection web application with a Django backend. Integrates Natural Language Processing (NLP) tokenization and predictive text classification to accurately identify input languages with high confidence and minimal latency.</p>
+            <div class="stack-highlights">
+              <div class="highlight-item"><span>🌐 Languages:</span> 50+ Global Languages</div>
+              <div class="highlight-item"><span>⚡ Latency:</span> &lt; 25ms Response</div>
+            </div>
+            <div class="project-tags">
+              <span>Django</span><span>NLP</span><span>Python</span><span>REST API</span>
+            </div>
+            <div class="stack-card-actions">
+              <a href="https://github.com/ravi755667kumar-del" target="_blank" class="btn btn-primary btn-sm">View Code ↗</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal 4 -->
+      <div class="project-modal" id="proj-4">
+        <div class="modal-overlay close-modal"></div>
+        <div class="modal-box" style="--border-color: #f97316;">
+          <button class="close-modal-btn close-modal">✕</button>
+          <div class="modal-body">
+            <span class="featured-badge" style="background:rgba(249,115,22,0.2);color:#fb923c;">🛒 Full-Stack App</span>
+            <h3 class="stack-title">E-commerce Retail Platform</h3>
+            <p class="stack-desc">Developed a full-featured, responsive e-commerce platform for food and beverage retail. Features a robust Django MVC architecture, secure product catalog browsing, cart session management, order checkout workflows, and dynamic interactive client UI components.</p>
+            <div class="stack-highlights">
+              <div class="highlight-item"><span>🛍️ Architecture:</span> Full Django MVC</div>
+              <div class="highlight-item"><span>📱 Design:</span> 100% Fluid Responsive</div>
+            </div>
+            <div class="project-tags">
+              <span>Django</span><span>HTML5/CSS3</span><span>JavaScript</span><span>SQLite</span>
+            </div>
+            <div class="stack-card-actions">
+              <a href="https://github.com/ravi755667kumar-del" target="_blank" class="btn btn-primary btn-sm">View Code ↗</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>

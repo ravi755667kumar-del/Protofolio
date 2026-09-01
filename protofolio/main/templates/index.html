@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Ravi Kumar – Full-Stack Developer & AI/ML Engineer"/>
+  <title>Ravi Kumar | Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
+  
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="{% static 'style.css' %}"/>
+  <link rel="stylesheet" href="{% static 'main.css' %}?v=4"/>
+  <link rel="stylesheet" href="{% static 'cert.css' %}"/>
+
+  <!-- GSAP & Lenis Smooth Scroll -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+</head>
+<body>
+
+  <!-- THE 7 SECTION TEMPLATES -->
+  <!-- 1. Home (Navbar + Hero) -->
+  {% include 'home.html' %}
+
+  <!-- 2. About -->
+  {% include 'about.html' %}
+
+  <!-- 3. Experience & Education -->
+  {% include 'experience.html' %}
+
+  <!-- 4. Skills -->
+  {% include 'skills.html' %}
+
+  <!-- 5. Projects (3D Reflective Carousel) -->
+  {% include 'projects.html' %}
+
+  <!-- 6. Certifications (3D Orbit & Modal) -->
+  {% include 'certs.html' %}
+
+  <!-- 7. Contact (& Footer) -->
+  {% include 'contact.html' %}
+
+  <!-- JavaScript Scripts -->
+  <script src="{% static 'main.js' %}?v=5"></script>
+  <script src="{% static 'cert.js' %}?v=5"></script>
+</body>
+</html>
