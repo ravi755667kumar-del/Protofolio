@@ -114,6 +114,7 @@
 .hero-page {
   min-height: 100vh;
   padding: 0;
+  overflow: visible;
   background:
     radial-gradient(ellipse at 15% 20%, rgba(8,145,178,0.2) 0%, transparent 55%),
     radial-gradient(ellipse at 85% 75%, rgba(34,211,238,0.12) 0%, transparent 50%),
@@ -1118,4 +1119,111 @@
   color: #a8b2d1;
   line-height: 1.6;
   margin-bottom: 1.5rem;
+}
+
+/* ============================================================
+   FULLSCREEN SECTION FIT  –  Each section = exactly 100vh
+   No content is removed; paddings & gaps are tightened and
+   content is auto-scaled via CSS to fill the screen cleanly.
+   ============================================================ */
+
+/* --- Make every section a fixed full-screen slide --- */
+.section-page {
+  height: 100vh !important;
+  min-height: 100vh !important;
+  max-height: 100vh !important;
+  overflow: hidden !important;
+  padding: 4rem 0 2rem !important;      /* tighter top/bottom padding */
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  box-sizing: border-box !important;
+}
+
+/* Hero is already flex-col, just keep it 100vh */
+.hero-page {
+  padding: 0 !important;
+}
+
+/* --- Container: give it full height so children can stretch --- */
+.section-page > .container {
+  height: 100% !important;
+  max-height: 100% !important;
+  overflow: hidden !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+}
+
+/* --- Section header: tighten bottom margin --- */
+.section-header { margin-bottom: 1.5rem !important; }
+.section-title  { font-size: clamp(1.4rem, 2.8vw, 2.2rem) !important; }
+
+/* --- ABOUT: tighter grid --- */
+.about-grid {
+  gap: 2rem !important;
+  grid-template-columns: 240px 1fr !important;
+  align-items: center !important;
+}
+.profile-img-wrap   { width: 100px !important; height: 100px !important; margin-bottom: 0.8rem !important; }
+.profile-img-wrap img,
+.profile-img-fallback { width: 100px !important; height: 100px !important; }
+.bio-content        { gap: 0.6rem !important; }
+.bio-block          { padding: 0.8rem 1rem !important; }
+.bio-block p        { font-size: 0.82rem !important; line-height: 1.5 !important; }
+.strengths-grid     { margin-top: 1.2rem !important; gap: 0.7rem !important; }
+.strength-card      { padding: 0.8rem !important; }
+.strength-icon      { font-size: 1.3rem !important; margin-bottom: 0.3rem !important; }
+.strength-card h4   { font-size: 0.82rem !important; }
+.strength-card p    { font-size: 0.72rem !important; }
+.about-stat-row     { padding: 0.8rem !important; }
+.astat-num          { font-size: 1.3rem !important; }
+
+/* --- EXPERIENCE: tighter --- */
+.timeline           { gap: 1rem !important; }
+.tl-entry           { gap: 1rem !important; padding: 1rem !important; }
+
+/* --- SKILLS: tighter grid --- */
+.skills-grid        { gap: 1rem !important; }
+.skill-category     { padding: 1.1rem !important; }
+.skill-cat-header   { margin-bottom: 0.8rem !important; }
+.skill-bars         { gap: 0.6rem !important; }
+.tech-cloud         { gap: 0.5rem !important; }
+.tech-chip          { padding: 0.3rem 0.7rem !important; font-size: 0.75rem !important; }
+
+/* --- PROJECTS: contain the carousel wrapper --- */
+.section-page .projects-carousel-wrapper {
+  height: calc(100vh - 220px) !important;
+  overflow: hidden !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* --- CERTS: contain the orbit scene --- */
+.cert-orbit-scene {
+  height: calc(100vh - 200px) !important;
+  max-height: calc(100vh - 200px) !important;
+}
+
+/* --- CONTACT: tighter grid --- */
+.contact-grid       { gap: 2rem !important; }
+
+/* --- Divider: pull it tighter --- */
+.section-divider-line { top: 0 !important; }
+
+/* -- Responsive: tablet & mobile ----------------------- */
+@media (max-width: 1024px) {
+  .about-grid { grid-template-columns: 1fr !important; gap: 1rem !important; }
+}
+
+@media (max-width: 768px) {
+  .section-page  { padding: 4.5rem 0 1rem !important; }
+  .section-title { font-size: clamp(1.2rem, 5vw, 1.8rem) !important; }
+  .skills-grid   { grid-template-columns: 1fr 1fr !important; gap: 0.8rem !important; }
+  .strengths-grid{ grid-template-columns: 1fr 1fr !important; }
+  .about-grid    { grid-template-columns: 1fr !important; }
+  .profile-img-wrap,
+  .profile-img-wrap img,
+  .profile-img-fallback { width: 80px !important; height: 80px !important; }
 }

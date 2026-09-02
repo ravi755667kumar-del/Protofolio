@@ -3,9 +3,13 @@
    ============================================= */
 
 // ── Page Transition System (Card Stack) ────────
+// Exposed globally so scroll-snap can also trigger it
 (function () {
   let running = false;
 
+  const allSections = Array.from(document.querySelectorAll('section[id]'));
+
+  // ── Core card-stack animation ──────────────────
   function pageTransition(targetId) {
     if (running) return;
     running = true;
@@ -14,8 +18,7 @@
     if (!targetSec) { running = false; return; }
 
     let currentSec = null;
-    const sections = document.querySelectorAll('section[id]');
-    sections.forEach(sec => {
+    allSections.forEach(sec => {
       const rect = sec.getBoundingClientRect();
       if (rect.top <= window.innerHeight / 2 && rect.bottom >= window.innerHeight / 2) {
         currentSec = sec;
@@ -26,91 +29,59 @@
       if (window.globalLenis) {
         window.globalLenis.scrollTo(targetSec, { duration: 1.2 });
       } else {
-        targetSec.scrollIntoView({ behavior: 'smooth' });
+        window.scrollTo({ top: targetSec.offsetTop, behavior: 'smooth' });
       }
       running = false;
       return;
     }
 
-    const isForward = (Array.from(sections).indexOf(targetSec) > Array.from(sections).indexOf(currentSec));
+    const isForward = (allSections.indexOf(targetSec) > allSections.indexOf(currentSec));
 
     if (window.globalLenis) window.globalLenis.stop();
 
-    // Create wrapper for the animation
     const wrapper = document.createElement('div');
     wrapper.className = 'pt-card-stack-wrapper';
-    wrapper.style.cssText = 'position:fixed; top:0; left:0; width:100vw; height:100vh; z-index:999999; overflow:hidden; background:var(--bg-main, #050505); pointer-events:none; perspective:1200px;';
+    wrapper.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:999999;overflow:hidden;background:var(--bg-main,#050505);pointer-events:none;perspective:1200px;';
 
-    // Clone sections to animate safely without breaking document flow
     const cloneCurrent = currentSec.cloneNode(true);
-    const cloneTarget = targetSec.cloneNode(true);
+    const cloneTarget  = targetSec.cloneNode(true);
 
-    // Force cloned target elements to be visible since they haven't scrolled into view yet
-    const hiddenEls = cloneTarget.querySelectorAll('.reveal-up, .reveal-left, .reveal-right, .scramble-text, .skill-bar-fill');
-    hiddenEls.forEach(el => {
+    cloneTarget.querySelectorAll('.reveal-up,.reveal-left,.reveal-right,.scramble-text,.skill-bar-fill').forEach(el => {
       el.classList.add('visible');
-      el.style.opacity = '1';
-      el.style.transform = 'translate(0,0) scale(1)';
+      el.style.cssText += ';opacity:1;transform:translate(0,0) scale(1);';
       if (el.classList.contains('skill-bar-fill') && el.dataset.width) el.style.width = el.dataset.width + '%';
       if (el.classList.contains('scramble-text') && el.dataset.html) el.innerHTML = el.dataset.html;
     });
 
     const cRect = currentSec.getBoundingClientRect();
-    cloneCurrent.style.cssText = `position:absolute; top:${cRect.top}px; left:0; width:100%; height:${cRect.height}px; margin:0; transform-origin: center center; will-change: transform, opacity;`;
-    cloneTarget.style.cssText = `position:absolute; top:0px; left:0; width:100%; height:${targetSec.offsetHeight}px; margin:0; transform-origin: center center; will-change: transform, opacity;`;
+    cloneCurrent.style.cssText = `position:absolute;top:${cRect.top}px;left:0;width:100%;height:${cRect.height}px;margin:0;transform-origin:center center;will-change:transform,opacity;`;
+    cloneTarget.style.cssText  = `position:absolute;top:0;left:0;width:100%;height:${targetSec.offsetHeight}px;margin:0;transform-origin:center center;will-change:transform,opacity;`;
 
-    // Stack: next section comes from behind
     wrapper.appendChild(cloneTarget);
     wrapper.appendChild(cloneCurrent);
     document.body.appendChild(wrapper);
 
-    // Instantly scroll real page to target so it's ready when overlay is removed
     if (window.globalLenis) {
       window.globalLenis.scrollTo(targetSec, { immediate: true });
     } else {
       window.scrollTo(0, targetSec.offsetTop);
     }
 
-    // Fallback if motion is not loaded yet
     const animateFn = window.Motion ? window.Motion.animate : null;
-    const dur = 1.0;
-    
+    const dur  = 1.0;
+    const ease = [0.22, 1, 0.36, 1];
+
     if (animateFn) {
-      const ease = [0.22, 1, 0.36, 1]; // Premium smooth ease
-      
       if (isForward) {
-        animateFn(cloneCurrent, { 
-          scale: [1, 0.88],
-          y: [0, -window.innerHeight * 0.6],
-          opacity: [1, 0],
-          rotateX: [0, 5]
-        }, { duration: dur, easing: ease });
-
-        animateFn(cloneTarget, {
-          scale: [0.94, 1],
-          y: [window.innerHeight * 0.1, 0],
-          opacity: [0, 1],
-          rotateX: [-5, 0]
-        }, { duration: dur, easing: ease });
+        animateFn(cloneCurrent, { scale:[1,0.88],    y:[0,-window.innerHeight*0.6], opacity:[1,0], rotateX:[0,5]  }, { duration:dur, easing:ease });
+        animateFn(cloneTarget,  { scale:[0.94,1],    y:[window.innerHeight*0.1,0],  opacity:[0,1], rotateX:[-5,0] }, { duration:dur, easing:ease });
       } else {
-        animateFn(cloneCurrent, {
-          scale: [1, 0.88],
-          y: [0, window.innerHeight * 0.6],
-          opacity: [1, 0],
-          rotateX: [0, -5]
-        }, { duration: dur, easing: ease });
-
-        animateFn(cloneTarget, {
-          scale: [0.94, 1],
-          y: [-window.innerHeight * 0.1, 0],
-          opacity: [0, 1],
-          rotateX: [5, 0]
-        }, { duration: dur, easing: ease });
+        animateFn(cloneCurrent, { scale:[1,0.88],    y:[0,window.innerHeight*0.6],  opacity:[1,0], rotateX:[0,-5] }, { duration:dur, easing:ease });
+        animateFn(cloneTarget,  { scale:[0.94,1],    y:[-window.innerHeight*0.1,0], opacity:[0,1], rotateX:[5,0]  }, { duration:dur, easing:ease });
       }
     } else {
-      // Emergency fallback if CDN failed
       cloneCurrent.style.opacity = '0';
-      cloneTarget.style.opacity = '1';
+      cloneTarget.style.opacity  = '1';
     }
 
     setTimeout(() => {
@@ -118,10 +89,15 @@
       if (window.globalLenis) window.globalLenis.start();
       if (window.ScrollTrigger) window.ScrollTrigger.refresh();
       running = false;
-    }, dur * 1000 + 50);
+    }, dur * 1000 + 80);
   }
 
-  /* Intercept all nav-link clicks + scroll-to buttons */
+  // ── Expose globally ──────────────────────────────
+  window.sitePageTransition  = pageTransition;
+  window.getAllSections       = () => allSections;
+  window.isTransitionRunning = () => running;
+
+  // ── Nav-link / anchor clicks ─────────────────────
   document.addEventListener('click', function (e) {
     const link = e.target.closest('a[href^="#"], a[data-section]');
     if (!link) return;
@@ -134,9 +110,8 @@
     if (!target) return;
 
     e.preventDefault();
-    
-    // Close mobile menu if open
-    const hamburger = document.getElementById('hamburger');
+
+    const hamburger    = document.getElementById('hamburger');
     const navLinksList = document.getElementById('navLinks');
     if (navLinksList && navLinksList.classList.contains('open')) {
       navLinksList.classList.remove('open');
@@ -145,7 +120,119 @@
 
     pageTransition(hash);
   });
+
+  // ── Boundary detection: is user at section edge? ─
+  function findBestSectionIndex() {
+    let bestIdx = 0, bestScore = -Infinity;
+    allSections.forEach((sec, i) => {
+      const rect    = sec.getBoundingClientRect();
+      const visible = Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0);
+      if (visible > bestScore) { bestScore = visible; bestIdx = i; }
+    });
+    return bestIdx;
+  }
+
+  // Returns true only when the user is at the scroll boundary of the current section
+  // direction: +1 = scrolling down, -1 = scrolling up
+  function isAtSectionBoundary(direction) {
+    const EDGE_BUFFER = 6; // px tolerance for floating point
+    if (direction > 0) {
+      // At bottom of page? → ready to go to next section
+      const atPageBottom = (window.scrollY + window.innerHeight) >= (document.documentElement.scrollHeight - EDGE_BUFFER);
+      // Or: current section's bottom is at/above viewport bottom
+      const bestIdx = findBestSectionIndex();
+      const sec = allSections[bestIdx];
+      const secBottom = sec.offsetTop + sec.offsetHeight;
+      const viewBottom = window.scrollY + window.innerHeight;
+      const atSecBottom = viewBottom >= (secBottom - EDGE_BUFFER);
+      return atPageBottom || atSecBottom;
+    } else {
+      // At top of page? → ready to go to previous section
+      const atPageTop = window.scrollY <= EDGE_BUFFER;
+      // Or: current section's top is at/below viewport top
+      const bestIdx = findBestSectionIndex();
+      const sec = allSections[bestIdx];
+      const atSecTop = window.scrollY <= (sec.offsetTop + EDGE_BUFFER);
+      return atPageTop || atSecTop;
+    }
+  }
+
+  // ── Wheel: allow normal scroll, intercept only at boundary ──
+  let wheelBoundaryAccum = 0;
+  let wheelBoundaryTimer = null;
+  const BOUNDARY_WHEEL_THRESHOLD = 80; // extra delta needed at boundary to commit
+
+  window.addEventListener('wheel', function (e) {
+    // Let scroll pass through inside modals
+    if (document.getElementById('certModal')?.classList.contains('open')) return;
+    if (document.querySelector('.project-modal.active')) return;
+    if (e.target.closest('.cert-modal-wrap, .modal-box')) return;
+
+    // While a transition is playing, block ALL scroll
+    if (window.isTransitionRunning()) {
+      e.preventDefault();
+      return;
+    }
+
+    const direction = e.deltaY > 0 ? 1 : -1;
+
+    if (isAtSectionBoundary(direction)) {
+      // We're at the edge — accumulate extra intentional scroll delta
+      e.preventDefault();
+
+      wheelBoundaryAccum += e.deltaY;
+      clearTimeout(wheelBoundaryTimer);
+      wheelBoundaryTimer = setTimeout(() => { wheelBoundaryAccum = 0; }, 400);
+
+      if (Math.abs(wheelBoundaryAccum) >= BOUNDARY_WHEEL_THRESHOLD) {
+        wheelBoundaryAccum = 0;
+        const bestIdx = findBestSectionIndex();
+        const nextIdx = Math.max(0, Math.min(allSections.length - 1, bestIdx + direction));
+        if (nextIdx === bestIdx) return;
+        pageTransition(allSections[nextIdx].id);
+      }
+    }
+    // else: NOT at boundary → let native scroll flow naturally (don't preventDefault)
+  }, { passive: false });
+
+  // ── Touch: allow normal scroll, intercept only at boundary ──
+  let touchStartY   = 0;
+  let touchScrolled = false; // whether native scroll moved during touch
+
+  window.addEventListener('touchstart', function (e) {
+    touchStartY   = e.touches[0].clientY;
+    touchScrolled = false;
+  }, { passive: true });
+
+  // Track whether native scroll actually moved (don't block touchmove)
+  window.addEventListener('scroll', function () {
+    touchScrolled = true;
+  }, { passive: true });
+
+  window.addEventListener('touchend', function (e) {
+    if (document.getElementById('certModal')?.classList.contains('open')) return;
+    if (document.querySelector('.project-modal.active')) return;
+    if (window.isTransitionRunning()) return;
+
+    const deltaY    = touchStartY - e.changedTouches[0].clientY;
+    const SWIPE_MIN = 50;
+    if (Math.abs(deltaY) < SWIPE_MIN) return;
+
+    const direction = deltaY > 0 ? 1 : -1;
+
+    // Only trigger section transition when at the section boundary
+    if (!isAtSectionBoundary(direction)) return;
+
+    const bestIdx = findBestSectionIndex();
+    const nextIdx = Math.max(0, Math.min(allSections.length - 1, bestIdx + direction));
+    if (nextIdx === bestIdx) return;
+
+    pageTransition(allSections[nextIdx].id);
+  }, { passive: true });
+
 })();
+
+
 
 // ── Typewriter: cycle roles in hero subtitle ──
 (function () {
@@ -741,3 +828,86 @@ scrambleEls.forEach(el => {
   });
 
 })();
+
+// -- Section Entrance Animations (Directional Zoom) --
+(function() {
+  if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+  gsap.registerPlugin(ScrollTrigger);
+
+  const sections = document.querySelectorAll('section[id]');
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  sections.forEach((sec, i) => {
+    // Skip the home section — it has its own CSS dropIn animation
+    // and applying GSAP translateY would clip the lanyard rope
+    if (sec.id === 'home') return;
+
+    // Find the primary container inside the section to animate (safer than animating the section itself)
+    const container = sec.querySelector('.container, .hero-container');
+    if (!container) return;
+
+    if (!prefersReducedMotion) {
+      const isOdd = (i % 2 === 0); // 0th index is the 1st section (Odd)
+      const xOffset = isOdd ? 80 : -100;
+      const yOffset = isOdd ? -80 : 0;
+
+      gsap.fromTo(container, 
+        {
+          x: xOffset,
+          y: yOffset,
+          scale: 0.85,
+          opacity: 0
+        },
+        {
+          x: 0,
+          y: 0,
+          scale: 1,
+          opacity: 1,
+          duration: 0.9,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: sec,
+            start: 'top 85%',
+            toggleActions: 'play none none none' // Animate in once and keep visible
+          }
+        }
+      );
+    } else {
+      // Reduced motion fallback
+      gsap.fromTo(container, 
+        { opacity: 0 },
+        {
+          opacity: 1,
+          duration: 0.8,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: sec,
+            start: 'top 85%',
+            toggleActions: 'play none none none'
+          }
+        }
+      );
+    }
+  });
+
+  // -- Subtle Parallax/Zoom on Scroll for Images/Cards --
+  if (!prefersReducedMotion) {
+    const parallaxElements = document.querySelectorAll('.profile-card, .projects-carousel-wrapper, .cert-orbit-scene, .strength-card');
+    parallaxElements.forEach(el => {
+      gsap.fromTo(el, 
+        { y: 30 },
+        {
+          y: -10,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: el,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: 1
+          }
+        }
+      );
+    });
+  }
+})();
+
