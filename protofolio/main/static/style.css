@@ -1806,3 +1806,171 @@ body {
 #experience .exp-card:last-child .exp-desc { font-size: 0.82rem; line-height: 1.65; margin-bottom: 0.8rem; }
 #experience .exp-card:last-child .exp-tag { font-size: 0.68rem; padding: 0.2rem 0.55rem; }
 #experience .exp-card:last-child .exp-icon { font-size: 1.6rem; }
+/* Skills section -- move content up */
+#skills.section-page { padding-top: 2rem !important; padding-bottom: 2rem !important; }
+#skills .section-header { margin-bottom: 1.2rem !important; }
+#skills .skills-grid { margin-top: 0 !important; gap: 1.2rem !important; }
+#skills .skill-category { padding: 1.2rem 1.4rem !important; }
+#skills .skill-cat-header { margin-bottom: 1rem !important; }
+#skills .skill-bars { gap: 0.75rem !important; }
+#skills .skill-bar-label { font-size: 0.8rem !important; margin-bottom: 3px !important; }
+#skills .skill-bar-track { height: 6px !important; }
+/* =============================================
+   SKILLS -- Grouped Pill Chips Layout
+   ============================================= */
+.sk-group {
+  margin-bottom: 1.6rem;
+  animation-delay: var(--delay, 0s);
+}
+.sk-group-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 0.75rem;
+  font-family: var(--font-mono);
+}
+.sk-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+.sk-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 1rem;
+  border-radius: 50px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #fff;
+  background: rgba(255,255,255,0.04);
+  border: 1.5px solid color-mix(in srgb, var(--c) 60%, transparent);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--c) 20%, transparent);
+  backdrop-filter: blur(8px);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  cursor: default;
+}
+.sk-chip:hover {
+  transform: translateY(-3px) scale(1.05);
+  background: color-mix(in srgb, var(--c) 18%, transparent);
+  box-shadow: 0 6px 20px color-mix(in srgb, var(--c) 35%, transparent);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .sk-chip { font-size: 0.78rem; padding: 0.38rem 0.85rem; }
+}
+/* =============================================
+   SKILLS -- INFINITE MARQUEE
+   ============================================= */
+.skill-marquee-wrapper {
+  position: relative;
+  width: 100vw;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  overflow: hidden;
+  padding: 1rem 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.marquee-track {
+  display: flex;
+  width: fit-content;
+  overflow: hidden;
+}
+
+.marquee-content {
+  display: flex;
+  gap: 1rem;
+  padding-left: 1rem;
+  animation: scrollLeft 25s linear infinite;
+}
+
+.content-right {
+  animation: scrollRight 25s linear infinite;
+}
+
+/* Hover to pause */
+.skill-marquee-wrapper:hover .marquee-content {
+  animation-play-state: paused;
+}
+
+@keyframes scrollLeft {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+@keyframes scrollRight {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+
+/* Base chip styling overrides (ensure they look like pills) */
+.marquee-track .sk-chip {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.2rem;
+  background: var(--bg-card);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 50px;
+  font-size: 0.95rem;
+  color: #fff;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+.marquee-track .sk-chip:hover {
+  background: var(--c, rgba(255,255,255,0.1));
+  border-color: var(--c, rgba(255,255,255,0.2));
+  color: #fff !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(255,255,255,0.05);
+}
+@media (max-width: 768px) {
+  #skills .skills-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+@media (max-width: 1024px) {
+  #skills .skills-grid {
+    grid-template-columns: 1fr 1fr !important;
+  }
+}
+@media (max-width: 768px) {
+  #skills .skills-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+/* Reduce skills box sizes and fix header visibility */
+#skills.section-page { padding-top: 5.5rem !important; padding-bottom: 2rem !important; }
+#skills .skills-grid { margin-bottom: 1.5rem !important; gap: 1rem !important; }
+#skills .skill-category { padding: 1rem !important; }
+#skills .skill-cat-header { margin-bottom: 0.8rem !important; }
+#skills .skill-cat-header h3 { font-size: 0.9rem !important; }
+#skills .skill-cat-header span { font-size: 1.2rem !important; }
+#skills .skill-bars { gap: 0.55rem !important; }
+#skills .skill-bar-label { font-size: 0.75rem !important; margin-bottom: 2px !important; }
+#skills .skill-bar-track { height: 5px !important; }
+/* Fix for cut off text in section title */
+#skills .section-title {
+  line-height: 1.4 !important;
+  overflow: visible !important;
+  padding-bottom: 0.5em !important;
+}
+#skills .section-header {
+  overflow: visible !important;
+}
+.gradient-text {
+  line-height: 1.4 !important;
+  padding-bottom: 0.2em !important;
+}
+/* Ensure #skills height isn't accidentally restricted */
+#skills.section-page {
+  min-height: auto !important;
+  height: auto !important;
+}
