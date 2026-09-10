@@ -1,10 +1,10 @@
-/* =============================================
+﻿/* =============================================
    GLOBAL RESET & TOKENS
    ============================================= */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  /* ── Ocean Blue Palette ── */
+  /* â”€â”€ Ocean Blue Palette â”€â”€ */
   --ocean-950: #020b18;
   --ocean-900: #041020;
   --ocean-800: #071a30;
@@ -24,7 +24,7 @@
   --sky-500:    #06b6d4;
   --emerald-500: #10b981;
 
-  /* backgrounds — deep midnight navy */
+  /* backgrounds â€” deep midnight navy */
   --bg-dark:    #020c1b;
   --bg-dark-2:  #050e1f;
   --bg-surface: #071224;
@@ -1264,3 +1264,545 @@ body {
   .id-card { width: 240px; height: 330px; }
   .card-photo { width: 75px; height: 75px; }
 }
+
+/* =============================================
+   ABOUT — NEW REDESIGNED LAYOUT
+   ============================================= */
+.about-grid-new {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 3rem;
+  align-items: start;
+  margin-top: 3rem;
+}
+
+/* ── Left: Compact Profile Card ── */
+.profile-card-new {
+  position: relative;
+  background: var(--bg-card);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 20px;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  overflow: hidden;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+}
+
+.pcn-glow {
+  position: absolute;
+  top: -40px; left: 50%; transform: translateX(-50%);
+  width: 200px; height: 200px;
+  background: radial-gradient(circle, rgba(34,211,238,0.18), transparent 70%);
+  pointer-events: none;
+}
+
+/* Photo */
+.pcn-photo-wrap {
+  position: relative;
+  width: 110px; height: 110px;
+  margin: 0 auto 1.2rem;
+}
+.pcn-ring {
+  position: absolute;
+  inset: -4px; border-radius: 50%;
+  background: var(--gradient-primary);
+  animation: ringRotate 4s linear infinite;
+  z-index: 0;
+}
+.pcn-photo-circle {
+  position: relative;
+  width: 110px; height: 110px;
+  border-radius: 50%;
+  overflow: hidden;
+  z-index: 1;
+  border: 3px solid var(--bg-card);
+  background: var(--bg-card);
+}
+.pcn-fallback {
+  display: none;
+  align-items: center; justify-content: center;
+  width: 100%; height: 100%;
+  background: var(--gradient-primary);
+  font-size: 2rem; font-weight: 800; color: white;
+  border-radius: 50%;
+}
+
+/* Text */
+.pcn-name {
+  font-size: 1.15rem; font-weight: 800;
+  color: var(--text-white); margin-bottom: 0.25rem;
+}
+.pcn-role {
+  font-size: 0.75rem; color: var(--violet-400);
+  font-family: var(--font-mono); letter-spacing: 1px;
+  margin-bottom: 0.9rem;
+}
+.pcn-badges {
+  display: flex; justify-content: center; gap: 6px;
+  flex-wrap: wrap; margin-bottom: 1.2rem;
+}
+.pcn-badge {
+  padding: 0.25rem 0.65rem;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 50px; font-size: 0.72rem;
+  color: var(--text-muted);
+}
+.pcn-badge-green {
+  color: var(--emerald-400);
+  border-color: rgba(16,185,129,0.4);
+  background: rgba(16,185,129,0.08);
+}
+
+/* CGPA stat */
+.pcn-stat {
+  display: flex; flex-direction: column; align-items: center;
+  padding: 0.8rem 1rem;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 12px;
+  margin-bottom: 0.2rem;
+}
+.pcn-stat-num {
+  font-size: 1.8rem; font-weight: 900;
+  font-family: var(--font-mono); line-height: 1;
+}
+.pcn-stat-label {
+  font-size: 0.65rem; color: var(--text-muted);
+  text-transform: uppercase; letter-spacing: 1.5px;
+  margin-top: 0.3rem; font-weight: 600;
+}
+
+/* ── Right: Bio Content ── */
+.bio-content-new {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.bio-block-new {
+  background: var(--bg-card);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 16px;
+  padding: 1.4rem 1.6rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  animation-delay: var(--delay, 0s);
+}
+.bio-block-new:hover {
+  border-color: rgba(34,211,238,0.2);
+  box-shadow: 0 4px 24px rgba(34,211,238,0.07);
+}
+
+.bio-heading-new {
+  font-size: 0.95rem; font-weight: 800;
+  color: var(--text-white);
+  margin-bottom: 0.55rem;
+  display: flex; align-items: center; gap: 0.4rem;
+}
+
+.bio-block-new p {
+  color: var(--text-muted);
+  font-size: 0.92rem;
+  line-height: 1.75;
+  margin: 0;
+}
+.bio-block-new strong { color: var(--violet-400); font-weight: 600; }
+
+/* Stats row inside bio */
+.bio-stat-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  animation-delay: var(--delay, 0s);
+}
+.bio-stat-item {
+  display: flex; flex-direction: column; align-items: center;
+  padding: 1rem;
+  background: var(--bg-card);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 14px;
+  text-align: center;
+}
+.bio-stat-num {
+  font-size: 1.7rem; font-weight: 900;
+  font-family: var(--font-mono); line-height: 1;
+  display: block; margin-bottom: 0.3rem;
+}
+.bio-stat-label {
+  font-size: 0.65rem; color: var(--text-muted);
+  text-transform: uppercase; letter-spacing: 1.5px; font-weight: 600;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .about-grid-new {
+    grid-template-columns: 1fr;
+  }
+  .profile-card-new {
+    max-width: 280px;
+    margin: 0 auto;
+  }
+}
+/* =============================================
+   ABOUT — BENTO GRID (all-cards layout)
+   ============================================= */
+.ab-bento {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: auto;
+  gap: 1.2rem;
+  margin-top: 3rem;
+}
+
+/* Base card style */
+.ab-card {
+  background: var(--bg-card);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 18px;
+  padding: 1.6rem 1.5rem;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+  animation-delay: var(--delay, 0s);
+}
+.ab-card:hover {
+  border-color: rgba(34,211,238,0.25);
+  box-shadow: 0 8px 32px rgba(34,211,238,0.08);
+  transform: translateY(-3px);
+}
+.ab-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top left, rgba(34,211,238,0.04), transparent 65%);
+  pointer-events: none;
+}
+
+/* ── Profile card: spans 1 col, 2 rows ── */
+.ab-profile {
+  grid-column: span 1;
+  grid-row: span 2;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.ab-glow {
+  position: absolute;
+  top: -40px; left: 50%; transform: translateX(-50%);
+  width: 180px; height: 180px;
+  background: radial-gradient(circle, rgba(34,211,238,0.18), transparent 70%);
+  pointer-events: none;
+}
+
+/* Photo */
+.ab-photo-wrap {
+  position: relative;
+  width: 110px; height: 110px;
+  margin: 0 auto 1.1rem;
+  flex-shrink: 0;
+}
+.ab-ring {
+  position: absolute; inset: -4px; border-radius: 50%;
+  background: var(--gradient-primary);
+  animation: ringRotate 4s linear infinite; z-index: 0;
+}
+.ab-photo-circle {
+  position: relative;
+  width: 110px; height: 110px; border-radius: 50%;
+  overflow: hidden; z-index: 1;
+  border: 3px solid var(--bg-card);
+  background: var(--bg-card);
+}
+.ab-fallback {
+  display: none;
+  align-items: center; justify-content: center;
+  width: 100%; height: 100%;
+  background: var(--gradient-primary);
+  font-size: 2rem; font-weight: 800; color: white; border-radius: 50%;
+}
+.ab-name {
+  font-size: 1.1rem; font-weight: 800; color: var(--text-white); margin-bottom: 0.2rem;
+}
+.ab-role {
+  font-size: 0.72rem; color: var(--violet-400);
+  font-family: var(--font-mono); letter-spacing: 0.8px; margin-bottom: 0.9rem;
+}
+.ab-badges {
+  display: flex; justify-content: center; gap: 6px; flex-wrap: wrap; margin-bottom: 1rem;
+}
+.ab-badge {
+  padding: 0.25rem 0.65rem;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 50px; font-size: 0.7rem; color: var(--text-muted);
+}
+.ab-badge-green {
+  color: var(--emerald-400);
+  border-color: rgba(16,185,129,0.4);
+  background: rgba(16,185,129,0.08);
+}
+.ab-btns {
+  width: 100%; display: flex; flex-direction: column; gap: 0.5rem; margin-top: auto;
+}
+
+/* ── Bio cards: span 3 col total across 2 rows ── */
+.ab-bio {
+  grid-column: span 1;
+}
+/* Row 1: bio cards span across cols 2-4 */
+.ab-bento .ab-bio:nth-child(2) { grid-column: 2 / 4; }
+.ab-bento .ab-bio:nth-child(3) { grid-column: 4 / 5; }
+.ab-bento .ab-bio:nth-child(4) { grid-column: 2 / 5; }
+
+.ab-card-icon {
+  font-size: 1.6rem; margin-bottom: 0.6rem;
+  filter: drop-shadow(0 2px 8px rgba(34,211,238,0.3));
+}
+.ab-card-title {
+  font-size: 1rem; font-weight: 800; color: var(--text-white); margin-bottom: 0.5rem;
+}
+.ab-card-text {
+  color: var(--text-muted); font-size: 0.9rem; line-height: 1.75; margin: 0;
+}
+.ab-card-text strong { color: var(--violet-400); font-weight: 600; }
+
+/* ── Stat cards: 4 across ── */
+.ab-stat {
+  grid-column: span 1;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center; padding: 1.2rem 1rem;
+}
+.ab-stat-num {
+  font-size: 2rem; font-weight: 900;
+  font-family: var(--font-mono); line-height: 1; display: block; margin-bottom: 0.3rem;
+}
+.ab-stat-label {
+  font-size: 0.65rem; color: var(--text-muted);
+  text-transform: uppercase; letter-spacing: 1.5px; font-weight: 600;
+}
+
+/* ── Strength cards: 4 across ── */
+.ab-strength {
+  grid-column: span 1;
+  text-align: center;
+}
+.ab-str-icon {
+  font-size: 1.8rem; margin-bottom: 0.6rem;
+  filter: drop-shadow(0 3px 6px rgba(0,0,0,0.3));
+}
+.ab-strength h4 {
+  font-size: 0.95rem; font-weight: 800; margin-bottom: 0.4rem; color: var(--text-white);
+}
+.ab-strength p {
+  font-size: 0.82rem; color: var(--text-muted); line-height: 1.6; margin: 0;
+}
+
+/* ── Responsive ── */
+@media (max-width: 1024px) {
+  .ab-bento { grid-template-columns: repeat(3, 1fr); }
+  .ab-profile { grid-column: span 1; grid-row: span 1; }
+  .ab-bento .ab-bio:nth-child(2) { grid-column: 2 / 4; }
+  .ab-bento .ab-bio:nth-child(3) { grid-column: 1 / 3; }
+  .ab-bento .ab-bio:nth-child(4) { grid-column: 3 / 4; }
+}
+@media (max-width: 700px) {
+  .ab-bento { grid-template-columns: 1fr 1fr; gap: 0.9rem; }
+  .ab-profile,
+  .ab-bento .ab-bio:nth-child(2),
+  .ab-bento .ab-bio:nth-child(3),
+  .ab-bento .ab-bio:nth-child(4) { grid-column: span 2; }
+  .ab-stat { grid-column: span 1; }
+  .ab-strength { grid-column: span 1; }
+}
+@media (max-width: 480px) {
+  .ab-bento { grid-template-columns: 1fr; }
+  .ab-stat, .ab-strength { grid-column: span 1; }
+}
+/* =============================================
+   ABOUT BENTO — No profile card override
+   Bio cards are now children 1, 2, 3
+   ============================================= */
+/* Reset old nth-child rules that assumed profile card at position 1 */
+.ab-bento .ab-bio:nth-child(2),
+.ab-bento .ab-bio:nth-child(3),
+.ab-bento .ab-bio:nth-child(4) { grid-column: unset; }
+
+/* New layout: 3 bio cards fill 4 columns */
+.ab-bento .ab-bio:nth-child(1) { grid-column: span 2; } /* Hello - wide */
+.ab-bento .ab-bio:nth-child(2) { grid-column: span 1; } /* What I Do */
+.ab-bento .ab-bio:nth-child(3) { grid-column: span 1; } /* Experience */
+
+/* Stat cards: 4 across full row */
+.ab-bento .ab-stat { grid-column: span 1; }
+
+/* Strength cards: 4 across full row */
+.ab-bento .ab-strength { grid-column: span 1; }
+
+/* Remove profile card specific styles (no longer needed) */
+.ab-profile { display: none !important; }
+
+/* Responsive overrides without profile card */
+@media (max-width: 1024px) {
+  .ab-bento .ab-bio:nth-child(1) { grid-column: span 3; }
+  .ab-bento .ab-bio:nth-child(2) { grid-column: span 3; }
+  .ab-bento .ab-bio:nth-child(3) { grid-column: span 3; }
+}
+@media (max-width: 700px) {
+  .ab-bento .ab-bio:nth-child(1),
+  .ab-bento .ab-bio:nth-child(2),
+  .ab-bento .ab-bio:nth-child(3) { grid-column: span 2; }
+  .ab-bento .ab-stat  { grid-column: span 1; }
+  .ab-bento .ab-strength { grid-column: span 1; }
+}
+@media (max-width: 480px) {
+  .ab-bento .ab-bio:nth-child(1),
+  .ab-bento .ab-bio:nth-child(2),
+  .ab-bento .ab-bio:nth-child(3) { grid-column: span 1; }
+}
+/* =============================================
+   EXPERIENCE -- Wide Two-Column Cards
+   ============================================= */
+.exp-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.8rem;
+  margin-top: 0.3rem;
+}
+
+.exp-card {
+  position: relative;
+  background: var(--bg-card);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 20px;
+  padding: 2rem 2rem 1.8rem;
+  overflow: hidden;
+  transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  animation-delay: var(--delay, 0s);
+}
+.exp-card:hover {
+  border-color: rgba(139,92,246,0.35);
+  transform: translateY(-5px);
+  box-shadow: 0 12px 40px rgba(139,92,246,0.12);
+}
+
+/* Glow blob */
+.exp-card-glow {
+  position: absolute;
+  top: -60px; left: -40px;
+  width: 220px; height: 220px;
+  background: radial-gradient(circle, rgba(139,92,246,0.15), transparent 70%);
+  pointer-events: none;
+}
+.exp-card-glow--edu {
+  background: radial-gradient(circle, rgba(34,211,238,0.15), transparent 70%);
+}
+
+/* Top row: icon + date */
+.exp-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+.exp-icon {
+  font-size: 2rem;
+  filter: drop-shadow(0 3px 8px rgba(139,92,246,0.4));
+}
+.exp-date {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--cyan-400);
+  background: rgba(34,211,238,0.08);
+  border: 1px solid rgba(34,211,238,0.2);
+  padding: 0.25rem 0.75rem;
+  border-radius: 50px;
+  white-space: nowrap;
+}
+
+/* Type badge */
+.exp-type {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  padding: 0.2rem 0.7rem;
+  border-radius: 50px;
+  margin-bottom: 0.8rem;
+}
+.exp-type-work {
+  background: rgba(139,92,246,0.12);
+  color: var(--violet-400);
+  border: 1px solid rgba(139,92,246,0.3);
+}
+.exp-type-edu {
+  background: rgba(34,211,238,0.08);
+  color: var(--cyan-400);
+  border: 1px solid rgba(34,211,238,0.25);
+}
+
+/* Title / company */
+.exp-title {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--text-white);
+  margin-bottom: 0.3rem;
+  line-height: 1.3;
+}
+.exp-company {
+  font-size: 0.9rem;
+  color: var(--violet-400);
+  font-family: var(--font-mono);
+  letter-spacing: 0.5px;
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
+/* Description */
+.exp-desc {
+  color: var(--text-muted);
+  font-size: 0.92rem;
+  line-height: 1.75;
+  margin-bottom: 1.4rem;
+}
+
+/* Tags */
+.exp-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.exp-tag {
+  font-size: 0.72rem;
+  padding: 0.25rem 0.65rem;
+  border-radius: 50px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  letter-spacing: 0.3px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .exp-grid { grid-template-columns: 1fr; }
+}
+/* Experience section -- compact vertical spacing */
+#experience .section-header { margin-bottom: 0 !important; padding-bottom: 0 !important; }
+#experience .exp-card { padding: 1.4rem 1.6rem; }
+#experience .exp-desc { margin-bottom: 0.9rem; }
+/* Experience -- tighter text for internship card to show all content */
+#experience .exp-card:first-child .exp-title { font-size: 1.15rem; }
+#experience .exp-card:first-child .exp-company { font-size: 0.82rem; margin-bottom: 0.6rem; }
+#experience .exp-card:first-child .exp-desc { font-size: 0.82rem; line-height: 1.65; margin-bottom: 0.8rem; }
+#experience .exp-card:first-child .exp-tag { font-size: 0.68rem; padding: 0.2rem 0.55rem; }
+#experience .exp-card:first-child .exp-icon { font-size: 1.6rem; }
+/* Experience -- same compact text for education card */
+#experience .exp-card:last-child .exp-title { font-size: 1.15rem; }
+#experience .exp-card:last-child .exp-company { font-size: 0.82rem; margin-bottom: 0.6rem; }
+#experience .exp-card:last-child .exp-desc { font-size: 0.82rem; line-height: 1.65; margin-bottom: 0.8rem; }
+#experience .exp-card:last-child .exp-tag { font-size: 0.68rem; padding: 0.2rem 0.55rem; }
+#experience .exp-card:last-child .exp-icon { font-size: 1.6rem; }

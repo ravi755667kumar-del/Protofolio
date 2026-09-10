@@ -412,23 +412,26 @@ const heroSection = document.getElementById('home');
 if (heroSection) heroObs.observe(heroSection);
 
 // ── About stat counters ───────────────────────
+function runCounter(el) {
+  const target = parseInt(el.dataset.count);
+  if (!target) return;
+  let c = 0;
+  const step = target / (1500 / 16);
+  const t = setInterval(() => {
+    c = Math.min(c + step, target);
+    el.textContent = Math.floor(c) + '+';
+    if (c >= target) clearInterval(t);
+  }, 16);
+}
 const aboutObs = new IntersectionObserver(entries => {
   entries.forEach(e => {
     if (e.isIntersecting) {
-      e.target.querySelectorAll('.astat-num[data-count]').forEach(el => {
-        const target = parseInt(el.dataset.count);
-        let c = 0, step = target / (1500 / 16);
-        const t = setInterval(() => {
-          c = Math.min(c + step, target);
-          el.textContent = Math.floor(c) + '+';
-          if (c >= target) clearInterval(t);
-        }, 16);
-      });
+      e.target.querySelectorAll('.astat-num[data-count], .bio-stat-num[data-count], .ab-stat-num[data-count]').forEach(runCounter);
       aboutObs.unobserve(e.target);
     }
   });
 }, { threshold: 0.4 });
-document.querySelectorAll('.about-stat-row').forEach(el => aboutObs.observe(el));
+document.querySelectorAll('.about-stat-row, .bio-stat-row, .ab-bento').forEach(el => aboutObs.observe(el));
 
 // ── QR code generator ────────────────────────
 function generateQR() {
