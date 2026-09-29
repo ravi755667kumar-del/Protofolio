@@ -1,15 +1,15 @@
 /* =============================================
-   main.js  –  Single-page scroll interactions
+   main.js  â€“  Single-page scroll interactions
    ============================================= */
 
-// ── Page Transition System (Card Stack) ────────
+// â”€â”€ Page Transition System (Card Stack) â”€â”€â”€â”€â”€â”€â”€â”€
 // Exposed globally so scroll-snap can also trigger it
 (function () {
   let running = false;
 
   const allSections = Array.from(document.querySelectorAll('section[id]'));
 
-  // ── Core card-stack animation ──────────────────
+  // â”€â”€ Core card-stack animation â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   function pageTransition(targetId) {
     if (running) return;
     running = true;
@@ -92,12 +92,12 @@
     }, dur * 1000 + 80);
   }
 
-  // ── Expose globally ──────────────────────────────
+  // â”€â”€ Expose globally â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   window.sitePageTransition  = pageTransition;
   window.getAllSections       = () => allSections;
   window.isTransitionRunning = () => running;
 
-  // ── Nav-link / anchor clicks ─────────────────────
+  // â”€â”€ Nav-link / anchor clicks â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   document.addEventListener('click', function (e) {
     const link = e.target.closest('a[href^="#"], a[data-section]');
     if (!link) return;
@@ -121,7 +121,7 @@
     pageTransition(hash);
   });
 
-  // ── Boundary detection: is user at section edge? ─
+  // â”€â”€ Boundary detection: is user at section edge? â”€
   function findBestSectionIndex() {
     let bestIdx = 0, bestScore = -Infinity;
     allSections.forEach((sec, i) => {
@@ -137,7 +137,7 @@
   function isAtSectionBoundary(direction) {
     const EDGE_BUFFER = 6; // px tolerance for floating point
     if (direction > 0) {
-      // At bottom of page? → ready to go to next section
+      // At bottom of page? â†’ ready to go to next section
       const atPageBottom = (window.scrollY + window.innerHeight) >= (document.documentElement.scrollHeight - EDGE_BUFFER);
       // Or: current section's bottom is at/above viewport bottom
       const bestIdx = findBestSectionIndex();
@@ -147,7 +147,7 @@
       const atSecBottom = viewBottom >= (secBottom - EDGE_BUFFER);
       return atPageBottom || atSecBottom;
     } else {
-      // At top of page? → ready to go to previous section
+      // At top of page? â†’ ready to go to previous section
       const atPageTop = window.scrollY <= EDGE_BUFFER;
       // Or: current section's top is at/below viewport top
       const bestIdx = findBestSectionIndex();
@@ -157,7 +157,7 @@
     }
   }
 
-  // ── Wheel: allow normal scroll, intercept only at boundary ──
+  // â”€â”€ Wheel: allow normal scroll, intercept only at boundary â”€â”€
   let wheelBoundaryAccum = 0;
   let wheelBoundaryTimer = null;
   const BOUNDARY_WHEEL_THRESHOLD = 80; // extra delta needed at boundary to commit
@@ -177,7 +177,7 @@
     const direction = e.deltaY > 0 ? 1 : -1;
 
     if (isAtSectionBoundary(direction)) {
-      // We're at the edge — accumulate extra intentional scroll delta
+      // We're at the edge â€” accumulate extra intentional scroll delta
       e.preventDefault();
 
       wheelBoundaryAccum += e.deltaY;
@@ -192,10 +192,10 @@
         pageTransition(allSections[nextIdx].id);
       }
     }
-    // else: NOT at boundary → let native scroll flow naturally (don't preventDefault)
+    // else: NOT at boundary â†’ let native scroll flow naturally (don't preventDefault)
   }, { passive: false });
 
-  // ── Touch: allow normal scroll, intercept only at boundary ──
+  // â”€â”€ Touch: allow normal scroll, intercept only at boundary â”€â”€
   let touchStartY   = 0;
   let touchScrolled = false; // whether native scroll moved during touch
 
@@ -234,13 +234,13 @@
 
 
 
-// ── Typewriter: cycle roles in hero subtitle ──
+// â”€â”€ Typewriter: cycle roles in hero subtitle â”€â”€
 (function () {
   const roles = [
     'Full-Stack Developer',
     'AI / ML Engineer',
     'Creative Coder',
-    'Problem Solver 🚀',
+    'Problem Solver ðŸš€',
   ];
   const el = document.getElementById('heroSubtitle');
   if (!el) return;
@@ -291,7 +291,7 @@
 })();
 
 
-// ── Scroll progress bar ───────────────────────
+// â”€â”€ Scroll progress bar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const progressBar = document.getElementById('scrollProgress');
 window.addEventListener('scroll', updateProgress, { passive: true });
 function updateProgress() {
@@ -300,7 +300,7 @@ function updateProgress() {
   progressBar.style.width = `${(scrolled / total) * 100}%`;
 }
 
-// ── Navbar: scroll shrink + active link ──────
+// â”€â”€ Navbar: scroll shrink + active link â”€â”€â”€â”€â”€â”€
 const navbar = document.getElementById('navbar');
 const navLinks = document.querySelectorAll('.nav-link');
 const sections = document.querySelectorAll('section[id]');
@@ -337,7 +337,7 @@ document.querySelector('.scroll-hint')?.addEventListener('click', (e) => {
   }
 });
 
-// ── Hamburger ────────────────────────────────
+// â”€â”€ Hamburger â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const hamburger = document.getElementById('hamburger');
 const navLinksList = document.getElementById('navLinks');
 hamburger?.addEventListener('click', () => {
@@ -365,7 +365,7 @@ mStyle.textContent = `
 `;
 document.head.appendChild(mStyle);
 
-// ── Scroll-reveal (all elements) ─────────────
+// â”€â”€ Scroll-reveal (all elements) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const revealEls = document.querySelectorAll('.reveal-up, .reveal-left, .reveal-right');
 const revealObs = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
@@ -377,7 +377,7 @@ const revealObs = new IntersectionObserver((entries) => {
 }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
 revealEls.forEach(el => revealObs.observe(el));
 
-// ── Skill bars animate on scroll ─────────────
+// â”€â”€ Skill bars animate on scroll â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const bars = document.querySelectorAll('.skill-bar-fill');
 const barObs = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
@@ -389,7 +389,7 @@ const barObs = new IntersectionObserver((entries) => {
 }, { threshold: 0.5 });
 bars.forEach(b => barObs.observe(b));
 
-// ── Hero counter animation ────────────────────
+// â”€â”€ Hero counter animation â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function animateCounter(el) {
   const target = parseInt(el.dataset.target);
   let current = 0;
@@ -411,7 +411,7 @@ const heroObs = new IntersectionObserver(entries => {
 const heroSection = document.getElementById('home');
 if (heroSection) heroObs.observe(heroSection);
 
-// ── About stat counters ───────────────────────
+// â”€â”€ About stat counters â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function runCounter(el) {
   const target = parseInt(el.dataset.count);
   if (!target) return;
@@ -433,7 +433,7 @@ const aboutObs = new IntersectionObserver(entries => {
 }, { threshold: 0.4 });
 document.querySelectorAll('.about-stat-row, .bio-stat-row, .ab-bento').forEach(el => aboutObs.observe(el));
 
-// ── QR code generator ────────────────────────
+// â”€â”€ QR code generator â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function generateQR() {
   const grid = document.getElementById('qrGrid');
   if (!grid) return;
@@ -447,7 +447,7 @@ function generateQR() {
 }
 generateQR();
 
-// ── ID Card: swing animation ──────────────────
+// â”€â”€ ID Card: swing animation â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const cardWrapper = document.getElementById('cardWrapper');
 cardWrapper?.addEventListener('click', () => {
   const sa = document.createElement('style');
@@ -458,7 +458,7 @@ cardWrapper?.addEventListener('click', () => {
   cardWrapper.style.animation = 'bigSwing 0.8s ease-in-out, swing 4s 0.9s ease-in-out infinite';
 });
 
-// ── ID Card: subtle mouse tilt ────────────────
+// â”€â”€ ID Card: subtle mouse tilt â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const idCard = document.getElementById('idCard');
 idCard?.addEventListener('mousemove', e => {
   const r = idCard.getBoundingClientRect();
@@ -472,7 +472,7 @@ idCard?.addEventListener('mouseleave', () => {
   }
 });
 
-// ── Floating particles ────────────────────────
+// â”€â”€ Floating particles â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const particlesEl = document.getElementById('particles');
 if (particlesEl) {
   const colors = ['#22d3ee','#38bdf8','#0ea5e9','#67e8f9','#0891b2'];
@@ -485,14 +485,14 @@ if (particlesEl) {
   }
 }
 
-// ── Contact form submit ───────────────────────
+// â”€â”€ Contact form submit â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 document.getElementById('contactForm')?.addEventListener('submit', e => {
   e.preventDefault();
   const btn = document.getElementById('submitBtn');
-  btn.textContent = '⏳ Sending…';
+  btn.textContent = 'â³ Sendingâ€¦';
   btn.disabled = true;
   setTimeout(() => {
-    btn.textContent = '✅ Message Sent!';
+    btn.textContent = 'âœ… Message Sent!';
     btn.style.background = 'linear-gradient(135deg,#10b981,#059669)';
     // Confetti
     const colors = ['#a78bfa','#ec4899','#0ea5e9','#10b981','#f59e0b'];
@@ -507,7 +507,7 @@ document.getElementById('contactForm')?.addEventListener('submit', e => {
     cs.textContent = '@keyframes cfall{0%{opacity:1;transform:translateY(0) rotate(0)}100%{opacity:0;transform:translateY(200px) rotate(360deg) scale(0.3)}}';
     document.head.appendChild(cs);
     setTimeout(() => {
-      btn.textContent = 'Send Message 🚀';
+      btn.textContent = 'Send Message ðŸš€';
       btn.style.background = '';
       btn.disabled = false;
       e.target.reset();
@@ -515,7 +515,7 @@ document.getElementById('contactForm')?.addEventListener('submit', e => {
   }, 1500);
 });
 
-// ── Cursor glow ───────────────────────────────
+// â”€â”€ Cursor glow â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 if (window.innerWidth > 768) {
   const glow = document.createElement('div');
   glow.style.cssText = 'position:fixed;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(139,92,246,0.06) 0%,transparent 70%);pointer-events:none;transform:translate(-50%,-50%);z-index:0;top:0;left:0;';
@@ -523,14 +523,14 @@ if (window.innerWidth > 768) {
   document.addEventListener('mousemove', e => { glow.style.left=e.clientX+'px'; glow.style.top=e.clientY+'px'; }, { passive: true });
 }
 
-// ── Section entrance: stagger children ───────
+// â”€â”€ Section entrance: stagger children â”€â”€â”€â”€â”€â”€â”€
 // already handled by CSS --delay vars + IntersectionObserver
 
-// ── Text Scramble Effect ─────────────────────
+// â”€â”€ Text Scramble Effect â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 class TextScramble {
   constructor(el) {
     this.el = el;
-    this.chars = '!<>-_\\\\/[]{}—=+*^?#________';
+    this.chars = '!<>-_\\\\/[]{}â€”=+*^?#________';
     this.update = this.update.bind(this);
   }
   setText(newText) {
@@ -609,7 +609,7 @@ scrambleEls.forEach(el => {
   });
 });
 
-// ── Interactive Sticky Card Stack & Lenis Smooth Scroll Engine ──
+// â”€â”€ Interactive Sticky Card Stack & Lenis Smooth Scroll Engine â”€â”€
 (function () {
   // 1. Initialize Lenis Smooth Scroll
   function initLenis() {
@@ -624,6 +624,8 @@ scrambleEls.forEach(el => {
         touchMultiplier: 1.5,
         infinite: false,
       });
+
+      window.globalLenis = lenis;   /* expose for ScrollTrigger wiring */
 
       function raf(time) {
         lenis.raf(time);
@@ -716,121 +718,115 @@ scrambleEls.forEach(el => {
   updateCardStack();
 })();
 
-// ── 3D DRAGGABLE CAROUSEL PHYSICS ──
-(function() {
-  const carousel = document.getElementById('carouselRing');
-  const cards = document.querySelectorAll('.carousel-card');
-  if (!carousel || !cards.length) return;
+// ── PROJECTS: Wavy-line horizontal scroll + guaranteed modal clicks ──
+(function () {
 
-  const totalCards = cards.length;
-  const theta = 360 / totalCards;
-  const cardWidth = 250;
-  const radius = Math.round((cardWidth / 2) / Math.tan(Math.PI / totalCards)) + 40; 
+  /* ─── Global modal helpers ─── */
+  window._openPM = function (id) {
+    document.querySelectorAll('.proj-modal').forEach(function (m) {
+      m.classList.remove('proj-modal--open');
+    });
+    var modal = document.getElementById(id);
+    if (modal) {
+      modal.classList.add('proj-modal--open');
+      document.body.style.overflow = 'hidden';
+    }
+  };
 
-  cards.forEach((card, i) => {
-    const angle = theta * i;
-    card.style.setProperty('--base-transform', `rotateY(${angle}deg) translateZ(${radius}px)`);
-    card.style.transform = `var(--base-transform)`;
+  window._closePM = function () {
+    document.querySelectorAll('.proj-modal').forEach(function (m) {
+      m.classList.remove('proj-modal--open');
+    });
+    document.body.style.overflow = '';
+  };
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') window._closePM();
   });
 
-  let currentRotation = 0;
-  let targetRotation = 0;
-  let isDragging = false;
-  let startX = 0;
-  let lastX = 0;
-  let velocity = 0;
+  /* ═══════════════════════════════════════════════════════════
+     HORIZONTAL SCROLL — CSS sticky + pure JS (works with Lenis)
+     ═══════════════════════════════════════════════════════════
+     Strategy:
+       • Make #projects tall  = 100vh + travel distance
+         → creates native scroll space
+       • .hs-wrapper is position:sticky top:0
+         → stays pinned in viewport while user scrolls through
+       • On every scroll event, compute how far into the section
+         we've scrolled and translateX the track accordingly      */
 
-  const wrapper = document.getElementById('projectsCarousel');
+  function initHS() {
+    var section  = document.getElementById('projects');
+    var wrapper  = document.getElementById('hsWrapper');
+    var track    = document.getElementById('hsTrack');
+    var progress = document.getElementById('hsProgress');
+    if (!section || !wrapper || !track) return;
 
-  function onPointerDown(e) {
-    if(e.button !== 0 && e.type !== 'touchstart') return; 
-    isDragging = true;
-    startX = e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
-    lastX = startX;
-    velocity = 0;
-    wrapper.style.cursor = 'grabbing';
-  }
+    /* How many px the track must slide horizontally */
+    function getTravel() {
+      var introW = 0;
+      var intro  = wrapper.querySelector('.hs-intro');
+      if (intro) introW = intro.offsetWidth;
+      return Math.max(0, track.scrollWidth - (window.innerWidth - introW));
+    }
 
-  function onPointerMove(e) {
-    if (!isDragging) return;
-    const x = e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
-    const delta = x - lastX;
-    lastX = x;
-    velocity = delta * 1.0;
-    targetRotation += velocity;
-  }
+    /* Set section height so scrolling creates the travel distance */
+    function setup() {
+      var travel = getTravel();
+      section.style.setProperty('height',
+        (window.innerHeight + travel) + 'px', 'important');
+    }
 
-  function onPointerUp() {
-    isDragging = false;
-    wrapper.style.cursor = 'grab';
-  }
+    /* Compute scroll progress and move track */
+    function update() {
+      var travel  = getTravel();
+      if (travel <= 0) return;
 
-  wrapper.addEventListener('mousedown', onPointerDown);
-  wrapper.addEventListener('mousemove', onPointerMove);
-  window.addEventListener('mouseup', onPointerUp);
-  
-  wrapper.addEventListener('touchstart', onPointerDown, {passive: true});
-  wrapper.addEventListener('touchmove', onPointerMove, {passive: true});
-  window.addEventListener('touchend', onPointerUp);
+      /* Absolute top of the section relative to page */
+      var secTop   = section.getBoundingClientRect().top + window.scrollY;
+      /* How far the user has scrolled past the section top */
+      var scrolled = window.scrollY - secTop;
+      var prog     = Math.min(1, Math.max(0, scrolled / travel));
 
-  function animateCarousel() {
-    if (!isDragging) {
-      targetRotation += velocity;
-      velocity *= 0.95;
-      if(Math.abs(velocity) < 0.05) {
-        targetRotation += 0.6;
+      track.style.transform = 'translateX(' + (-prog * travel) + 'px)';
+      if (progress) progress.style.width = (prog * 100) + '%';
+    }
+
+    /* Initial sizing + position */
+    setup();
+    update();
+
+    /* Listen to native scroll (fallback) */
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', function () { setup(); update(); });
+
+    /* Also listen to Lenis scroll events (the source of truth) */
+    function hookLenis() {
+      if (window.globalLenis) {
+        window.globalLenis.on('scroll', update);
+      } else {
+        setTimeout(hookLenis, 150);
       }
     }
-    
-    currentRotation += (targetRotation - currentRotation) * 0.1;
-    carousel.style.transform = `rotateY(${currentRotation}deg)`;
-    
-    cards.forEach((card, i) => {
-      const cardAngle = (theta * i) + currentRotation;
-      const normalizedAngle = ((cardAngle % 360) + 360) % 360;
-      
-      let zIndex = 100;
-      let brightness = 1;
-      
-      if (normalizedAngle > 90 && normalizedAngle < 270) {
-        zIndex = 10;
-        brightness = 0.3;
-      } else {
-        zIndex = Math.round(100 - Math.min(normalizedAngle, 360 - normalizedAngle));
-        brightness = 1 - (Math.min(normalizedAngle, 360 - normalizedAngle) / 180) * 0.7;
-      }
-      
-      card.style.zIndex = zIndex;
-      card.style.filter = `brightness(${brightness})`;
-    });
-
-    requestAnimationFrame(animateCarousel);
+    hookLenis();
   }
-  
-  animateCarousel();
 
-  cards.forEach(card => {
-    card.addEventListener('click', (e) => {
-      if(Math.abs(velocity) > 1) return;
-      const modalId = card.getAttribute('data-modal');
-      const modal = document.getElementById(modalId);
-      if(modal) {
-        modal.classList.add('active');
-        // Pause Lenis smooth scroll while modal is open
-        if(window.globalLenis) window.globalLenis.stop();
-      }
-    });
-  });
-
-  const closeBtns = document.querySelectorAll('.close-modal');
-  closeBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.project-modal').forEach(m => m.classList.remove('active'));
-      if(window.globalLenis) window.globalLenis.start();
-    });
-  });
+  /* Run after DOM is ready */
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initHS);
+  } else {
+    /* Small delay so layout is complete and scrollWidth is accurate */
+    setTimeout(initHS, 200);
+  }
 
 })();
+
+
+
+
+
+
+
 
 // -- Section Entrance Animations (Directional Zoom) --
 (function() {
@@ -841,7 +837,7 @@ scrambleEls.forEach(el => {
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   sections.forEach((sec, i) => {
-    // Skip the home section — it has its own CSS dropIn animation
+    // Skip the home section â€” it has its own CSS dropIn animation
     // and applying GSAP translateY would clip the lanyard rope
     if (sec.id === 'home') return;
 

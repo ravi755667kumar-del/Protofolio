@@ -1,52 +1,272 @@
-{% load static %}
+﻿{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="description" content="Ravi Kumar – Full-Stack Developer & AI/ML Engineer"/>
+  <meta name="description" content="Ravi Kumar - Full-Stack Developer and AI/ML Engineer"/>
   <title>Ravi Kumar | Portfolio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
-  
-  <!-- CSS Stylesheets -->
-  <link rel="stylesheet" href="{% static 'style.css' %}"/>
-  <link rel="stylesheet" href="{% static 'main.css' %}?v=4"/>
+
+  <link rel="stylesheet" href="{% static 'style.css' %}?v=15"/>
+  <link rel="stylesheet" href="{% static 'main.css' %}?v=15"/>
   <link rel="stylesheet" href="{% static 'cert.css' %}"/>
 
-  <!-- GSAP & Lenis Smooth Scroll -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/motion@11.11.13/dist/motion.js"></script>
+
+  <style>
+    /* ─── lock body scroll during signature ─── */
+    body.sig-active { overflow: hidden !important; }
+
+    /* ─── Full screen overlay ─── */
+    #sig-screen {
+      position: fixed;
+      inset: 0;
+      background: #fdfaf4;
+      z-index: 9999999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      transition: opacity 0.8s ease, transform 0.8s cubic-bezier(.4,0,.2,1);
+    }
+    #sig-screen.sig-exit {
+      opacity: 0;
+      transform: scale(1.03);
+      pointer-events: none;
+    }
+
+    /* subtle paper grain */
+    #sig-screen::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        radial-gradient(ellipse 70% 50% at 50% 50%, transparent 60%, rgba(200,185,150,0.08) 100%);
+      pointer-events: none;
+    }
+
+    /* ─── Corner ornaments ─── */
+    .sig-corner {
+      position: absolute;
+      width: 56px; height: 56px;
+      opacity: 0;
+      animation: sCornFade .6s .2s ease forwards;
+    }
+    .sig-corner--tl { top: 2rem; left: 2rem; }
+    .sig-corner--tr { top: 2rem; right: 2rem; transform: scaleX(-1); }
+    .sig-corner--bl { bottom: 2rem; left: 2rem; transform: scaleY(-1); }
+    .sig-corner--br { bottom: 2rem; right: 2rem; transform: scale(-1,-1); }
+    @keyframes sCornFade { to { opacity: 1; } }
+
+    /* ─── Signature SVG wrapper ─── */
+    .sig-svg-wrap {
+      width: min(720px, 92vw);
+      position: relative;
+    }
+    .sig-svg {
+      width: 100%;
+      overflow: visible;
+    }
+
+    /* ─── Individual strokes (Professional mix of legible & trailing) ─── */
+    
+    /* R — Legible, bold loop */
+    #sR {
+      stroke: #0f172a; stroke-width: 2.8; fill: none;
+      stroke-linecap: round; stroke-linejoin: round;
+      stroke-dasharray: 500; stroke-dashoffset: 500;
+      animation: sDraw 0.8s 0.3s cubic-bezier(.4,0,.2,1) forwards;
+    }
+    /* avi — Distinct 'a' and 'i', flowing middle */
+    #sAVI {
+      stroke: #0f172a; stroke-width: 2; fill: none;
+      stroke-linecap: round; stroke-linejoin: round;
+      stroke-dasharray: 400; stroke-dashoffset: 400;
+      animation: sDraw 0.6s 1.0s cubic-bezier(.4,0,.2,1) forwards;
+    }
+    /* K — Distinct stem and arm */
+    #sK {
+      stroke: #0f172a; stroke-width: 2.8; fill: none;
+      stroke-linecap: round; stroke-linejoin: round;
+      stroke-dasharray: 400; stroke-dashoffset: 400;
+      animation: sDraw 0.7s 1.5s cubic-bezier(.4,0,.2,1) forwards;
+    }
+    /* umar — Distinct 'u', fading to fast humps for 'm/a/r' */
+    #sUMAR {
+      stroke: #0f172a; stroke-width: 2; fill: none;
+      stroke-linecap: round; stroke-linejoin: round;
+      stroke-dasharray: 500; stroke-dashoffset: 500;
+      animation: sDraw 0.8s 2.1s cubic-bezier(.4,0,.2,1) forwards;
+    }
+    /* Ink dot for 'i' */
+    #sDOT {
+      fill: #0f172a;
+      opacity: 0;
+      animation: sCornFade 0.2s 2.7s ease forwards;
+    }
+    /* The dramatic sweeping underline that loops back */
+    #sUNDER {
+      stroke: #0f172a; stroke-width: 2.2; fill: none;
+      stroke-linecap: round; stroke-linejoin: round;
+      stroke-dasharray: 1600; stroke-dashoffset: 1600;
+      animation: sDraw 1.2s 2.9s cubic-bezier(.3,0,.2,1) forwards;
+    }
+
+    @keyframes sDraw { to { stroke-dashoffset: 0; } }
+
+    /* ─── Subtitle ─── */
+    .sig-tagline {
+      position: absolute;
+      bottom: 3.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: .8rem;
+      white-space: nowrap;
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(.6rem, 1.2vw, .78rem);
+      font-weight: 600;
+      letter-spacing: .32em;
+      text-transform: uppercase;
+      color: #888;
+      opacity: 0;
+      animation: sTagFade .7s 3.9s ease forwards;
+    }
+    .sig-tagline-gem {
+      display: inline-block;
+      width: 6px; height: 6px;
+      border: 1.5px solid #c9a84c;
+      transform: rotate(45deg);
+    }
+    @keyframes sTagFade {
+      from { opacity: 0; transform: translateX(-50%) translateY(8px); }
+      to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+    }
+
+    /* ─── Skip button ─── */
+    .sig-skip {
+      position: absolute;
+      bottom: 1.8rem;
+      right: 2.2rem;
+      font-family: 'Outfit', sans-serif;
+      font-size: .68rem; font-weight: 600;
+      letter-spacing: .16em; text-transform: uppercase;
+      color: #bbb; background: none;
+      border: 1px solid #e0e0e0; border-radius: 5px;
+      padding: .35rem .85rem; cursor: pointer;
+      transition: color .2s, border-color .2s;
+      opacity: 0;
+      animation: sCornFade .5s .6s ease forwards;
+    }
+    .sig-skip:hover { color: #0f172a; border-color: #0f172a; }
+  </style>
 </head>
-<body>
+<body class="sig-active">
 
-  <!-- THE 7 SECTION TEMPLATES -->
-  <!-- 1. Home (Navbar + Hero) -->
-  {% include 'home.html' %}
+<div id="sig-screen">
+  <!-- Corner ornaments -->
+  <svg class="sig-corner sig-corner--tl" viewBox="0 0 56 56" fill="none">
+    <polyline points="56,0 0,0 0,56" stroke="#c9a84c" stroke-width="1.5"/>
+    <polyline points="44,0 0,0 0,44" stroke="#c9a84c" stroke-width=".6" opacity=".5"/>
+  </svg>
+  <svg class="sig-corner sig-corner--tr" viewBox="0 0 56 56" fill="none">
+    <polyline points="56,0 0,0 0,56" stroke="#c9a84c" stroke-width="1.5"/>
+    <polyline points="44,0 0,0 0,44" stroke="#c9a84c" stroke-width=".6" opacity=".5"/>
+  </svg>
+  <svg class="sig-corner sig-corner--bl" viewBox="0 0 56 56" fill="none">
+    <polyline points="56,0 0,0 0,56" stroke="#c9a84c" stroke-width="1.5"/>
+    <polyline points="44,0 0,0 0,44" stroke="#c9a84c" stroke-width=".6" opacity=".5"/>
+  </svg>
+  <svg class="sig-corner sig-corner--br" viewBox="0 0 56 56" fill="none">
+    <polyline points="56,0 0,0 0,56" stroke="#c9a84c" stroke-width="1.5"/>
+    <polyline points="44,0 0,0 0,44" stroke="#c9a84c" stroke-width=".6" opacity=".5"/>
+  </svg>
 
-  <!-- 2. About -->
-  {% include 'about.html' %}
+  <!-- Main signature SVG -->
+  <div class="sig-svg-wrap">
+    <svg class="sig-svg" viewBox="0 0 660 240" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <filter id="ink" x="-5%" y="-5%" width="110%" height="110%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="3" result="noise"/>
+          <feDisplacementMap in="SourceGraphic" in2="noise" scale="0.8" xChannelSelector="R" yChannelSelector="G"/>
+        </filter>
+      </defs>
 
-  <!-- 3. Experience & Education -->
-  {% include 'experience.html' %}
+      <!-- R (Legible, bold loop) -->
+      <path id="sR" filter="url(#ink)"
+        d="M 60 180 C 40 120, 70 50, 95 60 C 135 70, 135 120, 90 135 C 110 145, 120 165, 135 185" />
+        
+      <!-- avi (distinct 'a' and 'i', cursive middle) -->
+      <path id="sAVI" filter="url(#ink)"
+        d="M 135 185 C 145 160, 160 160, 165 175 C 170 160, 175 160, 180 180 C 190 165, 200 165, 205 180 C 215 170, 225 170, 230 180 C 235 190, 245 190, 260 175" />
+        
+      <!-- K (Clear stem, dynamic arm) -->
+      <path id="sK" filter="url(#ink)"
+        d="M 280 60 L 270 180 M 330 90 C 310 110, 280 120, 275 135 C 295 145, 315 165, 335 185" />
+        
+      <!-- umar ('u' is legible, trails into 'mar') -->
+      <path id="sUMAR" filter="url(#ink)"
+        d="M 335 185 C 345 165, 355 165, 360 180 C 370 165, 380 165, 385 180 C 395 165, 405 165, 410 180 C 420 165, 430 165, 435 180 C 445 170, 455 170, 460 180 C 465 190, 475 190, 490 175" />
+        
+      <!-- ink dot for 'i' -->
+      <circle id="sDOT" cx="225" cy="145" r="3" filter="url(#ink)"/>
+      
+      <!-- Celebrity Swoosh Underline (Loops back over text) -->
+      <path id="sUNDER" filter="url(#ink)"
+        d="M 40 205 C 150 225, 450 220, 580 195 C 620 185, 640 155, 610 135 C 560 100, 350 70, 150 80 C 100 85, 60 100, 40 120" />
+    </svg>
+  </div>
 
-  <!-- 4. Skills -->
-  {% include 'skills.html' %}
+  <div class="sig-tagline">
+    <span class="sig-tagline-gem"></span>
+    Full-Stack &amp; AI/ML Engineer
+    <span class="sig-tagline-gem"></span>
+  </div>
 
-  <!-- 5. Projects (3D Reflective Carousel) -->
-  {% include 'projects.html' %}
+  <button class="sig-skip" onclick="window._sigExit()">Skip &rarr;</button>
+</div>
 
-  <!-- 6. Certifications (3D Orbit & Modal) -->
-  {% include 'certs.html' %}
+<script>
+  (function () {
+    document.body.classList.add('sig-active');
 
-  <!-- 7. Contact (& Footer) -->
-  {% include 'contact.html' %}
+    function exitSig() {
+      var s = document.getElementById('sig-screen');
+      if (!s || s.classList.contains('sig-exit')) return;
+      s.classList.add('sig-exit');
+      document.body.classList.remove('sig-active');
+      setTimeout(function () {
+        if (s && s.parentNode) s.parentNode.removeChild(s);
+      }, 1000);
+    }
+    window._sigExit = exitSig;
 
-  <!-- JavaScript Scripts -->
-  <script src="{% static 'main.js' %}?v=5"></script>
-  <script src="{% static 'cert.js' %}?v=5"></script>
+    /* Auto exit faster (approx 5 seconds total) */
+    setTimeout(exitSig, 5200);
+
+    document.getElementById('sig-screen').addEventListener('click', function (e) {
+      if (!e.target.closest('.sig-skip')) exitSig();
+    });
+  })();
+</script>
+
+<!-- THE 7 SECTIONS -->
+{% include 'home.html' %}
+{% include 'about.html' %}
+{% include 'experience.html' %}
+{% include 'skills.html' %}
+{% include 'projects.html' %}
+{% include 'certs.html' %}
+{% include 'contact.html' %}
+
+<script src="{% static 'main.js' %}?v=15"></script>
+<script src="{% static 'cert.js' %}?v=15"></script>
 </body>
 </html>

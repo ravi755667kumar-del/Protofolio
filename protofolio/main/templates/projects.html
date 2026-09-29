@@ -1,209 +1,364 @@
-<!-- ========================================================
-     SECTION 5 — PROJECTS (3D Reflective Carousel)
+﻿<!-- ========================================================
+     SECTION 5 — PROJECTS  (Wavy Line + 8 Cards, Horizontal Scroll)
      ======================================================== -->
-<section class="section-page" id="projects">
-  <div class="section-divider-line"></div>
-  <div class="container">
-    <div class="section-header reveal-up" style="position: relative; z-index: 10;">
-      <span class="section-tag">What I've Built</span>
-      <h2 class="section-title scramble-text" data-text="Featured Projects" data-html="Featured <span class='gradient-text'>Projects</span>">Featured <span class="gradient-text">Projects</span></h2>
-      <p class="section-subtitle">Drag to spin the carousel. Click a card to view project details.</p>
+<section id="projects" class="hs-section">
+
+  <div class="hs-wrapper" id="hsWrapper">
+
+    <!-- LEFT panel (fixed) -->
+    <div class="hs-intro">
+      <span class="hs-tag">What I&rsquo;ve Built</span>
+      <h2 class="hs-title">Featured<br><span class="gradient-text">Projects</span></h2>
+      <p class="hs-sub">Scroll to explore all &rarr;</p>
+      <span class="hs-count">8 Projects</span>
+      <div class="hs-progress-bar"><div class="hs-progress-fill" id="hsProgress"></div></div>
     </div>
 
-    <!-- 3D Carousel Scene -->
-    <div class="projects-carousel-wrapper" id="projectsCarousel">
-      <div class="carousel-scene">
-        <div class="carousel-ring" id="carouselRing">
-          
-          <!-- Card 1 -->
-          <div class="carousel-card" data-modal="proj-1" style="--color: #0ea5e9;">
-            <div class="card-content">
-              <span class="card-icon">🎬</span>
-              <h3>Movie Recommender</h3>
-              <p>ML & TF-IDF</p>
-            </div>
-            <div class="card-glow"></div>
-            <div class="card-reflection"></div>
-          </div>
-          
-          <!-- Card 2 -->
-          <div class="carousel-card" data-modal="proj-2" style="--color: #10b981;">
-            <div class="card-content">
-              <span class="card-icon">🏠</span>
-              <h3>Price Prediction</h3>
-              <p>Scikit-learn</p>
-            </div>
-            <div class="card-glow"></div>
-            <div class="card-reflection"></div>
-          </div>
-          
-          <!-- Card 3 -->
-          <div class="carousel-card" data-modal="proj-3" style="--color: #8b5cf6;">
-            <div class="card-content">
-              <span class="card-icon">🗣️</span>
-              <h3>Language API</h3>
-              <p>Django & NLP</p>
-            </div>
-            <div class="card-glow"></div>
-            <div class="card-reflection"></div>
-          </div>
-          
-          <!-- Card 4 -->
-          <div class="carousel-card" data-modal="proj-4" style="--color: #f97316;">
-            <div class="card-content">
-              <span class="card-icon">🛒</span>
-              <h3>E-Commerce</h3>
-              <p>Full-Stack Django</p>
-            </div>
-            <div class="card-glow"></div>
-            <div class="card-reflection"></div>
-          </div>
+    <!-- RIGHT: scrolling wavy track (3200px wide for 8 projects) -->
+    <div class="hs-track" id="hsTrack">
 
-          <!-- Card 5 (Duplicated for ring volume) -->
-          <div class="carousel-card" data-modal="proj-1" style="--color: #0ea5e9;">
-            <div class="card-content">
-              <span class="card-icon">🎬</span>
-              <h3>Movie Recommender</h3>
-              <p>ML & TF-IDF</p>
-            </div>
-            <div class="card-glow"></div>
-            <div class="card-reflection"></div>
-          </div>
+      <!-- Extended wavy SVG line (viewBox 3200×360) -->
+      <svg class="wave-svg" viewBox="0 0 3200 360" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="wg" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%"    stop-color="#0ea5e9"/>
+            <stop offset="14%"   stop-color="#10b981"/>
+            <stop offset="28%"   stop-color="#a78bfa"/>
+            <stop offset="43%"   stop-color="#f97316"/>
+            <stop offset="57%"   stop-color="#06b6d4"/>
+            <stop offset="71%"   stop-color="#f43f5e"/>
+            <stop offset="85%"   stop-color="#84cc16"/>
+            <stop offset="100%"  stop-color="#fb923c"/>
+          </linearGradient>
+          <filter id="ln-glow" x="-20%" y="-80%" width="140%" height="260%">
+            <feGaussianBlur stdDeviation="4" result="b"/>
+            <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
 
-          <!-- Card 6 (Duplicated for ring volume) -->
-          <div class="carousel-card" data-modal="proj-2" style="--color: #10b981;">
-            <div class="card-content">
-              <span class="card-icon">🏠</span>
-              <h3>Price Prediction</h3>
-              <p>Scikit-learn</p>
-            </div>
-            <div class="card-glow"></div>
-            <div class="card-reflection"></div>
-          </div>
+        <!-- Main wave path: 8 peaks/troughs across 3200px -->
+        <path d="M 0 180
+                 Q  200  60  400 180
+                 Q  600 300  800 180
+                 Q 1000  60 1200 180
+                 Q 1400 300 1600 180
+                 Q 1800  60 2000 180
+                 Q 2200 300 2400 180
+                 Q 2600  60 2800 180
+                 Q 3000 300 3200 180"
+              stroke="url(#wg)" stroke-width="2.5" fill="none"
+              filter="url(#ln-glow)" opacity="0.85"/>
+        <!-- Wide glow duplicate -->
+        <path d="M 0 180
+                 Q  200  60  400 180
+                 Q  600 300  800 180
+                 Q 1000  60 1200 180
+                 Q 1400 300 1600 180
+                 Q 1800  60 2000 180
+                 Q 2200 300 2400 180
+                 Q 2600  60 2800 180
+                 Q 3000 300 3200 180"
+              stroke="url(#wg)" stroke-width="9" fill="none" opacity="0.10"/>
 
-          <!-- Card 7 (Duplicated for ring volume) -->
-          <div class="carousel-card" data-modal="proj-3" style="--color: #8b5cf6;">
-            <div class="card-content">
-              <span class="card-icon">🗣️</span>
-              <h3>Language API</h3>
-              <p>Django & NLP</p>
-            </div>
-            <div class="card-glow"></div>
-            <div class="card-reflection"></div>
-          </div>
+        <!-- 8 Node dots (alternating top y=120 / bottom y=240) -->
+        <circle cx="200"  cy="120" r="9" fill="#0ea5e9" filter="url(#ln-glow)"/>
+        <circle cx="600"  cy="240" r="9" fill="#10b981" filter="url(#ln-glow)"/>
+        <circle cx="1000" cy="120" r="9" fill="#a78bfa" filter="url(#ln-glow)"/>
+        <circle cx="1400" cy="240" r="9" fill="#f97316" filter="url(#ln-glow)"/>
+        <circle cx="1800" cy="120" r="9" fill="#06b6d4" filter="url(#ln-glow)"/>
+        <circle cx="2200" cy="240" r="9" fill="#f43f5e" filter="url(#ln-glow)"/>
+        <circle cx="2600" cy="120" r="9" fill="#84cc16" filter="url(#ln-glow)"/>
+        <circle cx="3000" cy="240" r="9" fill="#fb923c" filter="url(#ln-glow)"/>
 
-          <!-- Card 8 (Duplicated for ring volume) -->
-          <div class="carousel-card" data-modal="proj-4" style="--color: #f97316;">
-            <div class="card-content">
-              <span class="card-icon">🛒</span>
-              <h3>E-Commerce</h3>
-              <p>Full-Stack Django</p>
-            </div>
-            <div class="card-glow"></div>
-            <div class="card-reflection"></div>
-          </div>
+        <!-- Dashed connectors: top nodes go up (y→88), bottom nodes go down (y→272) -->
+        <line x1="200"  y1="120" x2="200"  y2="88"  stroke="#0ea5e9" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.7"/>
+        <line x1="600"  y1="240" x2="600"  y2="272" stroke="#10b981" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.7"/>
+        <line x1="1000" y1="120" x2="1000" y2="88"  stroke="#a78bfa" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.7"/>
+        <line x1="1400" y1="240" x2="1400" y2="272" stroke="#f97316" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.7"/>
+        <line x1="1800" y1="120" x2="1800" y2="88"  stroke="#06b6d4" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.7"/>
+        <line x1="2200" y1="240" x2="2200" y2="272" stroke="#f43f5e" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.7"/>
+        <line x1="2600" y1="120" x2="2600" y2="88"  stroke="#84cc16" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.7"/>
+        <line x1="3000" y1="240" x2="3000" y2="272" stroke="#fb923c" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.7"/>
+      </svg>
 
+      <!-- ══ CARDS (left = node_x - 92px to centre 185px card) ══ -->
+
+      <!-- 01 · Movie Recommender · top · x=200 -->
+      <div class="wave-card wave-card--top" style="left:108px; --wc:#0ea5e9;"
+           onclick="window._openPM('proj-1')">
+        <div class="wc-icon">&#127908;</div>
+        <div class="wc-body">
+          <span class="wc-num">01</span>
+          <h4 class="wc-name">Movie Recommender</h4>
+          <p class="wc-tech">Python &middot; ML &middot; TF-IDF</p>
         </div>
-        <!-- The Reflective Pool Water -->
-        <div class="reflective-pool"></div>
-      </div>
-    </div>
-
-    <!-- Hidden Modals for Project Details -->
-    <div class="project-modals-container" id="projectModals">
-      
-      <!-- Modal 1 -->
-      <div class="project-modal" id="proj-1">
-        <div class="modal-overlay close-modal"></div>
-        <div class="modal-box" style="--border-color: #0ea5e9;">
-          <button class="close-modal-btn close-modal">✕</button>
-          <div class="modal-body">
-            <span class="featured-badge" style="background:rgba(14,165,233,0.2);color:#0ea5e9;">⭐ Featured</span>
-            <h3 class="stack-title">Movie Recommendation System</h3>
-            <p class="stack-desc">Engineered a personalized content-based recommendation system using Python and Machine Learning. Processes large-scale metadata and film attributes with TF-IDF vector similarity algorithms to deliver high-precision suggestions and tailored recommendation feeds.</p>
-            <div class="stack-highlights">
-              <div class="highlight-item"><span>⚡ Speed:</span> Sub-10ms query latency</div>
-              <div class="highlight-item"><span>🎯 Algorithm:</span> TF-IDF &amp; Cosine Similarity</div>
-            </div>
-            <div class="project-tags">
-              <span>Python</span><span>Machine Learning</span><span>Pandas</span><span>Scikit-learn</span>
-            </div>
-            <div class="stack-card-actions">
-              <a href="https://github.com/ravi755667kumar-del" target="_blank" class="btn btn-primary btn-sm">View Code ↗</a>
-            </div>
-          </div>
+        <div class="wc-footer">
+          <div class="wc-dots"><span></span><span></span><span></span></div>
+          <span class="wc-open-lbl">Open &#8599;</span>
         </div>
+        <div class="wc-glow"></div>
       </div>
 
-      <!-- Modal 2 -->
-      <div class="project-modal" id="proj-2">
-        <div class="modal-overlay close-modal"></div>
-        <div class="modal-box" style="--border-color: #10b981;">
-          <button class="close-modal-btn close-modal">✕</button>
-          <div class="modal-body">
-            <span class="featured-badge" style="background:rgba(16,185,129,0.2);color:#10b981;">📊 Predictive Model</span>
-            <h3 class="stack-title">House Price Prediction Model</h3>
-            <p class="stack-desc">Designed and deployed an end-to-end regression modeling pipeline to forecast residential property market values. Implemented advanced data preprocessing, outlier removal, cross-validation, and gradient boosted feature optimization.</p>
-            <div class="stack-highlights">
-              <div class="highlight-item"><span>📈 Accuracy:</span> R² Score 0.89+</div>
-              <div class="highlight-item"><span>🔧 Pipeline:</span> Automated Feature Engineering</div>
-            </div>
-            <div class="project-tags">
-              <span>Scikit-learn</span><span>Regression</span><span>Pandas</span><span>Matplotlib</span>
-            </div>
-            <div class="stack-card-actions">
-              <a href="https://github.com/ravi755667kumar-del" target="_blank" class="btn btn-primary btn-sm">View Code ↗</a>
-            </div>
-          </div>
+      <!-- 02 · Price Prediction · bottom · x=600 -->
+      <div class="wave-card wave-card--bottom" style="left:508px; --wc:#10b981;"
+           onclick="window._openPM('proj-2')">
+        <div class="wc-icon">&#127968;</div>
+        <div class="wc-body">
+          <span class="wc-num">02</span>
+          <h4 class="wc-name">Price Prediction</h4>
+          <p class="wc-tech">Scikit-learn &middot; Pandas</p>
         </div>
+        <div class="wc-footer">
+          <div class="wc-dots"><span></span><span></span><span></span></div>
+          <span class="wc-open-lbl">Open &#8599;</span>
+        </div>
+        <div class="wc-glow"></div>
       </div>
 
-      <!-- Modal 3 -->
-      <div class="project-modal" id="proj-3">
-        <div class="modal-overlay close-modal"></div>
-        <div class="modal-box" style="--border-color: #8b5cf6;">
-          <button class="close-modal-btn close-modal">✕</button>
-          <div class="modal-body">
-            <span class="featured-badge" style="background:rgba(139,92,246,0.2);color:#a78bfa;">🧠 NLP & Django</span>
-            <h3 class="stack-title">Language Detector Web App</h3>
-            <p class="stack-desc">Built a real-time multilingual language detection web application with a Django backend. Integrates Natural Language Processing (NLP) tokenization and predictive text classification to accurately identify input languages with high confidence and minimal latency.</p>
-            <div class="stack-highlights">
-              <div class="highlight-item"><span>🌐 Languages:</span> 50+ Global Languages</div>
-              <div class="highlight-item"><span>⚡ Latency:</span> &lt; 25ms Response</div>
-            </div>
-            <div class="project-tags">
-              <span>Django</span><span>NLP</span><span>Python</span><span>REST API</span>
-            </div>
-            <div class="stack-card-actions">
-              <a href="https://github.com/ravi755667kumar-del" target="_blank" class="btn btn-primary btn-sm">View Code ↗</a>
-            </div>
-          </div>
+      <!-- 03 · Language API · top · x=1000 -->
+      <div class="wave-card wave-card--top" style="left:908px; --wc:#a78bfa;"
+           onclick="window._openPM('proj-3')">
+        <div class="wc-icon">&#128483;</div>
+        <div class="wc-body">
+          <span class="wc-num">03</span>
+          <h4 class="wc-name">Language API</h4>
+          <p class="wc-tech">Django &middot; NLP &middot; REST</p>
         </div>
+        <div class="wc-footer">
+          <div class="wc-dots"><span></span><span></span><span></span></div>
+          <span class="wc-open-lbl">Open &#8599;</span>
+        </div>
+        <div class="wc-glow"></div>
       </div>
 
-      <!-- Modal 4 -->
-      <div class="project-modal" id="proj-4">
-        <div class="modal-overlay close-modal"></div>
-        <div class="modal-box" style="--border-color: #f97316;">
-          <button class="close-modal-btn close-modal">✕</button>
-          <div class="modal-body">
-            <span class="featured-badge" style="background:rgba(249,115,22,0.2);color:#fb923c;">🛒 Full-Stack App</span>
-            <h3 class="stack-title">E-commerce Retail Platform</h3>
-            <p class="stack-desc">Developed a full-featured, responsive e-commerce platform for food and beverage retail. Features a robust Django MVC architecture, secure product catalog browsing, cart session management, order checkout workflows, and dynamic interactive client UI components.</p>
-            <div class="stack-highlights">
-              <div class="highlight-item"><span>🛍️ Architecture:</span> Full Django MVC</div>
-              <div class="highlight-item"><span>📱 Design:</span> 100% Fluid Responsive</div>
-            </div>
-            <div class="project-tags">
-              <span>Django</span><span>HTML5/CSS3</span><span>JavaScript</span><span>SQLite</span>
-            </div>
-            <div class="stack-card-actions">
-              <a href="https://github.com/ravi755667kumar-del" target="_blank" class="btn btn-primary btn-sm">View Code ↗</a>
-            </div>
-          </div>
+      <!-- 04 · E-Commerce · bottom · x=1400 -->
+      <div class="wave-card wave-card--bottom" style="left:1308px; --wc:#f97316;"
+           onclick="window._openPM('proj-4')">
+        <div class="wc-icon">&#128717;</div>
+        <div class="wc-body">
+          <span class="wc-num">04</span>
+          <h4 class="wc-name">E-Commerce</h4>
+          <p class="wc-tech">Django &middot; JS &middot; SQLite</p>
         </div>
+        <div class="wc-footer">
+          <div class="wc-dots"><span></span><span></span><span></span></div>
+          <span class="wc-open-lbl">Open &#8599;</span>
+        </div>
+        <div class="wc-glow"></div>
       </div>
 
+      <!-- 05 · Sentiment Analyser · top · x=1800 -->
+      <div class="wave-card wave-card--top" style="left:1708px; --wc:#06b6d4;"
+           onclick="window._openPM('proj-5')">
+        <div class="wc-icon">&#128172;</div>
+        <div class="wc-body">
+          <span class="wc-num">05</span>
+          <h4 class="wc-name">Sentiment Analyser</h4>
+          <p class="wc-tech">Python &middot; NLTK &middot; Flask</p>
+        </div>
+        <div class="wc-footer">
+          <div class="wc-dots"><span></span><span></span><span></span></div>
+          <span class="wc-open-lbl">Open &#8599;</span>
+        </div>
+        <div class="wc-glow"></div>
+      </div>
+
+      <!-- 06 · COVID Dashboard · bottom · x=2200 -->
+      <div class="wave-card wave-card--bottom" style="left:2108px; --wc:#f43f5e;"
+           onclick="window._openPM('proj-6')">
+        <div class="wc-icon">&#128202;</div>
+        <div class="wc-body">
+          <span class="wc-num">06</span>
+          <h4 class="wc-name">Data Dashboard</h4>
+          <p class="wc-tech">Python &middot; Plotly &middot; Dash</p>
+        </div>
+        <div class="wc-footer">
+          <div class="wc-dots"><span></span><span></span><span></span></div>
+          <span class="wc-open-lbl">Open &#8599;</span>
+        </div>
+        <div class="wc-glow"></div>
+      </div>
+
+      <!-- 07 · Weather App · top · x=2600 -->
+      <div class="wave-card wave-card--top" style="left:2508px; --wc:#84cc16;"
+           onclick="window._openPM('proj-7')">
+        <div class="wc-icon">&#127774;</div>
+        <div class="wc-body">
+          <span class="wc-num">07</span>
+          <h4 class="wc-name">Weather App</h4>
+          <p class="wc-tech">Django &middot; REST API &middot; JS</p>
+        </div>
+        <div class="wc-footer">
+          <div class="wc-dots"><span></span><span></span><span></span></div>
+          <span class="wc-open-lbl">Open &#8599;</span>
+        </div>
+        <div class="wc-glow"></div>
+      </div>
+
+      <!-- 08 · Portfolio Site · bottom · x=3000 -->
+      <div class="wave-card wave-card--bottom" style="left:2908px; --wc:#fb923c;"
+           onclick="window._openPM('proj-8')">
+        <div class="wc-icon">&#127919;</div>
+        <div class="wc-body">
+          <span class="wc-num">08</span>
+          <h4 class="wc-name">Portfolio Website</h4>
+          <p class="wc-tech">Django &middot; GSAP &middot; CSS3</p>
+        </div>
+        <div class="wc-footer">
+          <div class="wc-dots"><span></span><span></span><span></span></div>
+          <span class="wc-open-lbl">Open &#8599;</span>
+        </div>
+        <div class="wc-glow"></div>
+      </div>
+
+    </div><!-- /.hs-track -->
+  </div><!-- /.hs-wrapper -->
+
+
+  <!-- ══ MODALS ══ -->
+
+  <!-- Modal 1 -->
+  <div class="proj-modal" id="proj-1">
+    <div class="proj-modal-overlay" onclick="window._closePM()"></div>
+    <div class="proj-modal-box" style="--mc:#0ea5e9;">
+      <button class="proj-close-btn" onclick="window._closePM()">&#10005;</button>
+      <span class="proj-icon-big">&#127908;</span>
+      <span class="proj-badge" style="color:#0ea5e9;background:rgba(14,165,233,0.15);">&#11088; Featured</span>
+      <h3 class="proj-title">Movie Recommendation System</h3>
+      <p class="proj-desc">Engineered a personalized content-based recommendation engine using Python &amp; Machine Learning. TF-IDF vector similarity delivers high-precision suggestions with sub-10ms latency.</p>
+      <div class="proj-highlights">
+        <div class="proj-hl-item"><span>&#9889; Speed:</span> Sub-10ms query latency</div>
+        <div class="proj-hl-item"><span>&#127919; Algorithm:</span> TF-IDF &amp; Cosine Similarity</div>
+      </div>
+      <div class="proj-tags"><span>Python</span><span>Machine Learning</span><span>Pandas</span><span>Scikit-learn</span></div>
+      <a href="https://github.com/ravi755667kumar-del" target="_blank" class="proj-link-btn">View Code &#8599;</a>
     </div>
   </div>
+
+  <!-- Modal 2 -->
+  <div class="proj-modal" id="proj-2">
+    <div class="proj-modal-overlay" onclick="window._closePM()"></div>
+    <div class="proj-modal-box" style="--mc:#10b981;">
+      <button class="proj-close-btn" onclick="window._closePM()">&#10005;</button>
+      <span class="proj-icon-big">&#127968;</span>
+      <span class="proj-badge" style="color:#10b981;background:rgba(16,185,129,0.15);">&#128202; Predictive Model</span>
+      <h3 class="proj-title">House Price Prediction Model</h3>
+      <p class="proj-desc">End-to-end regression pipeline forecasting residential property values. Advanced preprocessing, cross-validation and gradient-boosted feature engineering. R&sup2; Score 0.89+.</p>
+      <div class="proj-highlights">
+        <div class="proj-hl-item"><span>&#128200; Accuracy:</span> R&sup2; Score 0.89+</div>
+        <div class="proj-hl-item"><span>&#128295; Pipeline:</span> Automated Feature Engineering</div>
+      </div>
+      <div class="proj-tags"><span>Scikit-learn</span><span>Regression</span><span>Pandas</span><span>Matplotlib</span></div>
+      <a href="https://github.com/ravi755667kumar-del" target="_blank" class="proj-link-btn">View Code &#8599;</a>
+    </div>
+  </div>
+
+  <!-- Modal 3 -->
+  <div class="proj-modal" id="proj-3">
+    <div class="proj-modal-overlay" onclick="window._closePM()"></div>
+    <div class="proj-modal-box" style="--mc:#a78bfa;">
+      <button class="proj-close-btn" onclick="window._closePM()">&#10005;</button>
+      <span class="proj-icon-big">&#128483;</span>
+      <span class="proj-badge" style="color:#a78bfa;background:rgba(139,92,246,0.15);">&#129504; NLP &amp; Django</span>
+      <h3 class="proj-title">Language Detector Web App</h3>
+      <p class="proj-desc">Real-time multilingual language detection with Django. NLP tokenization and predictive text classification identifies 50+ languages with &lt;25ms latency.</p>
+      <div class="proj-highlights">
+        <div class="proj-hl-item"><span>&#127760; Languages:</span> 50+ Global Languages</div>
+        <div class="proj-hl-item"><span>&#9889; Latency:</span> &lt; 25ms Response</div>
+      </div>
+      <div class="proj-tags"><span>Django</span><span>NLP</span><span>Python</span><span>REST API</span></div>
+      <a href="https://github.com/ravi755667kumar-del" target="_blank" class="proj-link-btn">View Code &#8599;</a>
+    </div>
+  </div>
+
+  <!-- Modal 4 -->
+  <div class="proj-modal" id="proj-4">
+    <div class="proj-modal-overlay" onclick="window._closePM()"></div>
+    <div class="proj-modal-box" style="--mc:#f97316;">
+      <button class="proj-close-btn" onclick="window._closePM()">&#10005;</button>
+      <span class="proj-icon-big">&#128717;</span>
+      <span class="proj-badge" style="color:#f97316;background:rgba(249,115,22,0.15);">&#128717; Full-Stack App</span>
+      <h3 class="proj-title">E-commerce Retail Platform</h3>
+      <p class="proj-desc">Full-featured responsive e-commerce platform for food &amp; beverage retail. Django MVC with product catalog, cart sessions, order checkout and dynamic UI.</p>
+      <div class="proj-highlights">
+        <div class="proj-hl-item"><span>&#128717; Architecture:</span> Full Django MVC</div>
+        <div class="proj-hl-item"><span>&#128241; Design:</span> 100% Fluid Responsive</div>
+      </div>
+      <div class="proj-tags"><span>Django</span><span>HTML5/CSS3</span><span>JavaScript</span><span>SQLite</span></div>
+      <a href="https://github.com/ravi755667kumar-del" target="_blank" class="proj-link-btn">View Code &#8599;</a>
+    </div>
+  </div>
+
+  <!-- Modal 5 -->
+  <div class="proj-modal" id="proj-5">
+    <div class="proj-modal-overlay" onclick="window._closePM()"></div>
+    <div class="proj-modal-box" style="--mc:#06b6d4;">
+      <button class="proj-close-btn" onclick="window._closePM()">&#10005;</button>
+      <span class="proj-icon-big">&#128172;</span>
+      <span class="proj-badge" style="color:#06b6d4;background:rgba(6,182,212,0.15);">&#129504; NLP &amp; Sentiment</span>
+      <h3 class="proj-title">Twitter Sentiment Analyser</h3>
+      <p class="proj-desc">Real-time sentiment analysis of social media text using NLTK and VADER. Classifies positive, negative and neutral tweets with 87%+ accuracy and live streaming dashboard.</p>
+      <div class="proj-highlights">
+        <div class="proj-hl-item"><span>&#127919; Accuracy:</span> 87%+ Classification</div>
+        <div class="proj-hl-item"><span>&#128202; Output:</span> Live Streaming Dashboard</div>
+      </div>
+      <div class="proj-tags"><span>Python</span><span>NLTK</span><span>VADER</span><span>Flask</span></div>
+      <a href="https://github.com/ravi755667kumar-del" target="_blank" class="proj-link-btn">View Code &#8599;</a>
+    </div>
+  </div>
+
+  <!-- Modal 6 -->
+  <div class="proj-modal" id="proj-6">
+    <div class="proj-modal-overlay" onclick="window._closePM()"></div>
+    <div class="proj-modal-box" style="--mc:#f43f5e;">
+      <button class="proj-close-btn" onclick="window._closePM()">&#10005;</button>
+      <span class="proj-icon-big">&#128202;</span>
+      <span class="proj-badge" style="color:#f43f5e;background:rgba(244,63,94,0.15);">&#128200; Data Visualization</span>
+      <h3 class="proj-title">Interactive Data Dashboard</h3>
+      <p class="proj-desc">Interactive multi-chart analytics dashboard built with Python Dash and Plotly. Visualises large datasets with dynamic filters, drilldown views and real-time refresh.</p>
+      <div class="proj-highlights">
+        <div class="proj-hl-item"><span>&#128202; Charts:</span> 10+ Interactive Chart Types</div>
+        <div class="proj-hl-item"><span>&#9889; Updates:</span> Real-Time Data Refresh</div>
+      </div>
+      <div class="proj-tags"><span>Python</span><span>Plotly</span><span>Dash</span><span>Pandas</span></div>
+      <a href="https://github.com/ravi755667kumar-del" target="_blank" class="proj-link-btn">View Code &#8599;</a>
+    </div>
+  </div>
+
+  <!-- Modal 7 -->
+  <div class="proj-modal" id="proj-7">
+    <div class="proj-modal-overlay" onclick="window._closePM()"></div>
+    <div class="proj-modal-box" style="--mc:#84cc16;">
+      <button class="proj-close-btn" onclick="window._closePM()">&#10005;</button>
+      <span class="proj-icon-big">&#127774;</span>
+      <span class="proj-badge" style="color:#84cc16;background:rgba(132,204,22,0.15);">&#127760; API Integration</span>
+      <h3 class="proj-title">Weather Forecast App</h3>
+      <p class="proj-desc">Full-stack Django weather application integrating OpenWeatherMap API. Displays 7-day forecasts, hourly breakdowns, UV index, and location-based auto-detection.</p>
+      <div class="proj-highlights">
+        <div class="proj-hl-item"><span>&#127760; Coverage:</span> 1M+ Cities Worldwide</div>
+        <div class="proj-hl-item"><span>&#128197; Forecast:</span> 7-Day + Hourly Data</div>
+      </div>
+      <div class="proj-tags"><span>Django</span><span>OpenWeatherMap API</span><span>JavaScript</span></div>
+      <a href="https://github.com/ravi755667kumar-del" target="_blank" class="proj-link-btn">View Code &#8599;</a>
+    </div>
+  </div>
+
+  <!-- Modal 8 -->
+  <div class="proj-modal" id="proj-8">
+    <div class="proj-modal-overlay" onclick="window._closePM()"></div>
+    <div class="proj-modal-box" style="--mc:#fb923c;">
+      <button class="proj-close-btn" onclick="window._closePM()">&#10005;</button>
+      <span class="proj-icon-big">&#127919;</span>
+      <span class="proj-badge" style="color:#fb923c;background:rgba(251,146,60,0.15);">&#128241; Portfolio</span>
+      <h3 class="proj-title">Personal Portfolio Website</h3>
+      <p class="proj-desc">This portfolio you are viewing right now — built with Django, GSAP animations, smooth horizontal scroll, 3D effects, and interactive sections. Fully responsive, accessible and performance-optimised.</p>
+      <div class="proj-highlights">
+        <div class="proj-hl-item"><span>&#9889; Animations:</span> GSAP + ScrollTrigger</div>
+        <div class="proj-hl-item"><span>&#128241; Responsive:</span> Mobile-First Design</div>
+      </div>
+      <div class="proj-tags"><span>Django</span><span>GSAP</span><span>CSS3</span><span>JavaScript</span></div>
+      <a href="https://github.com/ravi755667kumar-del" target="_blank" class="proj-link-btn">View Code &#8599;</a>
+    </div>
+  </div>
+
 </section>
