@@ -3,6 +3,13 @@ venv/
 env/
 .venv/
 .env
+.env.*
+
+# Node / Vite
+node_modules/
+dist/
+dist-ssr/
+*.local
 
 # Python Byte-compiled / Optimized / DLL files
 __pycache__/
