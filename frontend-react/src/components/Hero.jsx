@@ -46,6 +46,75 @@ export default function Hero() {
       <div className="absolute top-1/3 left-10 w-96 h-96 bg-purple-900/15 rounded-full blur-[140px] pointer-events-none" />
       <div className="absolute bottom-1/4 right-10 w-96 h-96 bg-rose-900/15 rounded-full blur-[160px] pointer-events-none" />
 
+      {/* ========================================================
+         TOP-RIGHT CORNER: ATTRACTIVE 3D CYBERNETIC AI BRAIN BACKGROUND
+         ======================================================== */}
+      <div
+        className="absolute top-0 right-0 w-[320px] sm:w-[420px] md:w-[500px] lg:w-[580px] h-[320px] sm:h-[420px] md:h-[500px] lg:h-[580px] pointer-events-none z-0 overflow-hidden select-none"
+        style={{
+          perspective: '1200px',
+        }}
+      >
+        {/* Ambient Top-Right Radial Electric Cyan Glow */}
+        <div className="absolute -top-16 -right-16 w-[420px] h-[420px] bg-[radial-gradient(circle,rgba(6,182,212,0.35)_0%,rgba(59,130,246,0.18)_45%,transparent_75%)] blur-3xl pointer-events-none" />
+
+        {/* 3D Tilted Cybernetic AI Brain Canvas / Parallax Container */}
+        <div
+          className="relative w-full h-full flex items-start justify-end transition-transform duration-500 ease-out"
+          style={{
+            transform: `translate3d(${mousePos.x * 25 + 20}px, ${mousePos.y * 25 - 15}px, -20px) rotateY(${mousePos.x * 12}deg) rotateX(${-mousePos.y * 12}deg)`,
+            transformStyle: 'preserve-3d',
+          }}
+        >
+          {/* Faint Floating Binary Stream Matrix in Corner */}
+          <div
+            className="absolute top-10 right-10 font-mono text-[9px] sm:text-[10px] leading-relaxed text-cyan-400/25 select-none text-right pointer-events-none"
+            style={{ animation: 'binaryFlicker 4s ease-in-out infinite' }}
+          >
+            <div>0110 0100 0101 1001</div>
+            <div>0101 1001 0110 0100</div>
+            <div>1001 0110 0100 0101</div>
+            <div>0100 0101 1001 0110</div>
+            <div>0110 1001 0101 0100</div>
+          </div>
+
+          {/* AI Brain Image with Smooth Corner Fade Out Radial Mask */}
+          <div
+            className="relative w-[280px] sm:w-[360px] md:w-[430px] lg:w-[490px] h-[280px] sm:h-[360px] md:h-[430px] lg:h-[490px] -mr-6 -mt-4"
+            style={{
+              maskImage: 'radial-gradient(ellipse at 80% 20%, black 50%, rgba(0,0,0,0.65) 72%, transparent 92%)',
+              WebkitMaskImage: 'radial-gradient(ellipse at 80% 20%, black 50%, rgba(0,0,0,0.65) 72%, transparent 92%)',
+            }}
+          >
+            <img
+              src="/ai-brain-transparent.png"
+              alt="AI Brain Circuit Background"
+              className="w-full h-full object-contain filter drop-shadow-[0_0_35px_rgba(6,182,212,0.7)] contrast-110 brightness-105 opacity-90"
+              style={{
+                animation: 'neuralPulse 4s ease-in-out infinite',
+              }}
+              onError={(e) => {
+                e.currentTarget.src = '/ai-brain.png';
+              }}
+            />
+
+            {/* Glowing Corner Tech Scanline / Shimmer */}
+            <div
+              className="absolute inset-0 bg-gradient-to-b from-transparent via-cyan-400/15 to-transparent pointer-events-none"
+              style={{
+                animation: 'scanline 4.5s linear infinite',
+              }}
+            />
+          </div>
+
+          {/* Holographic Corner Accent Lines / Cyber Brackets */}
+          <div className="absolute top-6 right-6 w-16 h-16 border-t border-r border-cyan-400/30 rounded-tr-xl pointer-events-none" />
+          <div className="absolute top-8 right-8 text-[8px] font-mono tracking-widest text-cyan-400/50 uppercase">
+            3D NEURAL CORE &bull; AI
+          </div>
+        </div>
+      </div>
+
       <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-4 items-end relative z-10 mt-auto">
         
         {/* ========================================================
@@ -105,18 +174,18 @@ export default function Hero() {
               transformStyle: 'preserve-3d',
             }}
           >
-            {/* 3D Organic Morphing Blob behind the head/torso */}
+            {/* 3D Organic Morphing & Shaking Blob behind the head/torso (Calibrated Size) */}
             <div
-              className="absolute bottom-4 inset-x-3 sm:inset-x-5 h-[270px] sm:h-[340px] lg:h-[380px] rounded-[50%_50%_45%_55%/60%_45%_55%_40%] animate-[morph_8s_ease-in-out_infinite] transition-all pointer-events-none"
+              className="absolute bottom-8 sm:bottom-10 lg:bottom-12 inset-x-1 sm:inset-x-2 lg:inset-x-1 h-[290px] sm:h-[360px] lg:h-[400px] rounded-[50%_50%_45%_55%/60%_45%_55%_40%] animate-[morphShake_4.5s_ease-in-out_infinite] transition-all pointer-events-none"
               style={{
                 background: 'linear-gradient(135deg, #e17082 0%, #d95368 50%, #c43c53 100%)',
-                boxShadow: '0 25px 50px -15px rgba(225, 112, 130, 0.45)',
-                transform: 'scale(0.95) translateZ(-25px)',
+                boxShadow: '0 20px 48px -10px rgba(225, 112, 130, 0.48)',
+                transformStyle: 'preserve-3d',
               }}
             />
 
             {/* Ambient Back Glow */}
-            <div className="absolute bottom-6 inset-x-6 h-[260px] rounded-full bg-rose-500/30 blur-3xl pointer-events-none" />
+            <div className="absolute bottom-10 sm:bottom-12 lg:bottom-14 inset-x-0 h-[280px] sm:h-[340px] lg:h-[380px] rounded-full bg-rose-500/30 blur-3xl pointer-events-none" />
 
             {/* Central Portrait Cutout: Kept down & cleanly rendered with white shirt */}
             <div className="relative z-10 w-full flex items-end justify-center pointer-events-none">
@@ -138,9 +207,10 @@ export default function Hero() {
 
         {/* ========================================================
            RIGHT: FLOATING CAPSULE CHAT PILL & CERTIFICATION EMBLEM
+           (Floating over the 3D Corner Cybernetic AI Brain Background)
            ======================================================== */}
         <div
-          className="lg:col-span-3 flex flex-col items-center lg:items-end justify-center space-y-12 pb-8 lg:pb-16 transition-transform duration-300 ease-out"
+          className="lg:col-span-3 flex flex-col items-center lg:items-end justify-center space-y-12 pb-8 lg:pb-16 transition-transform duration-300 ease-out relative z-10"
           style={{
             transform: `translate3d(${mousePos.x * 35}px, ${mousePos.y * 35}px, 20px)`,
           }}
@@ -165,7 +235,7 @@ export default function Hero() {
               </div>
             </div>
             {/* Pill Shadow glow */}
-            <div className="absolute inset-0 rounded-2xl bg-rose-500/10 blur-lg -z-10 group-hover:bg-rose-500/20 transition-all" />
+            <div className="absolute inset-0 rounded-2xl bg-cyan-500/15 blur-lg -z-10 group-hover:bg-cyan-500/25 transition-all" />
           </div>
 
           {/* Circular Certification Seal / Emblem (Matching Reference Badge) */}
@@ -190,7 +260,6 @@ export default function Hero() {
               </p>
             </div>
           </div>
-
         </div>
 
       </div>

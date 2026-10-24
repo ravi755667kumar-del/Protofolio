@@ -64,7 +64,7 @@
   animation-play-state: paused;
 }
 
-/* Organic 3D Blob Morphing Keyframes */
+/* Organic 3D Blob Morphing & Floating Shake Keyframes */
 @keyframes morph {
   0% {
     border-radius: 50% 50% 45% 55% / 60% 45% 55% 40%;
@@ -83,3 +83,73 @@
     transform: scale(0.92) translateZ(-20px) rotate(0deg);
   }
 }
+
+@keyframes morphShake {
+  0% {
+    border-radius: 50% 50% 45% 55% / 60% 45% 55% 40%;
+    transform: scale(0.98) translate3d(0px, 0px, -20px) rotate(0deg);
+  }
+  16% {
+    border-radius: 56% 44% 53% 47% / 50% 56% 44% 50%;
+    transform: scale(1.00) translate3d(-3px, -2.5px, -15px) rotate(1.2deg);
+  }
+  33% {
+    border-radius: 60% 40% 55% 45% / 45% 60% 40% 55%;
+    transform: scale(0.97) translate3d(2.5px, -4px, -18px) rotate(-1.4deg);
+  }
+  50% {
+    border-radius: 48% 52% 43% 57% / 56% 43% 57% 44%;
+    transform: scale(1.01) translate3d(-2px, 2px, -12px) rotate(1deg);
+  }
+  66% {
+    border-radius: 45% 55% 40% 60% / 55% 40% 60% 45%;
+    transform: scale(0.98) translate3d(3px, -2px, -22px) rotate(-0.8deg);
+  }
+  83% {
+    border-radius: 53% 47% 48% 52% / 47% 52% 48% 53%;
+    transform: scale(1.00) translate3d(-2px, -3.5px, -16px) rotate(1.2deg);
+  }
+  100% {
+    border-radius: 50% 50% 45% 55% / 60% 45% 55% 40%;
+    transform: scale(0.98) translate3d(0px, 0px, -20px) rotate(0deg);
+  }
+}
+
+/* 3D Cybernetic Scanline Sweep */
+@keyframes scanline {
+  0% {
+    transform: translateY(-120%);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.85;
+  }
+  80% {
+    opacity: 0.85;
+  }
+  100% {
+    transform: translateY(220%);
+    opacity: 0;
+  }
+}
+
+/* Neural Synapse Pulse */
+@keyframes neuralPulse {
+  0%, 100% {
+    opacity: 0.35;
+    transform: scale(0.98);
+  }
+  50% {
+    opacity: 0.95;
+    transform: scale(1.03);
+  }
+}
+
+/* Binary Stream Glitch / Flicker */
+@keyframes binaryFlicker {
+  0%, 100% { opacity: 0.3; }
+  25% { opacity: 0.75; }
+  50% { opacity: 0.2; }
+  75% { opacity: 0.85; }
+}
+
