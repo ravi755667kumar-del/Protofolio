@@ -57,6 +57,28 @@ export default function Contact() {
 
             {/* Channels */}
             <div className="space-y-3">
+              {/* Phone Channel */}
+              <a
+                href="tel:+917464059133"
+                className="flex items-center justify-between p-4 rounded-xl bg-white/5 border border-white/10 hover:border-emerald-400/50 hover:bg-white/10 transition-all group"
+              >
+                <div className="flex items-center gap-3">
+                  <span className="text-2xl p-2 rounded-lg bg-emerald-500/10 border border-emerald-500/20">
+                    📞
+                  </span>
+                  <div>
+                    <p className="text-xs text-slate-400 font-medium">Phone / WhatsApp</p>
+                    <p className="text-sm font-semibold text-white group-hover:text-emerald-300 transition-colors">
+                      +91 7464059133
+                    </p>
+                  </div>
+                </div>
+                <span className="text-slate-400 group-hover:text-emerald-300 text-sm">
+                  ↗
+                </span>
+              </a>
+
+              {/* Email Channel */}
               <a
                 href="mailto:Ravikumar755667@gmail.com"
                 className="flex items-center justify-between p-4 rounded-xl bg-white/5 border border-white/10 hover:border-cyan-400/50 hover:bg-white/10 transition-all group"

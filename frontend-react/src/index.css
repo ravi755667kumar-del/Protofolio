@@ -51,12 +51,16 @@
   display: flex;
   width: max-content;
   animation: marquee 30s linear infinite;
+  will-change: transform;
+  transform: translateZ(0);
 }
 
 .animate-marquee-reverse {
   display: flex;
   width: max-content;
   animation: marquee-reverse 32s linear infinite;
+  will-change: transform;
+  transform: translateZ(0);
 }
 
 .animate-marquee:hover,
@@ -152,4 +156,38 @@
   50% { opacity: 0.2; }
   75% { opacity: 0.85; }
 }
+
+/* Hyper-Realistic 3D Lanyard Pendulum Sway */
+@keyframes realLanyardHang {
+  0% {
+    transform: rotateX(-5deg) rotateY(6deg) rotateZ(-1.2deg);
+  }
+  25% {
+    transform: rotateX(-3deg) rotateY(-4deg) rotateZ(1deg);
+  }
+  50% {
+    transform: rotateX(-6deg) rotateY(5deg) rotateZ(-0.8deg);
+  }
+  75% {
+    transform: rotateX(-4deg) rotateY(-3deg) rotateZ(0.6deg);
+  }
+  100% {
+    transform: rotateX(-5deg) rotateY(6deg) rotateZ(-1.2deg);
+  }
+}
+
+/* Secondary 3D Rope Flutter */
+@keyframes wideRopeFlutter {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+  }
+  33% {
+    transform: translate3d(5px, -3px, 15px) rotate(1.4deg) scale(1.01);
+  }
+  66% {
+    transform: translate3d(-4px, 2px, -10px) rotate(-1.2deg) scale(0.99);
+  }
+}
+
+
 

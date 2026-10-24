@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 
 const promptPlaceholders = [
-  'Exploring Machine Learning models...',
-  'Building predictive AI pipelines...',
-  'Integrating Django & React systems...',
-  'Available for new tech opportunities...',
+  'Detecting brain tumors with CNN...',
+  'Deploying churn prediction on FastAPI...',
+  'Building RAG chatbot with LangChain...',
+  'Engineering Django & AI pipelines...',
 ];
 
 export default function Hero() {

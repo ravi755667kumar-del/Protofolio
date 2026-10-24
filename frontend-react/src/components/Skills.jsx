@@ -2,6 +2,7 @@ import React, { useLayoutEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { skillCategories, marqueeRow1, marqueeRow2 } from '../data/skillsData';
+import FloatingSkillBalls from './FloatingSkillBalls';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -62,6 +63,9 @@ export default function Skills() {
             Comprehensive technical repertoire covering Machine Learning algorithms, backend infrastructure, and modern interfaces.
           </p>
         </div>
+
+        {/* 3D Rotating Skills Sphere of Color Balls */}
+        <FloatingSkillBalls />
 
         {/* 3 Categories with Progress Bars */}
         <div className="skills-grid grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
