@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { ChevronDown, ArrowUp } from 'lucide-react';
 import { triggerTornPaperReveal } from '../utils/tornPaperTrigger';
+import { triggerOpenResume } from '../utils/openResume';
 
 const SECTIONS = [
   { id: 'home', name: 'Home', num: '01', nextLabel: 'Explore About', title: 'WELCOME TO AI HUB' },
@@ -296,6 +297,27 @@ export default function PageScrollNav() {
         {/* Total pages label */}
         <div className="text-[8px] font-mono text-slate-400 pt-1 border-t border-slate-200 hidden sm:block">
           06
+        </div>
+
+        {/* Quick Resume Access Button Accessible From ANY Section */}
+        <div className="relative flex items-center justify-center pt-1 mt-0.5 border-t border-slate-200/90 w-full">
+          {hoveredDot === 'resume' && (
+            <div className="absolute right-9 px-2.5 py-1 rounded-lg bg-white border border-slate-200 text-[#0284C7] text-[10px] font-mono font-semibold whitespace-nowrap shadow-md pointer-events-none transition-all duration-200 hidden sm:flex items-center gap-1.5 z-50">
+              <span>📄</span>
+              <span>Open Resume (macOS)</span>
+            </div>
+          )}
+          <button
+            type="button"
+            onClick={(e) => triggerOpenResume(e)}
+            onMouseEnter={() => setHoveredDot('resume')}
+            onMouseLeave={() => setHoveredDot(null)}
+            title="Open Resume in macOS Window"
+            aria-label="Open Resume"
+            className="w-6 h-6 rounded-full bg-sky-50 hover:bg-[#0284C7] text-[#0284C7] hover:text-white border border-sky-200 hover:border-[#0284C7] flex items-center justify-center text-[10px] font-bold shadow-2xs hover:scale-115 active:scale-95 transition-all cursor-pointer"
+          >
+            <span>CV</span>
+          </button>
         </div>
       </aside>
 

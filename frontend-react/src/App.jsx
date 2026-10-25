@@ -11,9 +11,12 @@ import Skills from './components/Skills';
 import ProjectsWave from './components/ProjectsWave';
 import CertificationsOrbit from './components/CertificationsOrbit';
 import Footer from './components/Footer';
+import ResumeModal from './components/ResumeModal';
 
 export default function App() {
   const [hasEntered, setHasEntered] = useState(false);
+  const [isResumeOpen, setIsResumeOpen] = useState(false);
+  const [originPos, setOriginPos] = useState({ x: 0, y: 0 });
 
   const handleEnterPortfolio = () => {
     setHasEntered(true);
@@ -22,6 +25,24 @@ export default function App() {
 
   useEffect(() => {
     document.documentElement.style.scrollBehavior = 'smooth';
+  }, []);
+
+  // Global listener: Enables opening the macOS Resume Window with Genie Effect from ANY section
+  useEffect(() => {
+    const handleOpenResume = (e) => {
+      if (e.detail?.origin) {
+        setOriginPos(e.detail.origin);
+      } else {
+        setOriginPos({
+          x: typeof window !== 'undefined' ? window.innerWidth * 0.88 : 1000,
+          y: 36,
+        });
+      }
+      setIsResumeOpen(true);
+    };
+
+    window.addEventListener('open-resume', handleOpenResume);
+    return () => window.removeEventListener('open-resume', handleOpenResume);
   }, []);
 
   return (
@@ -72,6 +93,13 @@ export default function App() {
 
           {/* Footer */}
           <Footer />
+
+          {/* Global macOS Resume Window Modal (Accessible perfectly from ANY section) */}
+          <ResumeModal
+            isOpen={isResumeOpen}
+            onClose={() => setIsResumeOpen(false)}
+            originPos={originPos}
+          />
         </div>
       )}
     </div>

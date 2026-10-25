@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { triggerTornPaperReveal } from '../utils/tornPaperTrigger';
+import { triggerOpenResume } from '../utils/openResume';
 
 const navItems = [
   { name: 'Home', href: '#home' },
@@ -14,6 +15,10 @@ export default function Navbar() {
   const [activeSection, setActiveSection] = useState('home');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+
+  const handleOpenResume = (e) => {
+    triggerOpenResume(e);
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -87,16 +92,17 @@ export default function Navbar() {
           })}
         </div>
 
-        {/* Action Button */}
+        {/* Action Button: Opens macOS Resume Window with Genie Effect */}
         <div className="hidden md:flex items-center gap-3">
-          <a
-            href="/Ravi_Kumar_Resume.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="px-4 py-1.5 text-xs font-bold rounded-full bg-gradient-to-r from-[#0284C7] to-teal-600 hover:from-sky-500 hover:to-teal-500 text-white shadow-sm shadow-sky-600/20 hover:scale-105 active:scale-95 transition-all"
+          <button
+            type="button"
+            onClick={handleOpenResume}
+            title="Preview Resume in macOS Window (Genie Effect)"
+            className="px-4 py-1.5 text-xs font-bold rounded-full bg-gradient-to-r from-[#0284C7] to-teal-600 hover:from-sky-500 hover:to-teal-500 text-white shadow-sm shadow-sky-600/20 hover:scale-105 active:scale-95 transition-all cursor-pointer flex items-center gap-1.5"
           >
-            Resume ↓
-          </a>
+            <span>Resume</span>
+            <span className="text-[10px] font-mono">↓</span>
+          </button>
         </div>
 
         {/* Mobile menu button */}
@@ -150,14 +156,16 @@ export default function Navbar() {
             </a>
           ))}
           <div className="pt-2 space-y-2">
-            <a
-              href="/Ravi_Kumar_Resume.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="block text-center py-2.5 rounded-lg bg-gradient-to-r from-[#0284C7] to-teal-600 text-white font-medium"
+            <button
+              type="button"
+              onClick={(e) => {
+                setMobileMenuOpen(false);
+                handleOpenResume(e);
+              }}
+              className="w-full text-center py-2.5 rounded-lg bg-gradient-to-r from-[#0284C7] to-teal-600 text-white font-medium cursor-pointer"
             >
-              Download Resume
-            </a>
+              Preview Resume (macOS)
+            </button>
           </div>
         </div>
       )}

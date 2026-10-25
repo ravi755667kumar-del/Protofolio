@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { triggerTornPaperReveal } from '../utils/tornPaperTrigger';
+import { triggerOpenResume } from '../utils/openResume';
 import HeroBrain3D from './HeroBrain3D';
 
 const promptPlaceholders = [
@@ -157,8 +158,8 @@ export default function Hero() {
             </p>
           </div>
 
-          {/* Action Button */}
-          <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3.5 pt-2">
+          {/* Action Buttons */}
+          <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3 pt-2">
             <a
               href="#projects"
               onClick={(e) => {
@@ -169,6 +170,15 @@ export default function Hero() {
             >
               View Projects →
             </a>
+            <button
+              type="button"
+              onClick={(e) => triggerOpenResume(e)}
+              title="Preview Resume in macOS Window (Genie Effect)"
+              className="px-5 py-3 rounded-full bg-white hover:bg-slate-50 border border-slate-200 hover:border-[#0284C7] text-slate-800 hover:text-[#0284C7] font-bold text-xs uppercase tracking-wider shadow-xs hover:shadow-md transition-all flex items-center gap-2 cursor-pointer"
+            >
+              <span>📄</span>
+              <span>Preview Resume</span>
+            </button>
           </div>
         </div>
 

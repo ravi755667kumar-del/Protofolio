@@ -1,5 +1,6 @@
 import React from 'react';
 import { triggerTornPaperReveal } from '../utils/tornPaperTrigger';
+import { triggerOpenResume } from '../utils/openResume';
 
 export default function Footer() {
   const scrollToTop = (e) => {
@@ -48,6 +49,13 @@ export default function Footer() {
           >
             LinkedIn
           </a>
+          <button
+            type="button"
+            onClick={(e) => triggerOpenResume(e)}
+            className="hover:text-[#0284C7] transition-colors font-medium cursor-pointer"
+          >
+            Resume
+          </button>
           <a
             href="mailto:Ravikumar755667@gmail.com"
             className="hover:text-[#0284C7] transition-colors font-medium"
