@@ -10,7 +10,7 @@ const navItems = [
   { name: 'Certs', href: '#certifications' },
 ];
 
-export default function Navbar({ onBackToIntro }) {
+export default function Navbar() {
   const [activeSection, setActiveSection] = useState('home');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);

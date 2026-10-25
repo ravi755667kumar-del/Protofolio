@@ -69,6 +69,15 @@ export default function PageScrollNav() {
           }
           e.preventDefault();
           navigateToSection(activeIndexRef.current + 1);
+        } else if (activeIndexRef.current === SECTIONS.length - 1) {
+          if (el) {
+            const sectionBottom = el.offsetTop + el.offsetHeight;
+            const viewportBottom = window.scrollY + window.innerHeight;
+            const isAtSectionBottom = viewportBottom >= sectionBottom - 25;
+            if (!isAtSectionBottom) return;
+          }
+          e.preventDefault();
+          navigateToSection(0);
         }
       } else if (e.deltaY < 0) {
         if (activeIndexRef.current > 0) {
@@ -101,13 +110,22 @@ export default function PageScrollNav() {
       const currentSec = SECTIONS[activeIndexRef.current];
       const el = currentSec ? document.getElementById(currentSec.id) : null;
 
-      if (diff > 0 && activeIndexRef.current < SECTIONS.length - 1) {
-        if (el) {
-          const sectionBottom = el.offsetTop + el.offsetHeight;
-          const viewportBottom = window.scrollY + window.innerHeight;
-          if (viewportBottom < sectionBottom - 25) return;
+      if (diff > 0) {
+        if (activeIndexRef.current < SECTIONS.length - 1) {
+          if (el) {
+            const sectionBottom = el.offsetTop + el.offsetHeight;
+            const viewportBottom = window.scrollY + window.innerHeight;
+            if (viewportBottom < sectionBottom - 25) return;
+          }
+          navigateToSection(activeIndexRef.current + 1);
+        } else if (activeIndexRef.current === SECTIONS.length - 1) {
+          if (el) {
+            const sectionBottom = el.offsetTop + el.offsetHeight;
+            const viewportBottom = window.scrollY + window.innerHeight;
+            if (viewportBottom < sectionBottom - 25) return;
+          }
+          navigateToSection(0);
         }
-        navigateToSection(activeIndexRef.current + 1);
       } else if (diff < 0 && activeIndexRef.current > 0) {
         if (el) {
           const sectionTop = el.offsetTop;
@@ -133,6 +151,14 @@ export default function PageScrollNav() {
           }
           e.preventDefault();
           navigateToSection(activeIndexRef.current + 1);
+        } else if (activeIndexRef.current === SECTIONS.length - 1) {
+          if (el) {
+            const sectionBottom = el.offsetTop + el.offsetHeight;
+            const viewportBottom = window.scrollY + window.innerHeight;
+            if (viewportBottom < sectionBottom - 25) return;
+          }
+          e.preventDefault();
+          navigateToSection(0);
         }
       } else if (['ArrowUp', 'PageUp'].includes(e.key) || (e.key === ' ' && e.shiftKey)) {
         if (activeIndexRef.current > 0) {

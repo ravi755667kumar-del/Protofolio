@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect, useCallback, useLayoutEffect } from
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { experienceData } from '../data/expData';
-import { triggerTornPaperReveal } from '../utils/tornPaperTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 

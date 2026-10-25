@@ -20,11 +20,6 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'instant' });
   };
 
-  const handleBackToIntro = () => {
-    setHasEntered(false);
-    window.scrollTo({ top: 0, behavior: 'instant' });
-  };
-
   useEffect(() => {
     document.documentElement.style.scrollBehavior = 'smooth';
   }, []);
@@ -52,8 +47,8 @@ export default function App() {
           {/* Floating Next-Page & Vertical Dot Navigation (Tailwind CSS) */}
           <PageScrollNav />
 
-          {/* Floating Glassmorphic Navbar with Return-to-3D option */}
-          <Navbar onBackToIntro={handleBackToIntro} />
+          {/* Floating Glassmorphic Navbar */}
+          <Navbar />
 
           <main className="relative">
             {/* Section 1: Hero */}

@@ -1,17 +1,21 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 /**
- * FloatingSkillBalls Component
+ * FloatingSkillBalls Component with 3 Frosted Glass Jars
  * 
  * Features:
- * - Free-roaming physics: balls travel freely ANYWHERE across the entire canvas ("inot in same place like go anywhere")
- * - Elastic bouncing off all 4 walls (left, right, top, bottom) and off each other
- * - Complete freeze / stop when cursor is kept on a ball ("when i shall keep my cursor there it will stop")
- * - Smooth +25% hover expansion with luminous neon ring and high-contrast typography
- * - Instant velocity resumption when cursor leaves
- * - 27 skills strictly from Ravi Kumar's updated resume
- * - Vibrant 3D directional lighting & specular gloss reflections
- * - 60 FPS hardware accelerated, 0% CPU off-screen via IntersectionObserver
+ * - Three High-Tech Frosted Glass Vessels:
+ *   1. 💻 Languages & Frameworks (8 skills)
+ *   2. 🧠 Deep Learning & Vision (9 skills)
+ *   3. ⚡ Generative AI & MLOps (10 skills)
+ * - Dynamic Magnetic Storage:
+ *   - When cursor enters the Skills arena, all 27 skill orbs flock, funnel,
+ *     and store themselves inside their corresponding glass containers!
+ *   - When cursor leaves, balls release and float freely across the entire arena.
+ * - Interactive glass vessels with real-time specular reflections, liquid glow,
+ *   and graduation measurement ticks.
+ * - Freeze-on-hover (+25% expansion with neon aura) and drag-and-toss physics.
+ * - 60 FPS hardware-accelerated, 0% CPU off-screen via IntersectionObserver.
  */
 
 const RESUME_SKILLS = [
@@ -44,9 +48,92 @@ const RESUME_SKILLS = [
   { name: 'Data Preproc.', category: 'Core Competencies', lines: ['Data', 'Preproc.'], color: '#b45309', colorLight: '#fde68a', colorDark: '#78350f', textColor: '#ffffff' },
 ];
 
+// Determine which of the 3 Glass Jars each skill belongs to
+const getSkillGlassId = (skill) => {
+  const name = skill.name;
+  const cat = skill.category;
+
+  // Glass 0: Languages & Frameworks (8 skills)
+  if (
+    cat === 'Languages & Frameworks' ||
+    name === 'Python' ||
+    name === 'Django' ||
+    name === 'FastAPI' ||
+    name === 'SQL' ||
+    name === 'NumPy' ||
+    name === 'Pandas' ||
+    name === 'Matplotlib' ||
+    name === 'Scikit-learn'
+  ) {
+    return 0;
+  }
+
+  // Glass 1: Deep Learning & Vision (9 skills)
+  if (
+    cat === 'Deep Learning' ||
+    cat === 'Deep Learning & Vision' ||
+    cat === 'Core Competencies' ||
+    name === 'TensorFlow' ||
+    name === 'Keras' ||
+    name === 'CNN' ||
+    name === 'ANN' ||
+    name === 'Medical Image' ||
+    name === 'Image Class.' ||
+    name === 'Data Augment.' ||
+    name === 'Model Eval.' ||
+    name === 'Data Preproc.'
+  ) {
+    return 1;
+  }
+
+  // Glass 2: Generative AI & MLOps (10 skills)
+  return 2;
+};
+
+const GLASS_JARS_META = [
+  {
+    id: 0,
+    title: 'Languages & Core',
+    icon: '💻',
+    accent: '#0284c7',
+    accentGlow: 'rgba(2, 132, 199, 0.22)',
+    skillsCount: 8,
+  },
+  {
+    id: 1,
+    title: 'Deep Learning & Vision',
+    icon: '🧠',
+    accent: '#8b5cf6',
+    accentGlow: 'rgba(139, 92, 246, 0.22)',
+    skillsCount: 9,
+  },
+  {
+    id: 2,
+    title: 'Generative AI & MLOps',
+    icon: '⚡',
+    accent: '#0d9488',
+    accentGlow: 'rgba(13, 148, 136, 0.22)',
+    skillsCount: 10,
+  },
+];
+
 export default function FloatingSkillBalls() {
   const canvasRef = useRef(null);
   const containerRef = useRef(null);
+  const [isStoredState, setIsStoredState] = useState(false);
+  const [isLockedStored, setIsLockedStored] = useState(false);
+
+  const isStored = isStoredState || isLockedStored;
+  const isStoredRef = useRef(isStored);
+  const isLockedStoredRef = useRef(isLockedStored);
+
+  useEffect(() => {
+    isStoredRef.current = isStored;
+  }, [isStored]);
+
+  useEffect(() => {
+    isLockedStoredRef.current = isLockedStored;
+  }, [isLockedStored]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -54,103 +141,178 @@ export default function FloatingSkillBalls() {
     if (!canvas || !container) return;
     const ctx = canvas.getContext('2d', { alpha: true });
     let animId;
+    let hoveredGlassIdx = null;
 
     let width = (canvas.width = container.clientWidth);
-    let height = (canvas.height = container.clientHeight || 430);
+    let height = (canvas.height = container.clientHeight || 460);
 
-    const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
     canvas.width = Math.floor(width * dpr);
     canvas.height = Math.floor(height * dpr);
     ctx.scale(dpr, dpr);
 
     const N = RESUME_SKILLS.length;
 
-    // Distribute balls cleanly initially, then allow completely free motion anywhere
-    const createLayout = (w, h) => {
-      const marginX = Math.min(40, w * 0.06);
-      const marginY = Math.min(30, h * 0.06);
-      const availableW = w - marginX * 2;
-      const availableH = h - marginY * 2;
-
+    // Calculate dynamic 3 Glass Jars Geometry based on canvas width and height
+    const getGlassJars = (w, h) => {
       const isMobile = w < 640;
-      const isTablet = w >= 640 && w < 1024;
-      const rowCounts = isMobile
-        ? [4, 4, 4, 4, 4, 4, 3]
-        : isTablet
-        ? [4, 5, 5, 5, 5, 3]
-        : [5, 6, 5, 6, 5];
-      const totalRows = rowCounts.length;
+      const topY = isMobile ? 38 : 46;
+      const jarHeight = h - topY - 18;
 
-      let idx = 0;
-      const layout = [];
+      if (isMobile) {
+        // Mobile: 3 compact adjacent glass columns
+        const sideMargin = 8;
+        const totalW = w - sideMargin * 2;
+        const gap = 8;
+        const jarW = (totalW - gap * 2) / 3;
 
-      for (let r = 0; r < totalRows; r++) {
-        const count = rowCounts[r];
-        const yFrac = totalRows > 1 ? r / (totalRows - 1) : 0.5;
-        const baseY = marginY + yFrac * availableH;
-        const xOffset = (r % 2 === 1) ? (availableW / (count * 2.5)) : 0;
-
-        for (let c = 0; c < count; c++) {
-          if (idx >= N) break;
-          const xFrac = count > 1 ? c / (count - 1) : 0.5;
-          const baseX = marginX + xFrac * (availableW - xOffset) + xOffset * 0.5;
-
-          const skill = RESUME_SKILLS[idx];
-          const textLen = skill.name.length;
-          const baseR = isMobile
-            ? (textLen > 10 ? 25 : textLen > 6 ? 23 : 21)
-            : (textLen > 10 ? 32 : textLen > 6 ? 29 : 26);
-
-          // Fast free-roaming velocity vectors in all directions
-          const speed = 1.9 + Math.random() * 1.5;
-          const angle = Math.random() * Math.PI * 2;
-          const vx = Math.cos(angle) * speed;
-          const vy = Math.sin(angle) * speed;
-
-          layout.push({
-            ...skill,
-            id: idx,
-            x: baseX + (Math.random() - 0.5) * 10,
-            y: baseY + (Math.random() - 0.5) * 10,
-            vx,
-            vy,
-            savedVx: vx,
-            savedVy: vy,
-            currentR: baseR,
-            baseR,
-            mass: baseR * baseR,
-          });
-          idx++;
-        }
+        return GLASS_JARS_META.map((meta, i) => {
+          const x = sideMargin + i * (jarW + gap);
+          return {
+            ...meta,
+            x,
+            y: topY,
+            w: jarW,
+            h: jarHeight,
+            cx: x + jarW / 2,
+            cy: topY + jarHeight / 2,
+            bottomY: topY + jarHeight,
+            isMobile: true,
+          };
+        });
       }
-      return layout;
+
+      // Desktop & Tablet: 3 spacious frosted glass vessels
+      const sideMargin = Math.min(45, w * 0.05);
+      const totalAvailable = w - sideMargin * 2;
+      const maxJarW = Math.min(320, totalAvailable / 3 - 24);
+      const gap = (totalAvailable - maxJarW * 3) / 2;
+
+      return GLASS_JARS_META.map((meta, i) => {
+        const x = sideMargin + i * (maxJarW + gap);
+        return {
+          ...meta,
+          x,
+          y: topY,
+          w: maxJarW,
+          h: jarHeight,
+          cx: x + maxJarW / 2,
+          cy: topY + jarHeight / 2,
+          bottomY: topY + jarHeight,
+          isMobile: false,
+        };
+      });
     };
 
-    let nodes = createLayout(width, height);
+    let glassJars = getGlassJars(width, height);
+
+    // Calculate orderly, stable hexagonal-packed resting coordinates inside each jar
+    const getSlotPos = (jar, slotIndex) => {
+      const isMobile = jar.isMobile;
+      if (isMobile) {
+        // Mobile layout: 2 compact staggered columns
+        const row = Math.floor(slotIndex / 2);
+        const col = slotIndex % 2;
+        const colOffset = (col === 0 ? -1 : 1) * (jar.w * 0.22);
+        const rowPitch = Math.min(32, (jar.h - 50) / 6);
+        return {
+          x: jar.cx + colOffset,
+          y: jar.bottomY - 24 - row * rowPitch,
+        };
+      }
+
+      // Desktop layout: Stable hexagonal close-packing (Rows: 3, 2, 3, 2)
+      let row = 0;
+      let colOffset = 0;
+      const spread = jar.w * 0.28;
+      const valleySpread = jar.w * 0.15;
+
+      if (slotIndex <= 2) {
+        row = 0;
+        colOffset = slotIndex === 0 ? -spread : slotIndex === 1 ? 0 : spread;
+      } else if (slotIndex <= 4) {
+        row = 1;
+        colOffset = slotIndex === 3 ? -valleySpread : valleySpread;
+      } else if (slotIndex <= 7) {
+        row = 2;
+        const local = slotIndex - 5;
+        colOffset = local === 0 ? -spread : local === 1 ? 0 : spread;
+      } else {
+        row = 3;
+        const local = slotIndex - 8;
+        colOffset = local === 0 ? -valleySpread : valleySpread;
+      }
+
+      const rowPitch = Math.min(48, (jar.h - 70) / 4.6);
+      return {
+        x: jar.cx + colOffset,
+        y: jar.bottomY - 34 - row * rowPitch,
+      };
+    };
+
+    // Initial ball generation
+    const createNodes = (w) => {
+      const isMobile = w < 640;
+      const jarCounters = [0, 0, 0];
+
+      return RESUME_SKILLS.map((skill, idx) => {
+        const glassId = getSkillGlassId(skill);
+        const slotIndex = jarCounters[glassId]++;
+        const jar = glassJars[glassId];
+
+        const textLen = skill.name.length;
+        const baseR = isMobile
+          ? (textLen > 10 ? 17 : textLen > 6 ? 15 : 13.5)
+          : (textLen > 10 ? 25 : textLen > 6 ? 23 : 21);
+
+        // Initial free velocity
+        const speed = 1.6 + Math.random() * 1.5;
+        const angle = Math.random() * Math.PI * 2;
+        const vx = Math.cos(angle) * speed;
+        const vy = Math.sin(angle) * speed;
+
+        return {
+          ...skill,
+          id: idx,
+          glassId,
+          slotIndex,
+          x: jar.cx + (Math.random() - 0.5) * (jar.w * 0.7),
+          y: jar.cy + (Math.random() - 0.5) * (jar.h * 0.6),
+          vx,
+          vy,
+          savedVx: vx,
+          savedVy: vy,
+          currentR: baseR,
+          baseR,
+          mass: baseR * baseR,
+        };
+      });
+    };
+
+    let nodes = createNodes(width);
 
     // Mouse and interaction tracking
-    const mouse = { x: -1000, y: -1000, isDown: false, draggedNode: null, prevX: 0, prevY: 0 };
+    const mouse = { x: -1000, y: -1000, isDown: false, draggedNode: null };
     let hoveredNode = null;
     let isVisible = true;
 
-    // IntersectionObserver: Sleeps when off-screen to preserve 0% CPU
+    // IntersectionObserver to preserve 0% CPU off-screen
     const observer = new IntersectionObserver(
       ([entry]) => {
         isVisible = entry.isIntersecting;
       },
-      { rootMargin: '100px' }
+      { rootMargin: '80px' }
     );
     observer.observe(container);
 
-    // Resize Handler
     const handleResize = () => {
       if (!container) return;
       width = container.clientWidth;
-      height = container.clientHeight || 430;
+      height = container.clientHeight || 460;
       canvas.width = Math.floor(width * dpr);
       canvas.height = Math.floor(height * dpr);
       ctx.scale(dpr, dpr);
-      nodes = createLayout(width, height);
+      glassJars = getGlassJars(width, height);
     };
     window.addEventListener('resize', handleResize);
 
@@ -169,14 +331,11 @@ export default function FloatingSkillBalls() {
       mouse.isDown = true;
       mouse.x = pos.x;
       mouse.y = pos.y;
-      mouse.prevX = pos.x;
-      mouse.prevY = pos.y;
 
-      // Check if user clicked directly on a ball to drag it
       for (let i = nodes.length - 1; i >= 0; i--) {
         const n = nodes[i];
         const dist = Math.hypot(pos.x - n.x, pos.y - n.y);
-        if (dist <= n.currentR + 6) {
+        if (dist <= n.currentR + 8) {
           mouse.draggedNode = n;
           break;
         }
@@ -185,20 +344,36 @@ export default function FloatingSkillBalls() {
 
     const onPointerMove = (e) => {
       const pos = getPos(e);
-      mouse.prevX = mouse.x;
-      mouse.prevY = mouse.y;
       mouse.x = pos.x;
       mouse.y = pos.y;
+
+      // Automatically engage Stored In Glass Mode on cursor movement!
+      if (!isStoredRef.current) {
+        setIsStoredState(true);
+      }
+
+      // Check which glass jar is being hovered
+      let gHover = null;
+      for (let g = 0; g < glassJars.length; g++) {
+        const jar = glassJars[g];
+        if (
+          pos.x >= jar.x &&
+          pos.x <= jar.x + jar.w &&
+          pos.y >= jar.y &&
+          pos.y <= jar.bottomY
+        ) {
+          gHover = g;
+          break;
+        }
+      }
+      hoveredGlassIdx = gHover;
 
       if (mouse.draggedNode) {
         mouse.draggedNode.x = pos.x;
         mouse.draggedNode.y = pos.y;
-        mouse.draggedNode.vx = (pos.x - mouse.prevX) * 0.9;
-        mouse.draggedNode.vy = (pos.y - mouse.prevY) * 0.9;
-        mouse.draggedNode.savedVx = mouse.draggedNode.vx;
-        mouse.draggedNode.savedVy = mouse.draggedNode.vy;
+        mouse.draggedNode.vx = 0;
+        mouse.draggedNode.vy = 0;
       } else {
-        // Detect hovered node
         let found = null;
         for (let i = nodes.length - 1; i >= 0; i--) {
           const n = nodes[i];
@@ -210,29 +385,16 @@ export default function FloatingSkillBalls() {
         }
 
         if (found !== hoveredNode) {
-          // If leaving previous hovered node, unfreeze and resume motion!
           if (hoveredNode && !found) {
-            const spd = Math.hypot(hoveredNode.savedVx || 0, hoveredNode.savedVy || 0);
-            if (spd > 0.6) {
-              hoveredNode.vx = hoveredNode.savedVx;
-              hoveredNode.vy = hoveredNode.savedVy;
-            } else {
-              const ang = Math.random() * Math.PI * 2;
-              hoveredNode.vx = Math.cos(ang) * 2.2;
-              hoveredNode.vy = Math.sin(ang) * 2.2;
-            }
+            hoveredNode.vx = hoveredNode.savedVx || (Math.random() - 0.5) * 2;
+            hoveredNode.vy = hoveredNode.savedVy || (Math.random() - 0.5) * 2;
           }
-
-          // If entering newly hovered node, freeze completely!
           if (found) {
-            if (found.vx !== 0 || found.vy !== 0) {
-              found.savedVx = found.vx;
-              found.savedVy = found.vy;
-            }
+            found.savedVx = found.vx;
+            found.savedVy = found.vy;
             found.vx = 0;
             found.vy = 0;
           }
-
           hoveredNode = found;
           canvas.style.cursor = found ? 'pointer' : 'grab';
         }
@@ -245,22 +407,26 @@ export default function FloatingSkillBalls() {
       canvas.style.cursor = hoveredNode ? 'pointer' : 'grab';
     };
 
+    const onMouseEnter = () => {
+      setIsStoredState(true);
+    };
+
     const onMouseLeave = () => {
-      if (hoveredNode) {
-        const ang = Math.random() * Math.PI * 2;
-        hoveredNode.vx = hoveredNode.savedVx || Math.cos(ang) * 2.2;
-        hoveredNode.vy = hoveredNode.savedVy || Math.sin(ang) * 2.2;
+      if (!isLockedStoredRef.current) {
+        setIsStoredState(false);
       }
       mouse.x = -1000;
       mouse.y = -1000;
       mouse.isDown = false;
       mouse.draggedNode = null;
       hoveredNode = null;
+      hoveredGlassIdx = null;
       canvas.style.cursor = 'grab';
     };
 
     canvas.addEventListener('mousedown', onPointerDown);
     canvas.addEventListener('mousemove', onPointerMove);
+    canvas.addEventListener('mouseenter', onMouseEnter);
     canvas.addEventListener('mouseleave', onMouseLeave);
     window.addEventListener('mouseup', onPointerUp);
 
@@ -269,13 +435,12 @@ export default function FloatingSkillBalls() {
     window.addEventListener('touchend', onPointerUp);
 
     // ==========================================
-    // MAIN 60FPS FREE-ROAMING PHYSICS LOOP
+    // 60FPS PHYSICS & GLASS RENDER LOOP
     // ==========================================
     let lastTime = performance.now();
 
     const render = (currentTime) => {
       animId = requestAnimationFrame(render);
-
       if (!isVisible) return;
 
       const dt = Math.min((currentTime - lastTime) / 1000, 0.08);
@@ -283,222 +448,346 @@ export default function FloatingSkillBalls() {
 
       ctx.clearRect(0, 0, width, height);
 
-      const margin = 16;
+      const isStored = isStoredRef.current;
 
-      // 1. FREE-ROAMING MOTION & 4-WALL BOUNCING
+      // ==========================================
+      // LAYER 1: DRAW 3 FROSTED GLASS JARS (BACK WALL)
+      // ==========================================
+      for (let g = 0; g < glassJars.length; g++) {
+        const jar = glassJars[g];
+        const isHoveredGlass = hoveredGlassIdx === g;
+        const cornerR = jar.isMobile ? 14 : 22;
+
+        ctx.save();
+
+        // 1. Frosted Back Glass Body Path
+        ctx.beginPath();
+        ctx.moveTo(jar.x, jar.y + 16);
+        ctx.lineTo(jar.x, jar.bottomY - cornerR);
+        ctx.quadraticCurveTo(jar.x, jar.bottomY, jar.x + cornerR, jar.bottomY);
+        ctx.lineTo(jar.x + jar.w - cornerR, jar.bottomY);
+        ctx.quadraticCurveTo(jar.x + jar.w, jar.bottomY, jar.x + jar.w, jar.bottomY - cornerR);
+        ctx.lineTo(jar.x + jar.w, jar.y + 16);
+        ctx.closePath();
+
+        // Back Frosted Tint
+        ctx.fillStyle = isHoveredGlass
+          ? 'rgba(255, 255, 255, 0.72)'
+          : isStored
+          ? 'rgba(255, 255, 255, 0.58)'
+          : 'rgba(255, 255, 255, 0.35)';
+        ctx.fill();
+
+        // Ambient Liquid / Energy Pool at Bottom
+        const liquidGrad = ctx.createLinearGradient(
+          0,
+          jar.bottomY - jar.h * 0.45,
+          0,
+          jar.bottomY
+        );
+        liquidGrad.addColorStop(0, 'rgba(255, 255, 255, 0)');
+        liquidGrad.addColorStop(
+          1,
+          isHoveredGlass ? jar.accentGlow : isStored ? 'rgba(2, 132, 199, 0.12)' : 'rgba(2, 132, 199, 0.04)'
+        );
+        ctx.fillStyle = liquidGrad;
+        ctx.fill();
+
+        // Measurement Graduation Ticks along Left Edge
+        if (!jar.isMobile) {
+          ctx.strokeStyle = 'rgba(15, 23, 42, 0.2)';
+          ctx.lineWidth = 1.2;
+          ctx.fillStyle = 'rgba(100, 116, 139, 0.75)';
+          ctx.font = '600 8.5px "JetBrains Mono", monospace';
+          ctx.textAlign = 'left';
+
+          const ticks = [0.25, 0.5, 0.75, 0.9];
+          const labels = ['25%', '50%', '75%', 'MAX'];
+          ticks.forEach((frac, idx) => {
+            const ty = jar.bottomY - jar.h * frac * 0.75;
+            ctx.beginPath();
+            ctx.moveTo(jar.x + 3, ty);
+            ctx.lineTo(jar.x + 12, ty);
+            ctx.stroke();
+            ctx.fillText(labels[idx], jar.x + 15, ty + 3);
+          });
+        }
+
+        ctx.restore();
+      }
+
+      // ==========================================
+      // LAYER 2: BALL PHYSICS & DRAWING
+      // ==========================================
       for (let i = 0; i < N; i++) {
         const node = nodes[i];
         const isHover = hoveredNode === node;
+        const targetJar = glassJars[node.glassId];
 
         if (node === mouse.draggedNode) {
           continue;
         }
 
         if (isHover) {
-          // WHEN CURSOR IS KEPT ON THIS BALL -> COMPLETELY FROZEN & STOPPED!
           node.vx = 0;
           node.vy = 0;
-          const targetR = node.baseR * 1.25;
+          const targetR = node.baseR * 1.22;
           node.currentR += (targetR - node.currentR) * 0.3;
-          continue; // Skips all movement updates while cursor is kept on this ball!
-        }
+        } else {
+          node.currentR += (node.baseR - node.currentR) * 0.18;
 
-        // Return radius to base smoothly
-        node.currentR += (node.baseR - node.currentR) * 0.2;
+          if (isStored) {
+            // ==========================================
+            // STORED IN GLASS MODE: Settle into stable resting slots!
+            // ==========================================
+            const slot = getSlotPos(targetJar, node.slotIndex);
+            const targetX = slot.x;
+            const targetY = slot.y;
 
-        // Keep velocity brisk and energetic
-        const speed = Math.hypot(node.vx, node.vy);
-        if (speed < 1.7) {
-          const factor = 2.2 / (speed || 1);
-          node.vx *= factor;
-          node.vy *= factor;
-        } else if (speed > 3.8) {
-          const factor = 3.8 / speed;
-          node.vx *= factor;
-          node.vy *= factor;
-        }
+            const dx = targetX - node.x;
+            const dy = targetY - node.y;
+            const dist = Math.hypot(dx, dy);
 
-        // Free motion anywhere across the canvas!
-        node.x += node.vx * 60 * dt;
-        node.y += node.vy * 60 * dt;
+            if (dist > 0.8) {
+              // Critically damped spring pull toward stable target slot
+              const pull = Math.min(0.14, 0.05 + dist * 0.0003);
+              node.vx += dx * pull;
+              node.vy += dy * pull;
 
-        // Wall collisions - bounce off all 4 edges!
-        const r = node.currentR;
+              // Heavy fluid damping to settle smoothly without overshoot or oscillation
+              node.vx *= 0.82;
+              node.vy *= 0.82;
 
-        // Left wall
-        if (node.x - r < margin) {
-          node.x = margin + r;
-          node.vx = Math.abs(node.vx);
-        }
-        // Right wall
-        else if (node.x + r > width - margin) {
-          node.x = width - margin - r;
-          node.vx = -Math.abs(node.vx);
-        }
-
-        // Top wall
-        if (node.y - r < margin) {
-          node.y = margin + r;
-          node.vy = Math.abs(node.vy);
-        }
-        // Bottom wall
-        else if (node.y + r > height - margin) {
-          node.y = height - margin - r;
-          node.vy = -Math.abs(node.vy);
-        }
-      }
-
-      // 2. BALL-TO-BALL ELASTIC COLLISIONS (Bounce off each other)
-      for (let i = 0; i < N; i++) {
-        const b1 = nodes[i];
-
-        for (let j = i + 1; j < N; j++) {
-          const b2 = nodes[j];
-          const dx = b2.x - b1.x;
-          const dy = b2.y - b1.y;
-          const dist = Math.hypot(dx, dy);
-          const minDist = b1.currentR + b2.currentR + 3;
-
-          if (dist < minDist && dist > 0) {
-            const overlap = (minDist - dist);
-            const nx = dx / dist;
-            const ny = dy / dist;
-
-            const b1Hover = hoveredNode === b1;
-            const b2Hover = hoveredNode === b2;
-
-            if (b1Hover) {
-              // b1 is frozen: b2 bounces off b1 like a solid obstacle
-              b2.x += nx * overlap;
-              b2.y += ny * overlap;
-              const dot = b2.vx * nx + b2.vy * ny;
-              b2.vx -= 2 * dot * nx;
-              b2.vy -= 2 * dot * ny;
-            } else if (b2Hover) {
-              // b2 is frozen: b1 bounces off b2 like a solid obstacle
-              b1.x -= nx * overlap;
-              b1.y -= ny * overlap;
-              const dot = b1.vx * nx + b1.vy * ny;
-              b1.vx -= 2 * dot * nx;
-              b1.vy -= 2 * dot * ny;
+              node.x += node.vx * 60 * dt;
+              node.y += node.vy * 60 * dt;
             } else {
-              // Both balls are free: resolve overlap equally
-              b1.x -= nx * overlap * 0.5;
-              b1.y -= ny * overlap * 0.5;
-              b2.x += nx * overlap * 0.5;
-              b2.y += ny * overlap * 0.5;
+              // Snap to exact resting position - 100% stable, zero velocity, zero jitter!
+              node.x = targetX;
+              node.y = targetY;
+              node.vx = 0;
+              node.vy = 0;
+            }
+          } else {
+            // ==========================================
+            // FREE ROAMING MODE: Drift across full arena!
+            // ==========================================
+            const speed = Math.hypot(node.vx, node.vy);
+            if (speed < 1.4) {
+              // Wake up from stationary stored state with an outward angle
+              const angle = node.id * 1.37 + node.slotIndex * 0.8;
+              const pushSpeed = 1.8 + (node.id % 3) * 0.4;
+              node.vx = Math.cos(angle) * pushSpeed;
+              node.vy = Math.sin(angle) * pushSpeed;
+            } else if (speed > 3.4) {
+              const factor = 3.4 / speed;
+              node.vx *= factor;
+              node.vy *= factor;
+            }
 
-              // 2D Elastic momentum exchange
-              const kx = b1.vx - b2.vx;
-              const ky = b1.vy - b2.vy;
-              const p = 2 * (nx * kx + ny * ky) / (b1.mass + b2.mass);
+            node.x += node.vx * 60 * dt;
+            node.y += node.vy * 60 * dt;
 
-              b1.vx -= p * b2.mass * nx;
-              b1.vy -= p * b2.mass * ny;
-              b2.vx += p * b1.mass * nx;
-              b2.vy += p * b1.mass * ny;
+            // Bounce off all 4 outer canvas walls
+            const r = node.currentR;
+            const margin = 16;
+            if (node.x - r < margin) {
+              node.x = margin + r;
+              node.vx = Math.abs(node.vx);
+            } else if (node.x + r > width - margin) {
+              node.x = width - margin - r;
+              node.vx = -Math.abs(node.vx);
+            }
+
+            if (node.y - r < margin + 25) {
+              node.y = margin + 25 + r;
+              node.vy = Math.abs(node.vy);
+            } else if (node.y + r > height - margin) {
+              node.y = height - margin - r;
+              node.vy = -Math.abs(node.vy);
             }
           }
         }
       }
 
-      // 3. RENDER VIBRANT 3D COLORED BALLS
+      // Inter-ball collision resolution (soft push)
+      // Only active during free-roaming mode, or if a ball is actively being dragged.
+      // In stored mode, the pre-calculated hexagonal slots are already non-overlapping,
+      // so skipping collision pushes guarantees 100% rock-solid stability with zero jitter!
+      if (!isStored || mouse.draggedNode) {
+        for (let i = 0; i < N; i++) {
+          for (let j = i + 1; j < N; j++) {
+            const n1 = nodes[i];
+            const n2 = nodes[j];
+            const dx = n2.x - n1.x;
+            const dy = n2.y - n1.y;
+            const dist = Math.hypot(dx, dy);
+            const minDist = n1.currentR + n2.currentR + 3;
+
+            if (dist < minDist && dist > 0.001) {
+              const overlap = (minDist - dist) * 0.5;
+              const nx = dx / dist;
+              const ny = dy / dist;
+
+              if (n1 !== mouse.draggedNode) {
+                n1.x -= nx * overlap;
+                n1.y -= ny * overlap;
+              }
+              if (n2 !== mouse.draggedNode) {
+                n2.x += nx * overlap;
+                n2.y += ny * overlap;
+              }
+            }
+          }
+        }
+      }
+
+      // DRAW BALLS
       for (let i = 0; i < N; i++) {
         const node = nodes[i];
-        const r = node.currentR;
+        const isHover = hoveredNode === node;
         const x = node.x;
         const y = node.y;
-        const isHover = hoveredNode === node;
+        const r = node.currentR;
 
         ctx.save();
 
-        // A. Soft Floor Drop Shadow Underneath
-        ctx.beginPath();
-        ctx.arc(x + 2.5, y + 5, r * 0.95, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(0, 4, 15, 0.45)';
-        ctx.fill();
-
-        // B. Hover Luminous Neon Halo Ring
+        // Outer glow
         if (isHover) {
-          ctx.beginPath();
-          ctx.arc(x, y, r + 6, 0, Math.PI * 2);
-          ctx.fillStyle = node.color + '55';
-          ctx.fill();
-
-          ctx.beginPath();
-          ctx.arc(x, y, r + 2, 0, Math.PI * 2);
-          ctx.strokeStyle = '#ffffff';
-          ctx.lineWidth = 2.5;
-          ctx.stroke();
+          ctx.shadowColor = node.colorLight || '#38bdf8';
+          ctx.shadowBlur = 18;
+        } else {
+          ctx.shadowColor = 'rgba(15, 23, 42, 0.16)';
+          ctx.shadowBlur = 8;
+          ctx.shadowOffsetY = 3;
         }
 
-        // C. 3D Spherical Volume with Signature Color Gradient
-        ctx.beginPath();
-        ctx.arc(x, y, r, 0, Math.PI * 2);
-
-        // Directional Key Light from top-left (creates real 3D depth)
-        const lightX = x - r * 0.35;
-        const lightY = y - r * 0.35;
-        const sphereGrad = ctx.createRadialGradient(
-          lightX,
-          lightY,
+        // 3D Spherical Radial Gradient
+        const ballGrad = ctx.createRadialGradient(
+          x - r * 0.32,
+          y - r * 0.32,
           r * 0.08,
           x,
           y,
           r
         );
+        ballGrad.addColorStop(0, node.colorLight || '#ffffff');
+        ballGrad.addColorStop(0.5, node.color);
+        ballGrad.addColorStop(1, node.colorDark || '#0f172a');
 
-        if (isHover) {
-          sphereGrad.addColorStop(0, '#ffffff');
-          sphereGrad.addColorStop(0.25, node.colorLight);
-          sphereGrad.addColorStop(0.7, node.color);
-          sphereGrad.addColorStop(1, node.colorDark);
-        } else {
-          sphereGrad.addColorStop(0, '#ffffff');
-          sphereGrad.addColorStop(0.2, node.colorLight);
-          sphereGrad.addColorStop(0.68, node.color);
-          sphereGrad.addColorStop(1, node.colorDark);
-        }
-
-        ctx.fillStyle = sphereGrad;
-        ctx.fill();
-
-        // D. Top-Left Specular Glint (Gloss Reflection)
         ctx.beginPath();
-        ctx.arc(x - r * 0.4, y - r * 0.4, r * 0.18, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
+        ctx.arc(x, y, r, 0, Math.PI * 2);
+        ctx.fillStyle = ballGrad;
         ctx.fill();
 
-        // E. Polished Edge Bevel Rim
-        ctx.lineWidth = isHover ? 2.5 : 1.2;
-        ctx.strokeStyle = isHover
-          ? '#ffffff'
-          : 'rgba(255, 255, 255, 0.45)';
+        // Clean white/translucent border ring
+        ctx.lineWidth = isHover ? 2.5 : 1.4;
+        ctx.strokeStyle = isHover ? '#ffffff' : 'rgba(255, 255, 255, 0.85)';
         ctx.stroke();
 
-        // F. Clean High-Contrast Typography
+        // Specular highlight crescent
+        ctx.beginPath();
+        ctx.arc(x - r * 0.28, y - r * 0.28, r * 0.38, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.38)';
+        ctx.fill();
+
+        // Typography
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-
-        ctx.shadowColor = 'rgba(0, 0, 0, 0.85)';
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.9)';
         ctx.shadowBlur = 3;
         ctx.shadowOffsetX = 0.5;
         ctx.shadowOffsetY = 1;
-
-        ctx.fillStyle = node.textColor || '#ffffff';
+        ctx.fillStyle = '#ffffff';
 
         const lines = node.lines;
         if (lines.length === 1) {
-          const fontSize = Math.max(9.5, Math.min(13.5, Math.floor(r * 0.35)));
+          const fontSize = Math.max(8.5, Math.min(13, Math.floor(r * 0.36)));
           ctx.font = `800 ${fontSize}px system-ui, -apple-system, sans-serif`;
           ctx.fillText(lines[0], x, y + 0.5);
         } else {
-          const fontSize = Math.max(8.5, Math.min(11.5, Math.floor(r * 0.29)));
+          const fontSize = Math.max(7.5, Math.min(11, Math.floor(r * 0.30)));
           ctx.font = `800 ${fontSize}px system-ui, -apple-system, sans-serif`;
           const lineSpacing = fontSize * 1.15;
           ctx.fillText(lines[0], x, y - lineSpacing * 0.48);
           ctx.fillText(lines[1], x, y + lineSpacing * 0.58);
         }
+
+        ctx.restore();
+      }
+
+      // ==========================================
+      // LAYER 3: DRAW 3 FROSTED GLASS JARS (FRONT WALL & SHINE)
+      // ==========================================
+      for (let g = 0; g < glassJars.length; g++) {
+        const jar = glassJars[g];
+        const isHoveredGlass = hoveredGlassIdx === g;
+        const cornerR = jar.isMobile ? 14 : 22;
+
+        ctx.save();
+
+        // 1. Front Glass Specular Reflection Stripe down right wall
+        const shineGrad = ctx.createLinearGradient(
+          jar.x + jar.w * 0.78,
+          0,
+          jar.x + jar.w * 0.90,
+          0
+        );
+        shineGrad.addColorStop(0, 'rgba(255, 255, 255, 0)');
+        shineGrad.addColorStop(0.5, isHoveredGlass ? 'rgba(255, 255, 255, 0.65)' : 'rgba(255, 255, 255, 0.35)');
+        shineGrad.addColorStop(1, 'rgba(255, 255, 255, 0)');
+
+        ctx.fillStyle = shineGrad;
+        ctx.fillRect(jar.x + jar.w * 0.76, jar.y + 16, jar.w * 0.16, jar.h - 24);
+
+        // 2. Crisp Glass Vessel Outline
+        ctx.beginPath();
+        ctx.moveTo(jar.x, jar.y + 16);
+        ctx.lineTo(jar.x, jar.bottomY - cornerR);
+        ctx.quadraticCurveTo(jar.x, jar.bottomY, jar.x + cornerR, jar.bottomY);
+        ctx.lineTo(jar.x + jar.w - cornerR, jar.bottomY);
+        ctx.quadraticCurveTo(jar.x + jar.w, jar.bottomY, jar.x + jar.w, jar.bottomY - cornerR);
+        ctx.lineTo(jar.x + jar.w, jar.y + 16);
+
+        ctx.lineWidth = isHoveredGlass ? 2.2 : 1.5;
+        ctx.strokeStyle = isHoveredGlass ? jar.accent : 'rgba(203, 213, 225, 0.9)';
+        ctx.stroke();
+
+        // 3. Top Open Lip Ellipse
+        ctx.beginPath();
+        ctx.ellipse(jar.cx, jar.y + 16, jar.w / 2, 7, 0, 0, Math.PI * 2);
+        ctx.lineWidth = 1.8;
+        ctx.strokeStyle = isHoveredGlass ? jar.accent : 'rgba(255, 255, 255, 0.95)';
+        ctx.stroke();
+
+        // 4. Top Header Label Tag (Title & Icon)
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+
+        // Tag Pill Background
+        const tagW = Math.min(jar.w - 12, jar.isMobile ? 100 : 190);
+        const tagH = jar.isMobile ? 22 : 26;
+        const tagY = jar.y - tagH / 2 + 2;
+
+        ctx.fillStyle = '#ffffff';
+        ctx.shadowColor = 'rgba(15, 23, 42, 0.08)';
+        ctx.shadowBlur = 8;
+        ctx.beginPath();
+        ctx.roundRect(jar.cx - tagW / 2, tagY, tagW, tagH, tagH / 2);
+        ctx.fill();
+
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = isHoveredGlass ? jar.accent : 'rgba(226, 232, 240, 0.9)';
+        ctx.stroke();
+
+        ctx.shadowColor = 'transparent';
+        ctx.fillStyle = '#0f172a';
+        ctx.font = jar.isMobile
+          ? '700 9px system-ui, sans-serif'
+          : '700 11.5px system-ui, sans-serif';
+        const labelText = jar.isMobile
+          ? `${jar.icon} ${jar.title.split(' ')[0]}`
+          : `${jar.icon} ${jar.title}`;
+        ctx.fillText(labelText, jar.cx, tagY + tagH / 2);
 
         ctx.restore();
       }
@@ -512,6 +801,7 @@ export default function FloatingSkillBalls() {
       window.removeEventListener('resize', handleResize);
       canvas.removeEventListener('mousedown', onPointerDown);
       canvas.removeEventListener('mousemove', onPointerMove);
+      canvas.removeEventListener('mouseenter', onMouseEnter);
       canvas.removeEventListener('mouseleave', onMouseLeave);
       window.removeEventListener('mouseup', onPointerUp);
       canvas.removeEventListener('touchstart', onPointerDown);
@@ -523,15 +813,41 @@ export default function FloatingSkillBalls() {
   return (
     <div
       ref={containerRef}
-      className="relative w-full h-[360px] sm:h-[400px] md:h-[420px] rounded-2xl bg-transparent overflow-hidden mt-1 mb-0 select-none group [transform:translateZ(0)]"
+      className="relative w-full h-[410px] sm:h-[450px] md:h-[480px] rounded-2xl bg-transparent overflow-hidden mt-2 mb-2 select-none group"
     >
-      {/* Central Ambient Depth Glow */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(6,182,212,0.1)_0%,transparent_75%)] pointer-events-none" />
+      {/* Interactive Storage Status Pill */}
+      <div className="absolute top-1 inset-x-0 z-20 flex justify-center pointer-events-auto">
+        <button
+          type="button"
+          onClick={() => setIsLockedStored(!isLockedStored)}
+          title="Click to toggle or lock storage mode"
+          className={`px-4 py-1 rounded-full text-xs font-semibold backdrop-blur-md transition-all shadow-sm border flex items-center gap-2 cursor-pointer ${
+            isStoredState || isLockedStored
+              ? 'bg-sky-50/90 border-sky-300 text-[#0284C7] shadow-sky-500/10'
+              : 'bg-white/80 border-slate-200 text-slate-600 hover:text-slate-900'
+          }`}
+        >
+          <span>{isStoredState || isLockedStored ? '🧪' : '✨'}</span>
+          <span>
+            {isStoredState || isLockedStored
+              ? 'Stored in 3 Glass Vessels • Hovering'
+              : 'Free Floating • Move cursor in to Store'}
+          </span>
+          {isLockedStored && (
+            <span className="text-[10px] bg-[#0284C7] text-white px-1.5 py-0.2 rounded-full font-mono">
+              LOCKED
+            </span>
+          )}
+        </button>
+      </div>
 
-      {/* Main 2D/3D Floating Canvas */}
+      {/* Central Ambient Depth Glow */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(6,182,212,0.08)_0%,transparent_75%)] pointer-events-none" />
+
+      {/* Main 2D/3D Canvas with 3 Glass Jars */}
       <canvas
         ref={canvasRef}
-        className="relative z-10 w-full h-full cursor-grab active:cursor-grabbing block [transform:translateZ(0)]"
+        className="relative z-10 w-full h-full cursor-grab active:cursor-grabbing block"
       />
     </div>
   );

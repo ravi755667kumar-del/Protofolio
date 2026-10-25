@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { triggerTornPaperReveal } from '../utils/tornPaperTrigger';
+import HeroBrain3D from './HeroBrain3D';
 
 const promptPlaceholders = [
   'Detecting brain tumors with CNN...',
@@ -113,25 +114,9 @@ export default function Hero() {
             <div>0100 0101 1001 0110</div>
           </div>
 
-          {/* AI Brain Image */}
-          <div
-            className="relative w-[280px] sm:w-[360px] md:w-[430px] lg:w-[490px] h-[280px] sm:h-[360px] md:h-[430px] lg:h-[490px] -mr-6 -mt-4 opacity-85"
-            style={{
-              maskImage: 'radial-gradient(ellipse at 80% 20%, black 50%, rgba(0,0,0,0.65) 72%, transparent 92%)',
-              WebkitMaskImage: 'radial-gradient(ellipse at 80% 20%, black 50%, rgba(0,0,0,0.65) 72%, transparent 92%)',
-            }}
-          >
-            <img
-              src="/ai-brain-transparent.png"
-              alt="AI Brain Circuit Background"
-              className="w-full h-full object-contain filter drop-shadow-[0_0_25px_rgba(2,132,199,0.4)] contrast-105"
-              style={{
-                animation: 'neuralPulse 4s ease-in-out infinite',
-              }}
-              onError={(e) => {
-                e.currentTarget.src = '/ai-brain.png';
-              }}
-            />
+          {/* Dynamic 3D Neural Brain with Real-Time Mint/Teal/Cyan Color Transitions */}
+          <div className="relative w-[280px] sm:w-[360px] md:w-[440px] lg:w-[500px] h-[280px] sm:h-[360px] md:h-[440px] lg:h-[500px] -mr-4 -mt-2">
+            <HeroBrain3D mousePos={mousePos} />
           </div>
 
           <div className="absolute top-6 right-6 w-16 h-16 border-t border-r border-sky-400/30 rounded-tr-xl pointer-events-none" />
