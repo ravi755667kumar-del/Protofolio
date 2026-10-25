@@ -3,7 +3,6 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Mail, MapPin, Sparkles, Send, Phone } from 'lucide-react';
 import IdCard from './IdCard';
-import { triggerTornPaperReveal } from '../utils/tornPaperTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -24,14 +23,14 @@ function GithubIcon(props) {
 }
 
 const skillIcons = [
-  { label: 'Py', name: 'Python', bg: '#1e3a5f', text: '#38bdf8' },
-  { label: 'TF', name: 'TensorFlow', bg: '#43281c', text: '#fb923c' },
-  { label: 'Sk', name: 'Scikit-Learn', bg: '#1e293b', text: '#94a3b8' },
-  { label: 'Dj', name: 'Django', bg: '#064e3b', text: '#34d399' },
-  { label: 'FA', name: 'FastAPI', bg: '#042f2e', text: '#2dd4bf' },
-  { label: 'Re', name: 'React', bg: '#082f49', text: '#38bdf8' },
-  { label: 'Dk', name: 'Docker', bg: '#0c4a6e', text: '#60a5fa' },
-  { label: 'SQL', name: 'SQL', bg: '#312e81', text: '#a78bfa' },
+  { label: 'Py', name: 'Python', bg: '#0284c7', text: '#ffffff' },
+  { label: 'TF', name: 'TensorFlow', bg: '#ea580c', text: '#ffffff' },
+  { label: 'Sk', name: 'Scikit-Learn', bg: '#0f766e', text: '#ffffff' },
+  { label: 'Dj', name: 'Django', bg: '#047857', text: '#ffffff' },
+  { label: 'FA', name: 'FastAPI', bg: '#0d9488', text: '#ffffff' },
+  { label: 'Re', name: 'React', bg: '#0284c7', text: '#ffffff' },
+  { label: 'Dk', name: 'Docker', bg: '#2563eb', text: '#ffffff' },
+  { label: 'SQL', name: 'SQL', bg: '#4f46e5', text: '#ffffff' },
 ];
 
 export default function About() {
@@ -39,7 +38,6 @@ export default function About() {
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      // Entrance animation for left column content
       gsap.from('.about-left-col', {
         scrollTrigger: {
           trigger: sectionRef.current,
@@ -52,7 +50,6 @@ export default function About() {
         clearProps: 'all',
       });
 
-      // Entrance animation for ID card
       gsap.from('.about-id-col', {
         scrollTrigger: {
           trigger: sectionRef.current,
@@ -65,7 +62,6 @@ export default function About() {
         clearProps: 'all',
       });
 
-      // Sub-cards entrance
       gsap.from('.about-sub-card', {
         scrollTrigger: {
           trigger: sectionRef.current,
@@ -87,75 +83,72 @@ export default function About() {
     <section
       ref={sectionRef}
       id="about"
-      className="relative min-h-screen flex flex-col justify-center pt-20 pb-12 px-4 sm:px-6 lg:px-8 bg-[#050914] text-slate-100 overflow-hidden border-t border-cyan-500/10"
+      className="relative min-h-screen flex flex-col justify-center pt-24 pb-16 px-4 sm:px-6 lg:px-8 bg-[#F8FAFC] text-slate-800 overflow-hidden border-t border-slate-200/80"
     >
-      {/* Ambient Cybernetic Corner Glows */}
-      <div className="absolute top-1/4 -left-32 w-96 h-96 bg-indigo-600/10 rounded-full blur-[140px] pointer-events-none" />
-      <div className="absolute bottom-10 -right-32 w-96 h-96 bg-rose-600/10 rounded-full blur-[160px] pointer-events-none" />
+      {/* Ambient subtle light glows */}
+      <div className="absolute top-1/4 -left-32 w-96 h-96 bg-sky-200/35 rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute bottom-10 -right-32 w-96 h-96 bg-teal-200/30 rounded-full blur-[160px] pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto space-y-6 w-full">
+      <div className="max-w-7xl mx-auto space-y-8 w-full relative z-10">
         {/* ========================================================
-           MAIN CONTAINER: MATCHING USER REFERENCE IMAGE
-           (Behind the Visuals / ID Card with Rope & Let's Connect)
+           MAIN CONTAINER: Executive Light Theme
            ======================================================== */}
-        <div className="rounded-[32px] bg-gradient-to-br from-[#0c1322]/95 via-[#080d19]/95 to-[#050812]/98 border border-white/10 p-6 sm:p-8 lg:p-10 shadow-[0_25px_70px_rgba(0,0,0,0.7)] backdrop-blur-2xl">
+        <div className="rounded-[32px] bg-white border border-slate-200/90 p-6 sm:p-8 lg:p-10 shadow-[0_20px_50px_rgba(15,23,42,0.06)]">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
             
-            {/* ========================================================
-               LEFT COLUMN: "Behind the AI" + Bio + "Let's Connect" + Hire Pill
-               ======================================================== */}
+            {/* LEFT COLUMN: Bio + Connect + Hire Pill */}
             <div className="about-left-col lg:col-span-7 space-y-6">
               
               {/* Heading */}
               <div className="space-y-2">
-                <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-rose-500/10 border border-rose-500/25 text-rose-300 text-xs font-mono font-bold tracking-widest uppercase">
-                  <Sparkles className="w-3.5 h-3.5 text-rose-400" />
+                <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-sky-50 border border-sky-200 text-[#0284C7] text-xs font-mono font-bold tracking-widest uppercase shadow-xs">
+                  <Sparkles className="w-3.5 h-3.5 text-[#0284C7]" />
                   <span>About The Developer</span>
                 </div>
-                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight leading-tight">
-                  Behind the <span className="bg-gradient-to-r from-rose-400 via-pink-400 to-amber-300 bg-clip-text text-transparent">AI &amp; Code</span>
+                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight leading-tight">
+                  Behind the <span className="bg-gradient-to-r from-[#0284C7] via-sky-600 to-teal-600 bg-clip-text text-transparent">AI &amp; Code</span>
                 </h2>
               </div>
 
-              {/* Bio Paragraphs (Matching Exact Updated Resume) */}
-              <div className="space-y-4 text-slate-300 text-sm sm:text-base leading-relaxed font-light">
+              {/* Bio Paragraphs */}
+              <div className="space-y-4 text-slate-600 text-sm sm:text-base leading-relaxed">
                 <p>
-                  Final-year B.Tech student in <strong className="text-white font-semibold">Artificial Intelligence &amp; Data Science</strong> at Grace College of Engineering with hands-on experience in deep learning, natural language processing, and generative AI.
+                  Final-year B.Tech student in <strong className="text-slate-900 font-semibold">Artificial Intelligence &amp; Data Science</strong> at Grace College of Engineering with hands-on experience in deep learning, natural language processing, and generative AI.
                 </p>
                 <p>
-                  Built a <strong className="text-cyan-300 font-semibold">TensorFlow CNN brain tumor classifier</strong> for MRI scans, a <strong className="text-rose-300 font-semibold">RAG-powered conversational chatbot</strong>, an ML recommendation engine, and integrated production models into Django &amp; FastAPI web services. Seeking an entry-level AI Developer role to engineer practical, scalable AI solutions.
+                  Built a <strong className="text-[#0284C7] font-semibold">TensorFlow CNN brain tumor classifier</strong> for MRI scans, a <strong className="text-sky-600 font-semibold">RAG-powered conversational chatbot</strong>, an ML recommendation engine, and integrated production models into Django &amp; FastAPI web services. Seeking an entry-level AI Developer role to engineer practical, scalable AI solutions.
                 </p>
               </div>
 
-              {/* "Let's Connect" Section (Matching Reference Layout) */}
-              <div className="space-y-4 pt-2 border-t border-white/10">
-                <h3 className="text-xl sm:text-2xl font-black text-white tracking-tight flex items-center gap-2">
+              {/* "Let's Connect" Section */}
+              <div className="space-y-4 pt-3 border-t border-slate-200">
+                <h3 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight flex items-center gap-2">
                   <span>Let's Connect</span>
-                  <span className="w-2 h-2 rounded-full bg-rose-500 animate-pulse" />
+                  <span className="w-2 h-2 rounded-full bg-[#0284C7] animate-pulse" />
                 </h3>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 text-xs sm:text-sm text-slate-300 font-mono">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 text-xs sm:text-sm text-slate-700 font-mono">
                   {/* Email */}
                   <a
                     href="mailto:Ravikumar755667@gmail.com"
-                    className="flex items-center gap-2.5 p-2.5 rounded-xl bg-white/5 border border-white/10 hover:border-rose-400/50 hover:bg-white/10 transition-all truncate group"
+                    className="flex items-center gap-2.5 p-2.5 rounded-xl bg-slate-50 border border-slate-200 hover:border-[#0284C7] hover:bg-sky-50/50 transition-all truncate group shadow-xs"
                   >
-                    <Mail className="w-4 h-4 text-rose-400 flex-shrink-0 group-hover:scale-110 transition-transform" />
+                    <Mail className="w-4 h-4 text-[#0284C7] flex-shrink-0 group-hover:scale-110 transition-transform" />
                     <span className="truncate">Ravikumar755667@gmail.com</span>
                   </a>
 
                   {/* Phone */}
                   <a
                     href="tel:+917464059133"
-                    className="flex items-center gap-2.5 p-2.5 rounded-xl bg-white/5 border border-white/10 hover:border-emerald-400/50 hover:bg-white/10 transition-all truncate group"
+                    className="flex items-center gap-2.5 p-2.5 rounded-xl bg-slate-50 border border-slate-200 hover:border-emerald-600 hover:bg-emerald-50/50 transition-all truncate group shadow-xs"
                   >
-                    <Phone className="w-4 h-4 text-emerald-400 flex-shrink-0 group-hover:scale-110 transition-transform" />
+                    <Phone className="w-4 h-4 text-emerald-600 flex-shrink-0 group-hover:scale-110 transition-transform" />
                     <span className="truncate">+91 7464059133</span>
                   </a>
 
                   {/* Location */}
-                  <div className="flex items-center gap-2.5 p-2.5 rounded-xl bg-white/5 border border-white/10 truncate">
-                    <MapPin className="w-4 h-4 text-rose-400 flex-shrink-0" />
+                  <div className="flex items-center gap-2.5 p-2.5 rounded-xl bg-slate-50 border border-slate-200 truncate shadow-xs">
+                    <MapPin className="w-4 h-4 text-[#0284C7] flex-shrink-0" />
                     <span className="truncate">Tuticorin, Tamil Nadu 628005</span>
                   </div>
 
@@ -164,20 +157,19 @@ export default function About() {
                     href="https://github.com/ravi755667kumar-del"
                     target="_blank"
                     rel="noreferrer"
-                    className="flex items-center gap-2.5 p-2.5 rounded-xl bg-white/5 border border-white/10 hover:border-purple-400/50 hover:bg-white/10 transition-all truncate group"
+                    className="flex items-center gap-2.5 p-2.5 rounded-xl bg-slate-50 border border-slate-200 hover:border-[#0284C7] hover:bg-sky-50/50 transition-all truncate group shadow-xs"
                   >
-                    <GithubIcon className="w-4 h-4 text-purple-400 flex-shrink-0 group-hover:scale-110 transition-transform" />
+                    <GithubIcon className="w-4 h-4 text-[#0284C7] flex-shrink-0 group-hover:scale-110 transition-transform" />
                     <span className="truncate">github.com/ravi755667kumar-del</span>
                   </a>
                 </div>
               </div>
 
-              {/* Floating Hire Capsule Pill (Matching Bottom Pill in Reference Image) */}
+              {/* Floating Hire Capsule Pill */}
               <div className="pt-2">
-                <div className="inline-flex flex-wrap items-center justify-between gap-4 p-2.5 pr-3.5 rounded-2xl bg-gradient-to-r from-slate-900/95 via-slate-800/90 to-slate-900/95 border border-white/15 shadow-2xl backdrop-blur-xl">
+                <div className="inline-flex flex-wrap items-center justify-between gap-4 p-2.5 pr-3.5 rounded-2xl bg-slate-50 border border-slate-200/90 shadow-md">
                   <div className="flex items-center gap-3">
-                    {/* Mini Avatar in Pill */}
-                    <div className="relative w-10 h-10 rounded-full overflow-hidden border-2 border-white/60 bg-rose-500/20 flex-shrink-0">
+                    <div className="relative w-10 h-10 rounded-full overflow-hidden border-2 border-slate-200 bg-sky-100 flex-shrink-0">
                       <img
                         src="/homeimg-nobg.png"
                         alt="Ravi"
@@ -186,40 +178,33 @@ export default function About() {
                           e.currentTarget.src = '/profile.jpg';
                         }}
                       />
-                      <span className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-400 border border-slate-900" />
+                      <span className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-500 border border-white" />
                     </div>
 
                     <div className="text-left">
-                      <p className="text-xs sm:text-sm font-bold text-white leading-tight">
+                      <p className="text-xs sm:text-sm font-bold text-slate-900 leading-tight">
                         Ravi is available for hire
                       </p>
-                      <p className="text-[10px] font-mono text-emerald-400">
+                      <p className="text-[10px] font-mono text-emerald-600 font-semibold">
                         ● Open for AI/ML roles
                       </p>
                     </div>
                   </div>
 
-                  {/* Hire Pill Button */}
+                  {/* Direct Email Hire Pill Button */}
                   <a
-                    href="#contact"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      triggerTornPaperReveal('contact', 'Get In Touch');
-                    }}
-                    className="px-5 py-2 rounded-xl bg-white hover:bg-rose-50 text-slate-900 font-bold text-xs uppercase tracking-wider shadow-md hover:scale-105 active:scale-95 transition-all flex items-center gap-1.5 cursor-pointer"
+                    href="mailto:Ravikumar755667@gmail.com?subject=Job%20Opportunity%20for%20Ravi%20Kumar"
+                    className="px-5 py-2 rounded-xl bg-gradient-to-r from-[#0284C7] to-teal-600 hover:from-sky-500 hover:to-teal-500 text-white font-bold text-xs uppercase tracking-wider shadow-sm hover:scale-105 active:scale-95 transition-all flex items-center gap-1.5 cursor-pointer"
                   >
                     <span>Hire Ravi</span>
-                    <Send className="w-3 h-3 text-rose-500" />
+                    <Send className="w-3 h-3 text-white" />
                   </a>
                 </div>
               </div>
 
             </div>
 
-            {/* ========================================================
-               RIGHT COLUMN: 3D HANGING LANYARD ID CARD WITH ROPE
-               (Matching Exact Reference Image ID Card & Twisted Ribbon)
-               ======================================================== */}
+            {/* RIGHT COLUMN: 3D HANGING LANYARD ID CARD */}
             <div className="about-id-col lg:col-span-5 flex justify-center items-center py-6">
               <IdCard />
             </div>
@@ -227,31 +212,29 @@ export default function About() {
           </div>
         </div>
 
-        {/* ========================================================
-           LOWER SUB-GRID: EDUCATION, CORE SKILLS & EXPERIENCE
-           ======================================================== */}
+        {/* LOWER SUB-GRID: EDUCATION, CORE SKILLS & EXPERIENCE */}
         <div className="about-sub-grid grid grid-cols-1 md:grid-cols-3 gap-6">
           
           {/* 1. EDUCATION CARD */}
-          <div className="about-sub-card rounded-2xl p-6 bg-gradient-to-br from-[#0c1626]/90 to-[#060c17]/90 border border-white/10 shadow-xl space-y-3 hover:border-cyan-500/30 transition-all">
-            <div className="flex items-center gap-2 text-cyan-400 font-mono font-bold text-xs tracking-widest uppercase">
+          <div className="about-sub-card rounded-2xl p-6 bg-white border border-slate-200/90 shadow-sm space-y-3 hover:border-[#0284C7] hover:shadow-md transition-all">
+            <div className="flex items-center gap-2 text-[#0284C7] font-mono font-bold text-xs tracking-widest uppercase">
               <span>✦</span>
               <span>EDUCATION</span>
             </div>
-            <h4 className="text-base font-bold text-white">
+            <h4 className="text-base font-bold text-slate-900">
               Grace College of Engineering
             </h4>
-            <p className="text-xs text-slate-300 font-light leading-relaxed">
+            <p className="text-xs text-slate-600 leading-relaxed">
               B.Tech in Artificial Intelligence &amp; Data Science (2023 – 2027 Expected).
             </p>
-            <div className="inline-block px-2.5 py-1 rounded bg-cyan-950/60 border border-cyan-500/30 text-cyan-300 font-mono text-xs font-bold">
+            <div className="inline-block px-2.5 py-1 rounded bg-sky-50 border border-sky-200 text-[#0284C7] font-mono text-xs font-bold">
               CGPA: 7.85 / 10 (up to 7th Sem)
             </div>
           </div>
 
           {/* 2. TECHNICAL SKILLS SQUIRCLE BADGES */}
-          <div className="about-sub-card rounded-2xl p-6 bg-gradient-to-br from-[#0c1626]/90 to-[#060c17]/90 border border-white/10 shadow-xl space-y-3 hover:border-rose-500/30 transition-all">
-            <div className="flex items-center gap-2 text-rose-400 font-mono font-bold text-xs tracking-widest uppercase">
+          <div className="about-sub-card rounded-2xl p-6 bg-white border border-slate-200/90 shadow-sm space-y-3 hover:border-[#0284C7] hover:shadow-md transition-all">
+            <div className="flex items-center gap-2 text-[#0284C7] font-mono font-bold text-xs tracking-widest uppercase">
               <span>✦</span>
               <span>CORE TECH STACK</span>
             </div>
@@ -260,7 +243,7 @@ export default function About() {
                 <div
                   key={index}
                   title={skill.name}
-                  className="w-9 h-9 rounded-xl flex items-center justify-center font-bold text-xs tracking-wider shadow-md hover:scale-110 transition-transform border border-white/10 cursor-default"
+                  className="w-9 h-9 rounded-xl flex items-center justify-center font-bold text-xs tracking-wider shadow-sm hover:scale-110 transition-transform cursor-default"
                   style={{
                     backgroundColor: skill.bg,
                     color: skill.text,
@@ -270,25 +253,25 @@ export default function About() {
                 </div>
               ))}
             </div>
-            <p className="text-[11px] font-mono text-slate-400 pt-1">
+            <p className="text-[11px] font-mono text-slate-500 pt-1">
               Python &bull; TensorFlow &bull; RAG &bull; LangChain &bull; FastAPI
             </p>
           </div>
 
           {/* 3. EXPERIENCE CARD */}
-          <div className="about-sub-card rounded-2xl p-6 bg-gradient-to-br from-[#0c1626]/90 to-[#060c17]/90 border border-white/10 shadow-xl space-y-3 hover:border-amber-500/30 transition-all">
-            <div className="flex items-center gap-2 text-amber-400 font-mono font-bold text-xs tracking-widest uppercase">
+          <div className="about-sub-card rounded-2xl p-6 bg-white border border-slate-200/90 shadow-sm space-y-3 hover:border-[#0284C7] hover:shadow-md transition-all">
+            <div className="flex items-center gap-2 text-[#0284C7] font-mono font-bold text-xs tracking-widest uppercase">
               <span>✦</span>
               <span>WORK EXPERIENCE</span>
             </div>
-            <div className="space-y-2 text-xs text-slate-300 font-light">
+            <div className="space-y-2 text-xs text-slate-600">
               <div>
-                <h5 className="font-bold text-white">AI for Sustainability Virtual Intern</h5>
-                <p className="text-[11px] text-emerald-300 font-medium">1M1B, with IBM SkillsBuild &bull; Jul–Sep 2026</p>
+                <h5 className="font-bold text-slate-900">AI for Sustainability Virtual Intern</h5>
+                <p className="text-[11px] text-[#0284C7] font-medium">1M1B, with IBM SkillsBuild &bull; Jul–Sep 2026</p>
               </div>
-              <div className="pt-1 border-t border-white/10">
-                <h5 className="font-bold text-white">AI Developer Intern</h5>
-                <p className="text-[11px] text-amber-300 font-medium">Matt Engineering Solution &bull; 1 Month</p>
+              <div className="pt-1 border-t border-slate-100">
+                <h5 className="font-bold text-slate-900">AI Developer Intern</h5>
+                <p className="text-[11px] text-teal-600 font-medium">Matt Engineering Solution &bull; 1 Month</p>
               </div>
             </div>
           </div>

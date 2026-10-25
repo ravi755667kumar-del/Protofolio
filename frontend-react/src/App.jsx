@@ -10,7 +10,6 @@ import Experience from './components/Experience';
 import Skills from './components/Skills';
 import ProjectsWave from './components/ProjectsWave';
 import CertificationsOrbit from './components/CertificationsOrbit';
-import Contact from './components/Contact';
 import Footer from './components/Footer';
 
 export default function App() {
@@ -31,7 +30,7 @@ export default function App() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#020b18] text-slate-100 selection:bg-lime-400 selection:text-black">
+    <div className="min-h-screen bg-[#F8FAFC] text-slate-800 selection:bg-[#0284C7] selection:text-white">
       {!hasEntered ? (
         /* ========================================================
            FIRST PAGE: 3D CYBER NEURAL NETWORK & PORTAL COVER SCREEN
@@ -74,9 +73,6 @@ export default function App() {
 
             {/* Section 6: Certifications Orbit Scene */}
             <CertificationsOrbit />
-
-            {/* Section 7: Contact Form & Info */}
-            <Contact />
           </main>
 
           {/* Footer */}

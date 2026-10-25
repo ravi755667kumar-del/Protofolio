@@ -15,22 +15,16 @@ export default function CertModal({ cert, onClose }) {
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-black/80 backdrop-blur-md transition-opacity"
+        className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm transition-opacity"
         onClick={onClose}
       />
 
       {/* Modal Dialog */}
-      <div className="relative w-full max-w-lg rounded-2xl bg-gradient-to-br from-[#0c223a] via-[#08182b] to-[#040e1b] border border-cyan-500/30 p-6 sm:p-8 shadow-2xl z-10 text-left overflow-hidden">
-        {/* Top Glow */}
-        <div
-          className="absolute -top-20 -right-20 w-44 h-44 rounded-full blur-3xl opacity-30 pointer-events-none"
-          style={{ backgroundColor: cert.accentColor }}
-        />
-
+      <div className="relative w-full max-w-lg rounded-2xl bg-white border border-slate-200 p-6 sm:p-8 shadow-2xl z-10 text-left overflow-hidden">
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-gray-300 hover:text-white flex items-center justify-center transition-all text-sm"
+          className="absolute top-4 right-4 w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-slate-900 flex items-center justify-center transition-all text-sm cursor-pointer"
           aria-label="Close modal"
         >
           ✕
@@ -47,30 +41,30 @@ export default function CertModal({ cert, onClose }) {
               {cert.issuer}
             </span>
           </div>
-          <span className="text-xs font-mono bg-black/25 px-2.5 py-1 rounded">
+          <span className="text-xs font-mono bg-black/25 px-2.5 py-1 rounded font-semibold">
             Verified
           </span>
         </div>
 
         {/* Certificate Body */}
-        <div className="border border-white/10 rounded-xl p-5 bg-white/5 space-y-4 mb-6">
-          <p className="text-[11px] font-mono tracking-widest text-cyan-400 uppercase">
+        <div className="border border-slate-200 rounded-xl p-5 bg-slate-50 space-y-4 mb-6">
+          <p className="text-[11px] font-mono tracking-widest text-[#0284C7] font-bold uppercase">
             {cert.type}
           </p>
-          <h3 className="text-xl sm:text-2xl font-black text-white">
+          <h3 className="text-xl sm:text-2xl font-black text-slate-900">
             {cert.title}
           </h3>
 
-          <div className="pt-2 border-t border-white/10">
-            <p className="text-xs text-slate-400">Awarded to:</p>
-            <p className="text-base font-bold text-white tracking-wide">
+          <div className="pt-2 border-t border-slate-200">
+            <p className="text-xs text-slate-500">Awarded to:</p>
+            <p className="text-base font-bold text-slate-900 tracking-wide">
               {cert.recipient}
             </p>
           </div>
 
-          <div className="flex justify-between items-center text-xs font-mono text-slate-400 pt-2 border-t border-white/5">
+          <div className="flex justify-between items-center text-xs font-mono text-slate-500 pt-2 border-t border-slate-200">
             <span>{cert.meta}</span>
-            <span className="text-cyan-300">{cert.certId}</span>
+            <span className="text-[#0284C7] font-semibold">{cert.certId}</span>
           </div>
         </div>
 
@@ -79,9 +73,9 @@ export default function CertModal({ cert, onClose }) {
           {cert.skills.map((s, idx) => (
             <span
               key={idx}
-              className="px-2.5 py-1 text-xs rounded-md bg-cyan-950/60 text-cyan-200 border border-cyan-500/30 font-mono"
+              className="px-2.5 py-1 text-xs rounded-md bg-sky-50 text-sky-700 border border-sky-200 font-mono font-medium"
             >
-              {s}
+              #{s}
             </span>
           ))}
         </div>
@@ -92,14 +86,14 @@ export default function CertModal({ cert, onClose }) {
             href={cert.pdfUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex-1 py-2.5 px-4 rounded-xl font-semibold text-xs uppercase tracking-wider text-white bg-gradient-to-r from-cyan-500 to-blue-600 hover:shadow-lg hover:shadow-cyan-500/30 text-center transition-all flex items-center justify-center gap-2"
+            className="flex-1 py-2.5 px-4 rounded-xl font-bold text-xs uppercase tracking-wider text-white bg-gradient-to-r from-[#0284C7] to-teal-600 hover:shadow-lg hover:shadow-sky-500/30 text-center transition-all flex items-center justify-center gap-2"
           >
             <span>Open Original PDF</span>
             <span>↗</span>
           </a>
           <button
             onClick={onClose}
-            className="px-4 py-2.5 rounded-xl text-xs font-semibold uppercase tracking-wider text-slate-300 bg-white/5 hover:bg-white/10 border border-white/10 transition-all"
+            className="py-2.5 px-4 rounded-xl font-bold text-xs uppercase tracking-wider text-slate-700 bg-slate-100 hover:bg-slate-200 transition-all cursor-pointer"
           >
             Close
           </button>

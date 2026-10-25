@@ -107,13 +107,13 @@ export default function IdCard() {
           xmlns="http://www.w3.org/2000/svg"
         >
           <defs>
-            {/* Rich Indigo/Purple Woven Fabric Gradient */}
+            {/* Electric Cyan Tech Woven Ribbon Gradient */}
             <linearGradient id="wideRibbonGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#3730a3" />
-              <stop offset="25%" stopColor="#4f46e5" />
-              <stop offset="50%" stopColor="#6366f1" />
-              <stop offset="75%" stopColor="#4f46e5" />
-              <stop offset="100%" stopColor="#312e81" />
+              <stop offset="0%" stopColor="#0e7490" />
+              <stop offset="25%" stopColor="#0891b2" />
+              <stop offset="50%" stopColor="#22D3EE" />
+              <stop offset="75%" stopColor="#0891b2" />
+              <stop offset="100%" stopColor="#0B1120" />
             </linearGradient>
 
             {/* Deep Dynamic Ambient Ribbon Shadow */}
@@ -203,11 +203,11 @@ export default function IdCard() {
       >
         {/* ==================== CARD FRONT ==================== */}
         <div
-          className="absolute inset-0 w-full h-full rounded-[30px] p-5 flex flex-col justify-between overflow-hidden shadow-[0_30px_70px_-12px_rgba(0,0,0,0.9)] border-2 border-white/25 select-none backdrop-blur-md"
+          className="absolute inset-0 w-full h-full rounded-[30px] p-5 flex flex-col justify-between overflow-hidden shadow-[0_30px_70px_-12px_rgba(0,0,0,0.9)] border-2 border-[#22D3EE]/30 select-none backdrop-blur-md"
           style={{
-            background: 'linear-gradient(150deg, #ff4d4d 0%, #ee3333 45%, #cb2222 100%)',
+            background: 'linear-gradient(150deg, #1E293B 0%, #0f172a 45%, #0B1120 100%)',
             boxShadow:
-              '0 30px 70px -15px rgba(0,0,0,0.9), inset 0 2px 4px rgba(255,255,255,0.4), inset 0 -3px 6px rgba(0,0,0,0.4)',
+              '0 30px 70px -15px rgba(0,0,0,0.9), inset 0 2px 4px rgba(34,211,238,0.35), inset 0 -3px 6px rgba(0,0,0,0.6)',
             backfaceVisibility: 'hidden',
           }}
         >
@@ -220,7 +220,7 @@ export default function IdCard() {
           <div
             className="absolute -inset-full pointer-events-none z-30 transition-opacity duration-300"
             style={{
-              background: `radial-gradient(circle 320px at ${glarePos.x}% ${glarePos.y}%, rgba(255,255,255,${glarePos.opacity}) 0%, transparent 75%)`,
+              background: `radial-gradient(circle 320px at ${glarePos.x}% ${glarePos.y}%, rgba(34,211,238,${glarePos.opacity * 0.4}) 0%, transparent 75%)`,
             }}
           />
 
@@ -230,13 +230,13 @@ export default function IdCard() {
           <div className="relative mt-6 w-full flex-1 flex items-center justify-center">
             {/* Outer Circular Ring with 3D Depth */}
             <div
-              className="relative w-44 h-44 sm:w-52 sm:h-52 rounded-full p-2 bg-gradient-to-tr from-white/95 via-rose-100 to-white/80 shadow-[0_15px_35px_rgba(0,0,0,0.45)] border-2 border-white/60 transition-transform duration-300"
+              className="relative w-44 h-44 sm:w-52 sm:h-52 rounded-full p-2 bg-gradient-to-tr from-white/90 via-[#22D3EE]/30 to-white/70 shadow-[0_15px_35px_rgba(0,0,0,0.45)] border-2 border-[#22D3EE]/50 transition-transform duration-300"
               style={{
                 transform: `translate3d(${rotate.y * -0.25}px, ${rotate.x * -0.25}px, 20px)`,
               }}
             >
               {/* Inner Circular Background with Face Headshot */}
-              <div className="w-full h-full rounded-full overflow-hidden bg-gradient-to-b from-[#fff6f6] via-[#fde8e8] to-[#fad2d2] relative shadow-inner border border-rose-200/60 flex items-center justify-center">
+              <div className="w-full h-full rounded-full overflow-hidden bg-gradient-to-b from-[#0B1120] via-[#1E293B] to-[#0B1120] relative shadow-inner border border-[#22D3EE]/40 flex items-center justify-center">
                 <img
                   src="/homeimg-face.png"
                   alt="AI Developer Face"
@@ -247,11 +247,11 @@ export default function IdCard() {
                 />
 
                 {/* Subtle Circular Rim Shading */}
-                <div className="absolute inset-0 rounded-full shadow-[inset_0_2px_8px_rgba(0,0,0,0.15)] pointer-events-none" />
+                <div className="absolute inset-0 rounded-full shadow-[inset_0_2px_8px_rgba(0,0,0,0.4)] pointer-events-none" />
               </div>
 
               {/* Decorative Corner Starlet */}
-              <div className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-[#facc15] border-2 border-white flex items-center justify-center shadow-md text-[10px] text-slate-900 font-black">
+              <div className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-[#22D3EE] border-2 border-[#0B1120] flex items-center justify-center shadow-md text-[10px] text-slate-950 font-black">
                 ✦
               </div>
             </div>
@@ -267,18 +267,18 @@ export default function IdCard() {
             {/* Left: Role Title (No personal name as requested) */}
             <div className="space-y-0.5 text-left">
               <div className="flex items-center gap-1.5 pb-0.5">
-                <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
-                <span className="text-[10px] font-mono tracking-widest text-rose-100 uppercase font-bold">
+                <span className="w-2 h-2 rounded-full bg-[#22D3EE] animate-pulse" />
+                <span className="text-[10px] font-mono tracking-widest text-[#22D3EE] uppercase font-bold">
                   OFFICIAL ID &bull; VERIFIED
                 </span>
               </div>
               <h3 className="text-2xl sm:text-[27px] font-black tracking-tight text-white leading-none drop-shadow-md">
                 AI DEVELOPER
               </h3>
-              <p className="text-xs sm:text-[13px] font-semibold text-rose-100 tracking-wide">
+              <p className="text-xs sm:text-[13px] font-semibold text-[#22D3EE] tracking-wide">
                 Machine Learning &amp; Deep Learning
               </p>
-              <p className="text-[10px] font-mono font-medium text-rose-200/95 pt-0.5">
+              <p className="text-[10px] font-mono font-medium text-[#94A3B8] pt-0.5">
                 Grace College of Engineering &bull; 2026
               </p>
             </div>
@@ -308,11 +308,11 @@ export default function IdCard() {
 
         {/* ==================== CARD BACK: PASSPORT / CREDENTIALS ==================== */}
         <div
-          className="absolute inset-0 w-full h-full rounded-[30px] p-6 flex flex-col justify-between overflow-hidden shadow-[0_30px_70px_-12px_rgba(0,0,0,0.9)] border-2 border-indigo-400/40 text-left backdrop-blur-xl select-none"
+          className="absolute inset-0 w-full h-full rounded-[30px] p-6 flex flex-col justify-between overflow-hidden shadow-[0_30px_70px_-12px_rgba(0,0,0,0.9)] border-2 border-[#22D3EE]/30 text-left backdrop-blur-xl select-none"
           style={{
-            background: 'linear-gradient(150deg, #1e1b4b 0%, #0f172a 60%, #020617 100%)',
+            background: 'linear-gradient(150deg, #1E293B 0%, #0B1120 70%, #020617 100%)',
             boxShadow:
-              '0 30px 70px -15px rgba(0,0,0,0.9), inset 0 2px 4px rgba(255,255,255,0.2), inset 0 -3px 6px rgba(0,0,0,0.6)',
+              '0 30px 70px -15px rgba(0,0,0,0.9), inset 0 2px 4px rgba(34,211,238,0.2), inset 0 -3px 6px rgba(0,0,0,0.6)',
             backfaceVisibility: 'hidden',
             transform: 'rotateY(180deg)',
           }}
@@ -323,18 +323,18 @@ export default function IdCard() {
           </div>
 
           {/* Passport Header */}
-          <div className="pt-3 flex justify-between items-center border-b border-indigo-500/30 pb-2">
-            <span className="text-xs font-mono font-bold tracking-widest text-indigo-400 uppercase">
+          <div className="pt-3 flex justify-between items-center border-b border-[#22D3EE]/30 pb-2">
+            <span className="text-xs font-mono font-bold tracking-widest text-[#22D3EE] uppercase">
               AI PASSPORT
             </span>
-            <span className="text-[10px] font-mono bg-indigo-500/20 text-indigo-300 px-2 py-0.5 rounded font-bold">
+            <span className="text-[10px] font-mono bg-[#22D3EE]/20 text-[#22D3EE] px-2 py-0.5 rounded font-bold">
               SYSTEM: ACTIVE
             </span>
           </div>
 
           {/* Core Technical Stack */}
           <div className="space-y-1.5 my-2">
-            <span className="text-[10px] font-mono uppercase text-slate-400 tracking-wider">
+            <span className="text-[10px] font-mono uppercase text-[#94A3B8] tracking-wider">
               Core Intelligence Stack:
             </span>
             <div className="flex flex-wrap gap-1.5">
@@ -350,7 +350,7 @@ export default function IdCard() {
               ].map((tech) => (
                 <span
                   key={tech}
-                  className="px-2 py-0.5 text-[10px] font-mono rounded-md bg-indigo-950/80 text-indigo-200 border border-indigo-500/40"
+                  className="px-2 py-0.5 text-[10px] font-mono rounded-md bg-[#0B1120] text-[#22D3EE] border border-[#22D3EE]/40"
                 >
                   {tech}
                 </span>

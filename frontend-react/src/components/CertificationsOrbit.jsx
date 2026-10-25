@@ -33,57 +33,41 @@ export default function CertificationsOrbit() {
     <section
       ref={sectionRef}
       id="certifications"
-      className="relative min-h-screen flex flex-col justify-center pt-20 pb-12 px-4 sm:px-6 lg:px-8 bg-[#040e1f] overflow-hidden border-t border-cyan-500/10"
+      className="relative min-h-screen flex flex-col justify-center pt-24 pb-16 px-4 sm:px-6 lg:px-8 bg-[#F8FAFC] overflow-hidden border-t border-slate-200/80"
     >
-      {/* Background Glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-cyan-900/10 rounded-full blur-[180px] pointer-events-none" />
+      {/* Subtle light ambient glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-sky-200/25 rounded-full blur-[180px] pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto w-full">
+      <div className="max-w-7xl mx-auto w-full relative z-10">
         {/* Section Header */}
-        <div className="text-center mb-8 sm:mb-10 space-y-2">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-semibold tracking-widest uppercase">
+        <div className="text-center mb-12 space-y-2">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-sky-50 border border-sky-200 text-[#0284C7] text-xs font-bold tracking-widest uppercase shadow-xs">
             <span>🏆</span>
-            <span>Credentials</span>
+            <span>Accredited Credentials</span>
           </div>
-          <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
+          <h2 className="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight">
             My{' '}
-            <span className="bg-gradient-to-r from-cyan-400 via-sky-300 to-teal-300 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-[#0284C7] via-sky-600 to-teal-600 bg-clip-text text-transparent">
               Certifications
             </span>
           </h2>
-          <p className="text-slate-400 text-sm sm:text-base max-w-xl mx-auto">
+          <p className="text-slate-600 text-sm sm:text-base max-w-xl mx-auto">
             Accredited certifications validating proficiency in Machine Learning, Cloud Architecture, Data Science, and Modern Engineering.
           </p>
         </div>
 
-        {/* Orbit Center Hub Graphic */}
-        <div className="flex justify-center mb-12">
-          <div className="relative flex items-center justify-center">
-            {/* Outer pulsating rings */}
-            <div className="absolute w-44 h-44 rounded-full border border-cyan-500/20 animate-[ping_4s_cubic-bezier(0,0,0.2,1)_infinite] pointer-events-none" />
-            <div className="absolute w-36 h-36 rounded-full border border-cyan-400/30 animate-pulse pointer-events-none" />
-            {/* Core Hub */}
-            <div className="w-24 h-24 rounded-full bg-gradient-to-tr from-[#0b243d] to-[#04101e] border-2 border-cyan-400/50 shadow-[0_0_30px_rgba(34,211,238,0.25)] flex flex-col items-center justify-center text-white z-10 backdrop-blur-xl">
-              <span className="text-2xl">🏆</span>
-              <span className="text-[11px] font-mono font-bold tracking-wider text-cyan-300">
-                6 CERTS
-              </span>
-            </div>
-          </div>
-        </div>
-
-        {/* 6 Certificate Cards Grid */}
+        {/* Certificate Cards Grid (Orbit Graphic Removed) */}
         <div className="certs-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {certsData.map((cert) => (
             <div
               key={cert.id}
               onClick={() => setSelectedCert(cert)}
-              className="cert-card p-5 rounded-2xl bg-gradient-to-br from-[#0c223a]/90 via-[#071629]/90 to-[#030d1a]/90 border border-cyan-500/20 shadow-xl backdrop-blur-xl cursor-pointer group hover:border-cyan-400/60 hover:-translate-y-2 hover:shadow-[0_15px_35px_rgba(0,0,0,0.6)] transition-all duration-300 flex flex-col justify-between"
+              className="cert-card p-5 rounded-2xl bg-white border border-slate-200/90 shadow-sm hover:shadow-xl hover:border-[#0284C7] hover:-translate-y-1.5 transition-all duration-300 cursor-pointer flex flex-col justify-between group"
             >
               <div>
                 {/* Header Strip */}
                 <div
-                  className="p-3.5 rounded-xl mb-4 flex items-center justify-between text-white shadow-md transition-transform group-hover:scale-[1.02]"
+                  className="p-3.5 rounded-xl mb-4 flex items-center justify-between text-white shadow-sm transition-transform group-hover:scale-[1.01]"
                   style={{ background: cert.gradient }}
                 >
                   <div className="flex items-center gap-2.5">
@@ -92,29 +76,29 @@ export default function CertificationsOrbit() {
                       {cert.issuer}
                     </span>
                   </div>
-                  <span className="text-[10px] font-mono bg-black/20 px-2 py-0.5 rounded">
+                  <span className="text-[10px] font-mono bg-black/25 px-2 py-0.5 rounded font-semibold">
                     ✔ Valid
                   </span>
                 </div>
 
                 {/* Card Title & Info */}
                 <div className="space-y-2 mb-4">
-                  <span className="text-[10px] font-mono text-cyan-400 tracking-wider uppercase block">
+                  <span className="text-[10px] font-mono text-[#0284C7] font-semibold tracking-wider uppercase block">
                     {cert.type}
                   </span>
-                  <h4 className="text-base font-bold text-white group-hover:text-cyan-300 transition-colors">
+                  <h4 className="text-base font-bold text-slate-900 group-hover:text-[#0284C7] transition-colors leading-snug">
                     {cert.title}
                   </h4>
-                  <p className="text-xs text-slate-400">
-                    Presented to <strong className="text-slate-200">Ravi Kumar</strong>
+                  <p className="text-xs text-slate-500">
+                    Presented to <strong className="text-slate-800 font-semibold">Ravi Kumar</strong>
                   </p>
                 </div>
               </div>
 
               {/* Footer Meta & ID */}
-              <div className="pt-3 border-t border-white/10 flex items-center justify-between text-[11px] font-mono text-slate-400">
+              <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] font-mono text-slate-500">
                 <span>{cert.meta}</span>
-                <span className="text-cyan-400 group-hover:underline flex items-center gap-1">
+                <span className="text-[#0284C7] font-semibold group-hover:underline flex items-center gap-1">
                   Preview ↗
                 </span>
               </div>

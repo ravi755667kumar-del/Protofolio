@@ -55,55 +55,94 @@ export default function Intro3D({ onEnterPortfolio }) {
     const ambientLight = new THREE.AmbientLight(0x0c1a2e, 0.8);
     scene.add(ambientLight);
 
-    // --- 3. 3D OBJECTS (THE MONOLITH ROCK & PORTAL) ---
+    // --- 3. 3D OBJECTS (HOLOGRAPHIC CYBER PORTAL & REFLECTIVE WATER) ---
     const group = new THREE.Group();
     scene.add(group);
 
-    // Rocky monolith geometry
-    const rockGeo = new THREE.DodecahedronGeometry(1.6, 2);
-    // Deform vertices for natural rugged organic stone facets
-    const posAttr = rockGeo.attributes.position;
-    for (let i = 0; i < posAttr.count; i++) {
-      const v = new THREE.Vector3().fromBufferAttribute(posAttr, i);
-      const noise = (Math.sin(v.x * 4) + Math.cos(v.y * 3) + Math.sin(v.z * 5)) * 0.12;
-      v.multiplyScalar(1 + noise);
-      // Flatten bottom so it rests on water
-      if (v.y < -0.8) v.y = -0.8 + noise * 0.2;
-      posAttr.setXYZ(i, v.x, v.y, v.z);
-    }
-    rockGeo.computeVertexNormals();
-
-    const rockMat = new THREE.MeshStandardMaterial({
-      color: 0x141820,
-      roughness: 0.88,
-      metalness: 0.15,
-      flatShading: true,
-    });
-    const rockMesh = new THREE.Mesh(rockGeo, rockMat);
-    rockMesh.position.set(0, -0.2, 0);
-    rockMesh.rotation.set(0.2, 0.4, -0.05);
-    group.add(rockMesh);
-
-    // Glowing Neon Doorway / Portal in the center
-    const portalGeo = new THREE.BoxGeometry(0.28, 0.82, 0.15);
-    const portalMat = new THREE.MeshBasicMaterial({
+    // Futuristic Holographic Portal Gateway (Sleek, luminous, cybernetic - completely removed black stone)
+    // 1. Gateway Neon Frame Pillars & Beam
+    const frameMat = new THREE.MeshBasicMaterial({
       color: 0xbef264,
+      transparent: true,
+      opacity: 0.9,
     });
-    const portalMesh = new THREE.Mesh(portalGeo, portalMat);
-    portalMesh.position.set(0, -0.32, 0.95);
-    group.add(portalMesh);
+    const accentMat = new THREE.MeshBasicMaterial({
+      color: 0x22d3ee,
+      transparent: true,
+      opacity: 0.85,
+    });
 
-    // Diagonal glowing neon laser slash (just like the reference image!)
-    const laserCurve = new THREE.LineCurve3(
-      new THREE.Vector3(-0.95, -0.75, 0.8),
-      new THREE.Vector3(-0.15, 0.35, 0.92)
-    );
-    const laserGeo = new THREE.TubeGeometry(laserCurve, 16, 0.022, 8, false);
-    const laserMat = new THREE.MeshBasicMaterial({
+    const pillarGeo = new THREE.CylinderGeometry(0.022, 0.022, 2.1, 12);
+    const leftPillar = new THREE.Mesh(pillarGeo, frameMat);
+    leftPillar.position.set(-0.68, -0.3, 0);
+    group.add(leftPillar);
+
+    const rightPillar = new THREE.Mesh(pillarGeo, frameMat);
+    rightPillar.position.set(0.68, -0.3, 0);
+    group.add(rightPillar);
+
+    const beamGeo = new THREE.CylinderGeometry(0.022, 0.022, 1.36, 12);
+    const topBeam = new THREE.Mesh(beamGeo, frameMat);
+    topBeam.rotation.z = Math.PI / 2;
+    topBeam.position.set(0, 0.75, 0);
+    group.add(topBeam);
+
+    // Glowing corner nodes
+    const cornerGeo = new THREE.SphereGeometry(0.045, 12, 12);
+    const c1 = new THREE.Mesh(cornerGeo, accentMat);
+    c1.position.set(-0.68, 0.75, 0);
+    const c2 = new THREE.Mesh(cornerGeo, accentMat);
+    c2.position.set(0.68, 0.75, 0);
+    group.add(c1);
+    group.add(c2);
+
+    // 2. Inner Luminous Holographic Energy Field
+    const portalFieldGeo = new THREE.PlaneGeometry(1.32, 2.1);
+    const portalFieldMat = new THREE.MeshBasicMaterial({
       color: 0xa3e635,
+      transparent: true,
+      opacity: 0.2,
+      blending: THREE.AdditiveBlending,
+      side: THREE.DoubleSide,
     });
-    const laserMesh = new THREE.Mesh(laserGeo, laserMat);
-    group.add(laserMesh);
+    const portalField = new THREE.Mesh(portalFieldGeo, portalFieldMat);
+    portalField.position.set(0, -0.3, 0);
+    group.add(portalField);
+
+    // 3. Rotating Holographic Quantum Energy Rings
+    const ring1Geo = new THREE.TorusGeometry(1.38, 0.014, 16, 72);
+    const ring1Mat = new THREE.MeshBasicMaterial({
+      color: 0xa3e635,
+      transparent: true,
+      opacity: 0.75,
+      blending: THREE.AdditiveBlending,
+    });
+    const ring1 = new THREE.Mesh(ring1Geo, ring1Mat);
+    group.add(ring1);
+
+    const ring2Geo = new THREE.TorusGeometry(1.68, 0.011, 16, 72);
+    const ring2Mat = new THREE.MeshBasicMaterial({
+      color: 0x22d3ee,
+      transparent: true,
+      opacity: 0.65,
+      blending: THREE.AdditiveBlending,
+    });
+    const ring2 = new THREE.Mesh(ring2Geo, ring2Mat);
+    group.add(ring2);
+
+    // 4. Luminous Base Ripple Emitter on Water
+    const baseEmitterGeo = new THREE.RingGeometry(0.15, 1.35, 36);
+    const baseEmitterMat = new THREE.MeshBasicMaterial({
+      color: 0xa3e635,
+      transparent: true,
+      opacity: 0.32,
+      blending: THREE.AdditiveBlending,
+      side: THREE.DoubleSide,
+    });
+    const baseEmitter = new THREE.Mesh(baseEmitterGeo, baseEmitterMat);
+    baseEmitter.rotation.x = -Math.PI / 2;
+    baseEmitter.position.set(0, -0.84, 0);
+    scene.add(baseEmitter);
 
     // Reflective Water Surface Plane
     const waterGeo = new THREE.PlaneGeometry(30, 30);
@@ -250,6 +289,16 @@ export default function Intro3D({ onEnterPortfolio }) {
       group.rotation.y = targetX * 0.25 + Math.sin(time * 0.4) * 0.04;
       group.rotation.x = -targetY * 0.15 + 0.05;
       group.position.y = Math.sin(time * 0.8) * 0.03;
+
+      // Animate Holographic Energy Rings
+      ring1.rotation.z = time * 0.35;
+      ring1.rotation.x = 0.35 + Math.sin(time * 0.5) * 0.12;
+      ring2.rotation.z = -time * 0.28;
+      ring2.rotation.y = -0.28 + Math.cos(time * 0.4) * 0.1;
+
+      // Pulse Energy Field & Base Emitter
+      portalFieldMat.opacity = 0.18 + Math.sin(time * 3) * 0.07;
+      baseEmitterMat.opacity = 0.28 + Math.sin(time * 2.5) * 0.08;
 
       // Pulse neon light
       neonPortalLight.intensity = 10 + Math.sin(time * 4) * 2.5;

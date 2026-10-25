@@ -36,6 +36,7 @@ export default function TornPaperReveal() {
       onComplete: () => {
         gsap.set(container, { display: 'none' });
         setIsTransitioning(false);
+        window.dispatchEvent(new CustomEvent('experience:clear-spray'));
       },
     });
 
@@ -168,16 +169,16 @@ export default function TornPaperReveal() {
           className="w-full h-full block"
         >
           <defs>
-            {/* Cyber Paper Gradient Fill */}
+            {/* Executive Light Paper Gradient Fill */}
             <linearGradient id="topPaperGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stopColor="#030813" />
-              <stop offset="60%" stopColor="#07152b" />
-              <stop offset="100%" stopColor="#0b1e3a" />
+              <stop offset="0%" stopColor="#FFFFFF" />
+              <stop offset="60%" stopColor="#F8FAFC" />
+              <stop offset="100%" stopColor="#E2E8F0" />
             </linearGradient>
 
             {/* Pattern Grid Texture on Paper */}
             <pattern id="paperGrid" width="40" height="40" patternUnits="userSpaceOnUse">
-              <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(6, 182, 212, 0.07)" strokeWidth="1" />
+              <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(2, 132, 199, 0.08)" strokeWidth="1" />
             </pattern>
           </defs>
 
@@ -199,23 +200,23 @@ export default function TornPaperReveal() {
           <path
             d={TORN_PAPER.seamLine}
             fill="none"
-            stroke="#67e8f9"
+            stroke="#0284C7"
             strokeWidth="1.5"
             opacity="0.85"
           />
         </svg>
 
         {/* Top Sheet Watermarks & Branding */}
-        <div className="absolute top-10 sm:top-14 left-6 sm:left-12 text-slate-400 font-mono text-[10px] sm:text-xs tracking-widest uppercase flex items-center gap-3">
-          <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
+        <div className="absolute top-10 sm:top-14 left-6 sm:left-12 text-slate-600 font-mono text-[10px] sm:text-xs tracking-widest uppercase flex items-center gap-3">
+          <span className="w-2 h-2 rounded-full bg-[#0284C7] animate-pulse" />
           <span>RAVI KUMAR // PORTFOLIO TRANSITION</span>
-          <span className="text-cyan-400/60 hidden sm:inline">| DOC ID #AI-2026</span>
+          <span className="text-[#0284C7] font-semibold hidden sm:inline">| DOC ID #AI-2026</span>
         </div>
 
         {/* Perforation guide line above the tear */}
-        <div className="absolute bottom-[52%] left-0 right-0 px-6 sm:px-12 flex items-center justify-between text-cyan-400/50 font-mono text-[9px] sm:text-[11px] tracking-widest uppercase pointer-events-none">
+        <div className="absolute bottom-[52%] left-0 right-0 px-6 sm:px-12 flex items-center justify-between text-[#0284C7]/60 font-mono text-[9px] sm:text-[11px] tracking-widest uppercase pointer-events-none">
           <span>✂ TEAR HERE</span>
-          <span className="border-b border-dashed border-cyan-400/40 flex-1 mx-4" />
+          <span className="border-b border-dashed border-[#0284C7]/40 flex-1 mx-4" />
           <span>PULL TO OPEN</span>
         </div>
       </div>
@@ -235,9 +236,9 @@ export default function TornPaperReveal() {
         >
           <defs>
             <linearGradient id="botPaperGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stopColor="#0a1d38" />
-              <stop offset="40%" stopColor="#061326" />
-              <stop offset="100%" stopColor="#020712" />
+              <stop offset="0%" stopColor="#E2E8F0" />
+              <stop offset="40%" stopColor="#F1F5F9" />
+              <stop offset="100%" stopColor="#FFFFFF" />
             </linearGradient>
           </defs>
 
@@ -266,15 +267,15 @@ export default function TornPaperReveal() {
 
         {/* Bottom Sheet Stamped Label */}
         <div className="absolute top-[54%] left-0 right-0 flex flex-col items-center justify-center text-center px-4 pointer-events-none">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-cyan-500/15 border border-cyan-400/30 text-cyan-300 font-mono text-[10px] sm:text-xs uppercase tracking-widest mb-2 shadow-lg backdrop-blur-md">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/90 border border-sky-300 text-[#0284C7] font-mono text-[10px] sm:text-xs font-bold uppercase tracking-widest mb-2 shadow-md backdrop-blur-md">
             <span>⚡ REVEALING NEXT CHAPTER</span>
           </div>
-          <h2 className="text-2xl sm:text-4xl md:text-5xl font-black text-white tracking-tight drop-shadow-lg">
-            <span className="bg-gradient-to-r from-cyan-400 via-sky-200 to-teal-300 bg-clip-text text-transparent">
+          <h2 className="text-2xl sm:text-4xl md:text-5xl font-black text-slate-900 tracking-tight drop-shadow-sm">
+            <span className="bg-gradient-to-r from-[#0284C7] via-sky-600 to-teal-600 bg-clip-text text-transparent">
               {currentLabel}
             </span>
           </h2>
-          <p className="text-slate-400 font-mono text-[10px] sm:text-xs tracking-wider mt-2">
+          <p className="text-slate-500 font-mono text-[10px] sm:text-xs tracking-wider mt-2">
             INITIALIZING TARGET WORKSPACE // 2026
           </p>
         </div>
@@ -285,7 +286,7 @@ export default function TornPaperReveal() {
           ======================================================== */}
       <div
         ref={laserBeamRef}
-        className="absolute top-1/2 left-0 w-full h-1 -translate-y-1/2 bg-gradient-to-r from-cyan-400 via-white to-sky-400 shadow-[0_0_20px_#22d3ee,0_0_40px_#38bdf8] pointer-events-none z-30"
+        className="absolute top-1/2 left-0 w-full h-1 -translate-y-1/2 bg-gradient-to-r from-[#22D3EE] via-white to-sky-400 shadow-[0_0_20px_#22d3ee,0_0_40px_#38bdf8] pointer-events-none z-30"
         style={{ transformOrigin: 'left center' }}
       />
 

@@ -16,25 +16,25 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="relative min-h-screen flex flex-col justify-center pt-20 pb-12 px-4 sm:px-6 lg:px-8 bg-[#020b18] overflow-hidden border-t border-cyan-500/10">
+    <section id="contact" className="relative min-h-screen flex flex-col justify-center pt-20 pb-12 px-4 sm:px-6 lg:px-8 bg-[#04161c] overflow-hidden border-t border-[#2dd4bf]/15">
       {/* Background glow */}
-      <div className="absolute top-1/3 -left-32 w-80 h-80 bg-cyan-600/10 rounded-full blur-[140px] pointer-events-none" />
-      <div className="absolute bottom-10 right-0 w-80 h-80 bg-blue-600/10 rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute top-1/3 -left-32 w-80 h-80 bg-[#2dd4bf]/10 rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute bottom-10 right-0 w-80 h-80 bg-[#0f766e]/20 rounded-full blur-[140px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto w-full">
         {/* Section Header */}
         <div className="text-center mb-8 sm:mb-10 space-y-2">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-semibold tracking-widest uppercase">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#22D3EE]/10 border border-[#22D3EE]/30 text-[#22D3EE] text-xs font-semibold tracking-widest uppercase">
             <span>💬</span>
             <span>Let's Talk</span>
           </div>
           <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
-            Get In{' '}
-            <span className="bg-gradient-to-r from-cyan-400 via-sky-300 to-teal-300 bg-clip-text text-transparent">
-              Touch
+            Contact{' '}
+            <span className="bg-gradient-to-r from-[#22D3EE] via-sky-300 to-teal-200 bg-clip-text text-transparent">
+              Me
             </span>
           </h2>
-          <p className="text-slate-400 text-sm sm:text-base max-w-xl mx-auto">
+          <p className="text-[#94A3B8] text-sm sm:text-base max-w-xl mx-auto">
             Whether you have a machine learning challenge, a full-stack project, or an internship opportunity, my inbox is always open.
           </p>
         </div>
@@ -162,17 +162,17 @@ export default function Contact() {
           </div>
 
           {/* Right Column: Contact Form */}
-          <div className="lg:col-span-7 p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-[#0c233c]/90 via-[#08182b]/90 to-[#040e1b]/90 border border-cyan-500/20 shadow-2xl backdrop-blur-xl">
+          <div className="lg:col-span-7 p-6 sm:p-8 rounded-2xl bg-[#1E293B]/90 border border-[#22D3EE]/20 shadow-2xl backdrop-blur-xl">
             <h3 className="text-xl font-bold text-white mb-1">Send a Message</h3>
-            <p className="text-xs text-slate-400 mb-6">
+            <p className="text-xs text-[#94A3B8] mb-6">
               Fill in the form and I will get back to you shortly ✉️
             </p>
 
             {submitted ? (
-              <div className="p-6 rounded-xl bg-cyan-950/60 border border-cyan-400/50 text-center space-y-3">
+              <div className="p-6 rounded-xl bg-[#0B1120] border border-[#22D3EE]/50 text-center space-y-3">
                 <span className="text-4xl">🚀</span>
                 <h4 className="text-lg font-bold text-white">Message Sent!</h4>
-                <p className="text-sm text-slate-300">
+                <p className="text-sm text-[#94A3B8]">
                   Thank you for reaching out, {formData.firstName || 'friend'}. I'll get back to your email at {formData.email || 'soon'}!
                 </p>
                 <button
@@ -198,7 +198,7 @@ export default function Contact() {
                       value={formData.firstName}
                       onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
                       placeholder="Ravi"
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-white/5 border border-white/10 focus:border-cyan-400 focus:outline-none text-white text-sm"
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-[#0B1120] border border-white/10 focus:border-[#22D3EE] focus:outline-none text-white text-sm"
                     />
                   </div>
                   <div>
@@ -211,7 +211,7 @@ export default function Contact() {
                       value={formData.lastName}
                       onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
                       placeholder="Kumar"
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-white/5 border border-white/10 focus:border-cyan-400 focus:outline-none text-white text-sm"
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-[#0B1120] border border-white/10 focus:border-[#22D3EE] focus:outline-none text-white text-sm"
                     />
                   </div>
                 </div>
@@ -226,7 +226,7 @@ export default function Contact() {
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     placeholder="ravi@example.com"
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-white/5 border border-white/10 focus:border-cyan-400 focus:outline-none text-white text-sm"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#0B1120] border border-white/10 focus:border-[#22D3EE] focus:outline-none text-white text-sm"
                   />
                 </div>
 
@@ -258,19 +258,19 @@ export default function Contact() {
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                     placeholder="Tell me about your project or opportunity…"
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-white/5 border border-white/10 focus:border-cyan-400 focus:outline-none text-white text-sm resize-none"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#0B1120] border border-white/10 focus:border-[#22D3EE] focus:outline-none text-white text-sm resize-none"
                   />
                 </div>
 
                 <button
                   type="submit"
-                  className="w-full py-3 px-6 rounded-xl font-bold text-sm text-white bg-gradient-to-r from-cyan-500 via-sky-500 to-blue-600 hover:shadow-lg hover:shadow-cyan-500/30 hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center gap-2"
+                  className="w-full py-3 px-6 rounded-xl font-black text-sm text-slate-950 bg-gradient-to-r from-[#22D3EE] via-cyan-500 to-blue-600 hover:shadow-lg hover:shadow-[#22D3EE]/30 hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center gap-2"
                 >
                   <span>Send Message</span>
                   <span>🚀</span>
                 </button>
 
-                <p className="text-[11px] text-center text-slate-400">
+                <p className="text-[11px] text-center text-[#94A3B8]">
                   🔒 Your information is safe. I never share personal data.
                 </p>
               </form>

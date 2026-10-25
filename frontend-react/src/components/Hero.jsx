@@ -40,15 +40,52 @@ export default function Hero() {
       ref={containerRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className="relative min-h-screen flex flex-col justify-end pt-24 pb-8 px-4 sm:px-6 lg:px-8 bg-[#0d0714] text-slate-100 overflow-hidden select-none scroll-mt-20 lg:scroll-mt-24"
+      className="relative min-h-screen flex flex-col justify-end pt-24 pb-8 px-4 sm:px-6 lg:px-8 bg-[#F8FAFC] text-slate-800 overflow-hidden select-none scroll-mt-20 lg:scroll-mt-24 border-b border-slate-200/80"
       style={{ perspective: '1200px' }}
     >
-      {/* Background Ambient Glows */}
-      <div className="absolute top-1/3 left-10 w-96 h-96 bg-purple-900/15 rounded-full blur-[140px] pointer-events-none" />
-      <div className="absolute bottom-1/4 right-10 w-96 h-96 bg-rose-900/15 rounded-full blur-[160px] pointer-events-none" />
+      {/* ========================================================
+         EXECUTIVE LIGHT AMBIENT AURORA MESH BACKGROUND & TRANSITIONS
+         ======================================================== */}
+      {/* 1. Architectural Geometric Tech Dot Matrix Grid */}
+      <div
+        className="absolute inset-0 pointer-events-none z-0 opacity-65"
+        style={{
+          backgroundImage: 'radial-gradient(rgba(2, 132, 199, 0.15) 1.2px, transparent 1.2px)',
+          backgroundSize: '32px 32px',
+          maskImage: 'radial-gradient(ellipse at 50% 40%, black 35%, rgba(0,0,0,0.5) 65%, transparent 92%)',
+          WebkitMaskImage: 'radial-gradient(ellipse at 50% 40%, black 35%, rgba(0,0,0,0.5) 65%, transparent 92%)',
+        }}
+      />
+
+      {/* 2. Living Aurora Mesh Orbs (Silky 14-18s Floating Curves + Mouse Parallax) */}
+      <div
+        className="absolute -top-24 left-[-6%] w-[640px] h-[640px] rounded-full bg-gradient-to-tr from-sky-400/25 via-cyan-300/20 to-transparent blur-[120px] pointer-events-none animate-[ambientAurora1_14s_ease-in-out_infinite] transition-transform duration-700 ease-out"
+        style={{
+          transform: `translate3d(${mousePos.x * -45}px, ${mousePos.y * -45}px, 0)`,
+        }}
+      />
+
+      <div
+        className="absolute top-1/4 right-[-6%] w-[600px] h-[600px] rounded-full bg-gradient-to-bl from-teal-400/22 via-emerald-300/18 to-transparent blur-[130px] pointer-events-none animate-[ambientAurora2_16s_ease-in-out_infinite] transition-transform duration-700 ease-out"
+        style={{
+          transform: `translate3d(${mousePos.x * 40}px, ${mousePos.y * 40}px, 0)`,
+        }}
+      />
+
+      <div
+        className="absolute bottom-12 left-1/4 w-[560px] h-[460px] rounded-full bg-gradient-to-t from-indigo-300/20 via-sky-200/20 to-transparent blur-[140px] pointer-events-none animate-[ambientAurora3_18s_ease-in-out_infinite] transition-transform duration-700 ease-out"
+        style={{
+          transform: `translate3d(${mousePos.x * -25}px, ${mousePos.y * -25}px, 0)`,
+        }}
+      />
+
+      <div className="absolute top-16 left-1/3 w-[360px] h-[360px] rounded-full bg-amber-200/15 blur-[95px] pointer-events-none" />
+
+      {/* 3. Feathered Bottom Transition to About Section */}
+      <div className="absolute bottom-0 inset-x-0 h-28 bg-gradient-to-t from-[#F8FAFC] via-[#F8FAFC]/75 to-transparent pointer-events-none z-20" />
 
       {/* ========================================================
-         TOP-RIGHT CORNER: ATTRACTIVE 3D CYBERNETIC AI BRAIN BACKGROUND
+         TOP-RIGHT CORNER: 3D CYBERNETIC AI BRAIN BACKGROUND
          ======================================================== */}
       <div
         className="absolute top-0 right-0 w-[320px] sm:w-[420px] md:w-[500px] lg:w-[580px] h-[320px] sm:h-[420px] md:h-[500px] lg:h-[580px] pointer-events-none z-0 overflow-hidden select-none"
@@ -56,10 +93,8 @@ export default function Hero() {
           perspective: '1200px',
         }}
       >
-        {/* Ambient Top-Right Radial Electric Cyan Glow */}
-        <div className="absolute -top-16 -right-16 w-[420px] h-[420px] bg-[radial-gradient(circle,rgba(6,182,212,0.35)_0%,rgba(59,130,246,0.18)_45%,transparent_75%)] blur-3xl pointer-events-none" />
+        <div className="absolute -top-16 -right-16 w-[420px] h-[420px] bg-[radial-gradient(circle,rgba(2,132,199,0.18)_0%,rgba(13,148,136,0.12)_45%,transparent_75%)] blur-3xl pointer-events-none" />
 
-        {/* 3D Tilted Cybernetic AI Brain Canvas / Parallax Container */}
         <div
           className="relative w-full h-full flex items-start justify-end transition-transform duration-500 ease-out"
           style={{
@@ -67,21 +102,20 @@ export default function Hero() {
             transformStyle: 'preserve-3d',
           }}
         >
-          {/* Faint Floating Binary Stream Matrix in Corner */}
+          {/* Binary stream */}
           <div
-            className="absolute top-10 right-10 font-mono text-[9px] sm:text-[10px] leading-relaxed text-cyan-400/25 select-none text-right pointer-events-none"
+            className="absolute top-10 right-10 font-mono text-[9px] sm:text-[10px] leading-relaxed text-sky-600/30 select-none text-right pointer-events-none"
             style={{ animation: 'binaryFlicker 4s ease-in-out infinite' }}
           >
             <div>0110 0100 0101 1001</div>
             <div>0101 1001 0110 0100</div>
             <div>1001 0110 0100 0101</div>
             <div>0100 0101 1001 0110</div>
-            <div>0110 1001 0101 0100</div>
           </div>
 
-          {/* AI Brain Image with Smooth Corner Fade Out Radial Mask */}
+          {/* AI Brain Image */}
           <div
-            className="relative w-[280px] sm:w-[360px] md:w-[430px] lg:w-[490px] h-[280px] sm:h-[360px] md:h-[430px] lg:h-[490px] -mr-6 -mt-4"
+            className="relative w-[280px] sm:w-[360px] md:w-[430px] lg:w-[490px] h-[280px] sm:h-[360px] md:h-[430px] lg:h-[490px] -mr-6 -mt-4 opacity-85"
             style={{
               maskImage: 'radial-gradient(ellipse at 80% 20%, black 50%, rgba(0,0,0,0.65) 72%, transparent 92%)',
               WebkitMaskImage: 'radial-gradient(ellipse at 80% 20%, black 50%, rgba(0,0,0,0.65) 72%, transparent 92%)',
@@ -90,7 +124,7 @@ export default function Hero() {
             <img
               src="/ai-brain-transparent.png"
               alt="AI Brain Circuit Background"
-              className="w-full h-full object-contain filter drop-shadow-[0_0_35px_rgba(6,182,212,0.7)] contrast-110 brightness-105 opacity-90"
+              className="w-full h-full object-contain filter drop-shadow-[0_0_25px_rgba(2,132,199,0.4)] contrast-105"
               style={{
                 animation: 'neuralPulse 4s ease-in-out infinite',
               }}
@@ -98,19 +132,10 @@ export default function Hero() {
                 e.currentTarget.src = '/ai-brain.png';
               }}
             />
-
-            {/* Glowing Corner Tech Scanline / Shimmer */}
-            <div
-              className="absolute inset-0 bg-gradient-to-b from-transparent via-cyan-400/15 to-transparent pointer-events-none"
-              style={{
-                animation: 'scanline 4.5s linear infinite',
-              }}
-            />
           </div>
 
-          {/* Holographic Corner Accent Lines / Cyber Brackets */}
-          <div className="absolute top-6 right-6 w-16 h-16 border-t border-r border-cyan-400/30 rounded-tr-xl pointer-events-none" />
-          <div className="absolute top-8 right-8 text-[8px] font-mono tracking-widest text-cyan-400/50 uppercase">
+          <div className="absolute top-6 right-6 w-16 h-16 border-t border-r border-sky-400/30 rounded-tr-xl pointer-events-none" />
+          <div className="absolute top-8 right-8 text-[8px] font-mono tracking-widest text-sky-600/60 uppercase">
             3D NEURAL CORE &bull; AI
           </div>
         </div>
@@ -119,7 +144,7 @@ export default function Hero() {
       <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-4 items-end relative z-10 mt-auto">
         
         {/* ========================================================
-           LEFT: BIG TYPOGRAPHY & INTRO (MATCHING REFERENCE)
+           LEFT: BIG TYPOGRAPHY & INTRO
            ======================================================== */}
         <div
           className="lg:col-span-4 space-y-6 text-center lg:text-left pb-8 lg:pb-16 transition-transform duration-300 ease-out"
@@ -127,27 +152,27 @@ export default function Hero() {
             transform: `translate3d(${mousePos.x * -20}px, ${mousePos.y * -20}px, 0)`,
           }}
         >
-          {/* Main Huge Headline */}
+          {/* Main Headline */}
           <div className="space-y-1">
-            <h1 className="text-5xl sm:text-7xl lg:text-[5.5rem] font-black text-white tracking-tight leading-[1.05]">
+            <h1 className="text-5xl sm:text-7xl lg:text-[5.5rem] font-black text-slate-900 tracking-tight leading-[1.05]">
               Hey There,
               <br />
-              I'm <span className="bg-gradient-to-r from-rose-400 via-pink-300 to-amber-200 bg-clip-text text-transparent">Ravi!</span>
+              I'm <span className="bg-gradient-to-r from-[#0284C7] via-sky-600 to-teal-600 bg-clip-text text-transparent">Ravi!</span>
             </h1>
           </div>
 
           {/* Subtitle & Role */}
           <div className="space-y-2 max-w-md mx-auto lg:mx-0">
-            <h3 className="text-lg sm:text-xl font-bold text-slate-200 tracking-wide flex items-center justify-center lg:justify-start gap-2">
-              <span className="w-2 h-2 rounded-full bg-rose-400 animate-ping" />
+            <h3 className="text-lg sm:text-xl font-bold text-slate-800 tracking-wide flex items-center justify-center lg:justify-start gap-2">
+              <span className="w-2 h-2 rounded-full bg-[#0284C7] animate-ping" />
               AI Developer &amp; ML Engineer
             </h3>
-            <p className="text-slate-400 text-sm leading-relaxed font-light">
+            <p className="text-slate-600 text-sm leading-relaxed">
               Crafting intelligent predictive models, deep learning pipelines, and high-performance modern web applications with Python, TensorFlow, and React.
             </p>
           </div>
 
-          {/* Action Buttons */}
+          {/* Action Button */}
           <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3.5 pt-2">
             <a
               href="#projects"
@@ -155,68 +180,52 @@ export default function Hero() {
                 e.preventDefault();
                 triggerTornPaperReveal('projects', 'Featured Projects');
               }}
-              className="px-6 py-3 rounded-full bg-gradient-to-r from-rose-500 via-pink-500 to-amber-500 text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-rose-500/25 hover:shadow-rose-500/40 hover:scale-105 active:scale-95 transition-all cursor-pointer"
+              className="px-6 py-3 rounded-full bg-gradient-to-r from-[#0284C7] via-sky-600 to-teal-600 text-white font-black text-xs uppercase tracking-wider shadow-lg shadow-sky-600/25 hover:shadow-sky-600/40 hover:scale-105 active:scale-95 transition-all cursor-pointer"
             >
               View Projects →
-            </a>
-            <a
-              href="#contact"
-              onClick={(e) => {
-                e.preventDefault();
-                triggerTornPaperReveal('contact', 'Get In Touch');
-              }}
-              className="px-6 py-3 rounded-full bg-white/5 hover:bg-white/10 text-white font-bold text-xs uppercase tracking-wider border border-white/15 hover:border-rose-400/50 hover:scale-105 active:scale-95 transition-all backdrop-blur-md cursor-pointer"
-            >
-              Get In Touch
             </a>
           </div>
         </div>
 
         {/* ========================================================
-           CENTER: 3D PORTRAIT TOUCHING BOTTOM (MATCHING REFERENCE)
+           CENTER: 3D PORTRAIT TOUCHING BOTTOM
            ======================================================== */}
         <div className="lg:col-span-5 flex justify-center items-end self-end relative">
           <div
-            className="relative w-[280px] sm:w-[350px] lg:w-[410px] flex items-end justify-center transition-transform duration-300 ease-out translate-y-6 sm:translate-y-8"
+            className="relative w-[280px] sm:w-[350px] lg:w-[410px] flex items-end justify-center transition-transform duration-300 ease-out translate-y-0 sm:translate-y-1"
             style={{
-              transform: `translate3d(${mousePos.x * 25}px, ${mousePos.y * 25}px, 40px) rotateY(${mousePos.x * 12}deg) rotateX(${-mousePos.y * 12}deg)`,
-              transformStyle: 'preserve-3d',
+              transform: `translate3d(${mousePos.x * 20}px, 0, 0)`,
             }}
           >
-            {/* 3D Organic Morphing & Shaking Blob behind the head/torso (Calibrated Size) */}
-            <div
-              className="absolute bottom-8 sm:bottom-10 lg:bottom-12 inset-x-1 sm:inset-x-2 lg:inset-x-1 h-[290px] sm:h-[360px] lg:h-[400px] rounded-[50%_50%_45%_55%/60%_45%_55%_40%] animate-[morphShake_4.5s_ease-in-out_infinite] transition-all pointer-events-none"
-              style={{
-                background: 'linear-gradient(135deg, #e17082 0%, #d95368 50%, #c43c53 100%)',
-                boxShadow: '0 20px 48px -10px rgba(225, 112, 130, 0.48)',
-                transformStyle: 'preserve-3d',
-              }}
-            />
-
-            {/* Ambient Back Glow */}
-            <div className="absolute bottom-10 sm:bottom-12 lg:bottom-14 inset-x-0 h-[280px] sm:h-[340px] lg:h-[380px] rounded-full bg-rose-500/30 blur-3xl pointer-events-none" />
-
-            {/* Central Portrait Cutout: Kept down & cleanly rendered with white shirt */}
-            <div className="relative z-10 w-full flex items-end justify-center pointer-events-none">
-              <img
-                src="/homeimg-nobg.png"
-                alt="Ravi Kumar"
-                className="w-auto h-[320px] sm:h-[390px] lg:h-[450px] max-h-[72vh] object-contain object-bottom filter drop-shadow-[0_20px_40px_rgba(0,0,0,0.65)] contrast-[1.03] brightness-105 pointer-events-none block align-bottom"
-                onError={(e) => {
-                  e.currentTarget.src = '/homeimg.jpeg';
+            {/* Slide-Up Entrance Wrapper */}
+            <div className="relative w-full flex items-end justify-center animate-hero-slide-up-in">
+              {/* 3D Organic Morphing Blob (Executive Light Palette) */}
+              <div
+                className="absolute bottom-8 sm:bottom-10 lg:bottom-12 inset-x-1 sm:inset-x-2 lg:inset-x-1 h-[290px] sm:h-[360px] lg:h-[400px] rounded-[50%_50%_45%_55%/60%_45%_55%_40%] animate-[morphShake_4.5s_ease-in-out_infinite] transition-all pointer-events-none"
+                style={{
+                  background: 'linear-gradient(135deg, #0284C7 0%, #0ea5e9 45%, #14b8a6 100%)',
+                  boxShadow: '0 20px 45px -10px rgba(2, 132, 199, 0.35)',
+                  transformStyle: 'preserve-3d',
                 }}
               />
-              {/* Fallback avatar */}
-              <div className="hidden w-full h-[320px] items-center justify-center bg-gradient-to-b from-[#3b1219] to-[#120709] text-rose-300 font-black text-6xl">
-                RK
+
+              {/* Central Portrait Cutout */}
+              <div className="relative z-10 w-full flex items-end justify-center pointer-events-none animate-hero-slide-up-float">
+                <img
+                  src="/homeimg-nobg.png"
+                  alt="Ravi Kumar"
+                  className="w-auto h-[320px] sm:h-[390px] lg:h-[450px] max-h-[72vh] object-contain object-bottom contrast-[1.03] pointer-events-none block align-bottom transition-all duration-300"
+                  onError={(e) => {
+                    e.currentTarget.src = '/homeimg.jpeg';
+                  }}
+                />
               </div>
             </div>
           </div>
         </div>
 
         {/* ========================================================
-           RIGHT: FLOATING CAPSULE CHAT PILL & CERTIFICATION EMBLEM
-           (Floating over the 3D Corner Cybernetic AI Brain Background)
+           RIGHT: FLOATING CAPSULE & BADGE
            ======================================================== */}
         <div
           className="lg:col-span-3 flex flex-col items-center lg:items-end justify-center space-y-12 pb-8 lg:pb-16 transition-transform duration-300 ease-out relative z-10"
@@ -224,15 +233,14 @@ export default function Hero() {
             transform: `translate3d(${mousePos.x * 35}px, ${mousePos.y * 35}px, 20px)`,
           }}
         >
-          {/* Floating Interactive Input / Prompt Capsule (Matching Reference Pill) */}
+          {/* Floating Interactive Input / Prompt Capsule */}
           <div className="relative group cursor-pointer w-full max-w-[270px]">
-            <div className="flex items-center justify-between p-2 pl-4 rounded-2xl bg-slate-200/90 text-slate-800 shadow-2xl backdrop-blur-md border border-white/40 hover:bg-white transition-all duration-300">
-              <div className="flex items-center gap-1.5 text-xs font-mono font-medium text-slate-700 truncate pr-2">
-                <span className="w-1.5 h-3.5 bg-rose-500 animate-pulse inline-block" />
+            <div className="flex items-center justify-between p-2 pl-4 rounded-2xl bg-white text-slate-800 shadow-xl backdrop-blur-md border border-slate-200/90 hover:border-[#0284C7] transition-all duration-300">
+              <div className="flex items-center gap-1.5 text-xs font-mono font-medium text-slate-600 truncate pr-2">
+                <span className="w-1.5 h-3.5 bg-[#0284C7] animate-pulse inline-block" />
                 <span className="truncate">{promptPlaceholders[promptIndex]}</span>
               </div>
-              {/* Mini Avatar in Pill */}
-              <div className="w-9 h-9 rounded-full overflow-hidden border-2 border-white shadow-sm flex-shrink-0 bg-slate-200">
+              <div className="w-9 h-9 rounded-full overflow-hidden border-2 border-slate-200 shadow-xs flex-shrink-0 bg-slate-100">
                 <img
                   src="/homeimg-nobg.png"
                   alt="Ravi"
@@ -243,28 +251,23 @@ export default function Hero() {
                 />
               </div>
             </div>
-            {/* Pill Shadow glow */}
-            <div className="absolute inset-0 rounded-2xl bg-cyan-500/15 blur-lg -z-10 group-hover:bg-cyan-500/25 transition-all" />
           </div>
 
-          {/* Circular Certification Seal / Emblem (Matching Reference Badge) */}
+          {/* Circular Certification Seal / Emblem */}
           <div className="flex flex-col items-center text-center space-y-2 group cursor-default">
-            <div className="relative w-24 h-24 rounded-full border border-slate-700/60 bg-white/5 backdrop-blur-md p-1.5 flex items-center justify-center shadow-xl group-hover:border-rose-400/50 group-hover:scale-105 transition-all duration-300">
-              {/* Rotating outer ring */}
-              <div className="absolute inset-1 rounded-full border border-dashed border-rose-400/30 animate-[spin_20s_linear_infinite]" />
+            <div className="relative w-24 h-24 rounded-full border border-slate-200 bg-white p-1.5 flex items-center justify-center shadow-lg group-hover:border-[#0284C7] group-hover:scale-105 transition-all duration-300">
+              <div className="absolute inset-1 rounded-full border border-dashed border-sky-400/50 animate-[spin_20s_linear_infinite]" />
               
-              {/* Inner Emblem Icon */}
-              <div className="w-14 h-14 rounded-full bg-gradient-to-tr from-[#2d1117] to-[#170a0e] border border-rose-400/40 flex flex-col items-center justify-center text-rose-300 shadow-inner">
+              <div className="w-14 h-14 rounded-full bg-slate-50 border border-slate-200 flex flex-col items-center justify-center text-[#0284C7] shadow-inner">
                 <span className="text-xl">🎓</span>
               </div>
             </div>
 
-            {/* Seal Text */}
             <div className="space-y-0.5">
-              <p className="text-[11px] font-mono font-bold tracking-widest text-slate-200 uppercase">
+              <p className="text-[11px] font-mono font-bold tracking-widest text-slate-800 uppercase">
                 AI &amp; ML CERTIFIED
               </p>
-              <p className="text-[9px] font-mono tracking-wider text-slate-400 uppercase">
+              <p className="text-[9px] font-mono tracking-wider text-slate-500 uppercase">
                 PROFESSIONAL DEVELOPER
               </p>
             </div>
@@ -274,10 +277,10 @@ export default function Hero() {
       </div>
 
       {/* Bottom Scroll Indicator */}
-      <div className="absolute bottom-2 left-6 hidden xl:flex flex-col items-center gap-1.5 text-slate-400 opacity-60 hover:opacity-100 transition-opacity">
+      <div className="absolute bottom-2 left-6 hidden xl:flex flex-col items-center gap-1.5 text-slate-400 opacity-70 hover:opacity-100 transition-opacity">
         <span className="text-[10px] uppercase font-mono tracking-widest">Scroll</span>
-        <div className="w-4 h-7 rounded-full border border-slate-500 flex items-start justify-center p-1">
-          <div className="w-1 h-1.5 bg-rose-400 rounded-full animate-bounce" />
+        <div className="w-4 h-7 rounded-full border border-slate-300 flex items-start justify-center p-1">
+          <div className="w-1 h-1.5 bg-[#0284C7] rounded-full animate-bounce" />
         </div>
       </div>
     </section>
