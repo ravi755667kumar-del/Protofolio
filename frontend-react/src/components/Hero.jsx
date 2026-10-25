@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { triggerTornPaperReveal } from '../utils/tornPaperTrigger';
 
 const promptPlaceholders = [
   'Detecting brain tumors with CNN...',
@@ -39,7 +40,7 @@ export default function Hero() {
       ref={containerRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className="relative min-h-screen flex flex-col justify-end pt-24 pb-0 px-4 sm:px-6 lg:px-8 bg-[#0d0714] text-slate-100 overflow-hidden select-none"
+      className="relative min-h-screen flex flex-col justify-end pt-24 pb-8 px-4 sm:px-6 lg:px-8 bg-[#0d0714] text-slate-100 overflow-hidden select-none scroll-mt-20 lg:scroll-mt-24"
       style={{ perspective: '1200px' }}
     >
       {/* Background Ambient Glows */}
@@ -150,13 +151,21 @@ export default function Hero() {
           <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3.5 pt-2">
             <a
               href="#projects"
-              className="px-6 py-3 rounded-full bg-gradient-to-r from-rose-500 via-pink-500 to-amber-500 text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-rose-500/25 hover:shadow-rose-500/40 hover:scale-105 active:scale-95 transition-all"
+              onClick={(e) => {
+                e.preventDefault();
+                triggerTornPaperReveal('projects', 'Featured Projects');
+              }}
+              className="px-6 py-3 rounded-full bg-gradient-to-r from-rose-500 via-pink-500 to-amber-500 text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-rose-500/25 hover:shadow-rose-500/40 hover:scale-105 active:scale-95 transition-all cursor-pointer"
             >
               View Projects →
             </a>
             <a
               href="#contact"
-              className="px-6 py-3 rounded-full bg-white/5 hover:bg-white/10 text-white font-bold text-xs uppercase tracking-wider border border-white/15 hover:border-rose-400/50 hover:scale-105 active:scale-95 transition-all backdrop-blur-md"
+              onClick={(e) => {
+                e.preventDefault();
+                triggerTornPaperReveal('contact', 'Get In Touch');
+              }}
+              className="px-6 py-3 rounded-full bg-white/5 hover:bg-white/10 text-white font-bold text-xs uppercase tracking-wider border border-white/15 hover:border-rose-400/50 hover:scale-105 active:scale-95 transition-all backdrop-blur-md cursor-pointer"
             >
               Get In Touch
             </a>

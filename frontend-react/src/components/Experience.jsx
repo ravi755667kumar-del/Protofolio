@@ -12,24 +12,26 @@ export default function Experience() {
     const ctx = gsap.context(() => {
       gsap.from('.exp-card-0', {
         scrollTrigger: {
-          trigger: '.exp-grid',
-          start: 'top 85%',
+          trigger: sectionRef.current,
+          start: 'top 95%',
         },
-        x: -70,
+        x: -40,
         opacity: 0,
-        duration: 0.9,
+        duration: 0.8,
         ease: 'power3.out',
+        clearProps: 'all',
       });
 
       gsap.from('.exp-card-1', {
         scrollTrigger: {
-          trigger: '.exp-grid',
-          start: 'top 85%',
+          trigger: sectionRef.current,
+          start: 'top 95%',
         },
-        x: 70,
+        x: 40,
         opacity: 0,
-        duration: 0.9,
+        duration: 0.8,
         ease: 'power3.out',
+        clearProps: 'all',
       });
     }, sectionRef);
 
@@ -40,11 +42,11 @@ export default function Experience() {
     <section
       ref={sectionRef}
       id="experience"
-      className="relative py-20 px-4 sm:px-6 lg:px-8 bg-[#020c1b] overflow-hidden"
+      className="relative min-h-screen flex flex-col justify-center pt-20 pb-12 px-4 sm:px-6 lg:px-8 bg-[#020c1b] overflow-hidden border-t border-cyan-500/10"
     >
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-7xl mx-auto w-full">
         {/* Section Header */}
-        <div className="text-center mb-16 space-y-3">
+        <div className="text-center mb-8 sm:mb-12 space-y-2">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-semibold tracking-widest uppercase">
             <span>🚀</span>
             <span>My Journey</span>

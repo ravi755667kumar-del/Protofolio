@@ -4,16 +4,14 @@ import React, { useEffect, useRef } from 'react';
  * FloatingSkillBalls Component
  * 
  * Features:
- * - Distributed everywhere across the full container ("everywhere according to my square size")
- * - Each ball moves up, down, left, right smoothly ("move right, up, down, also left also... each boll not fully but little bit")
- * - Independent multi-frequency harmonic floating & gentle organic drifting
- * - Soft inter-ball elastic repulsion to keep distribution balanced
- * - Interactive cursor magnetic repulsion & drag-and-toss
- * - Hover inspection: hovered ball scales up with a luminous halo and stays steady for easy reading
+ * - Free-roaming physics: balls travel freely ANYWHERE across the entire canvas ("inot in same place like go anywhere")
+ * - Elastic bouncing off all 4 walls (left, right, top, bottom) and off each other
+ * - Complete freeze / stop when cursor is kept on a ball ("when i shall keep my cursor there it will stop")
+ * - Smooth +25% hover expansion with luminous neon ring and high-contrast typography
+ * - Instant velocity resumption when cursor leaves
  * - 27 skills strictly from Ravi Kumar's updated resume
- * - Vibrant 3D glossy spheres with directional lighting & specular gloss glints
- * - Zero CPU software blur (`ctx.filter`) -> 100% 60 FPS hardware accelerated
- * - IntersectionObserver: sleeps when off-screen to preserve 0% CPU
+ * - Vibrant 3D directional lighting & specular gloss reflections
+ * - 60 FPS hardware accelerated, 0% CPU off-screen via IntersectionObserver
  */
 
 const RESUME_SKILLS = [
@@ -58,7 +56,7 @@ export default function FloatingSkillBalls() {
     let animId;
 
     let width = (canvas.width = container.clientWidth);
-    let height = (canvas.height = container.clientHeight || 500);
+    let height = (canvas.height = container.clientHeight || 430);
 
     const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
     canvas.width = Math.floor(width * dpr);
@@ -67,16 +65,20 @@ export default function FloatingSkillBalls() {
 
     const N = RESUME_SKILLS.length;
 
-    // Distribute balls across the full container size ("everywhere according to my square size")
+    // Distribute balls cleanly initially, then allow completely free motion anywhere
     const createLayout = (w, h) => {
-      const marginX = Math.min(60, w * 0.08);
-      const marginY = Math.min(60, h * 0.1);
+      const marginX = Math.min(40, w * 0.06);
+      const marginY = Math.min(30, h * 0.06);
       const availableW = w - marginX * 2;
       const availableH = h - marginY * 2;
 
-      // Arrange in responsive rows
       const isMobile = w < 640;
-      const rowCounts = isMobile ? [4, 4, 4, 4, 4, 4, 3] : [5, 6, 5, 6, 5];
+      const isTablet = w >= 640 && w < 1024;
+      const rowCounts = isMobile
+        ? [4, 4, 4, 4, 4, 4, 3]
+        : isTablet
+        ? [4, 5, 5, 5, 5, 3]
+        : [5, 6, 5, 6, 5];
       const totalRows = rowCounts.length;
 
       let idx = 0;
@@ -93,37 +95,30 @@ export default function FloatingSkillBalls() {
           const xFrac = count > 1 ? c / (count - 1) : 0.5;
           const baseX = marginX + xFrac * (availableW - xOffset) + xOffset * 0.5;
 
-          // Radius based on text length
           const skill = RESUME_SKILLS[idx];
           const textLen = skill.name.length;
-          const baseR = textLen > 10 ? 34 : textLen > 6 ? 31 : 28;
+          const baseR = isMobile
+            ? (textLen > 10 ? 25 : textLen > 6 ? 23 : 21)
+            : (textLen > 10 ? 32 : textLen > 6 ? 29 : 26);
+
+          // Fast free-roaming velocity vectors in all directions
+          const speed = 1.9 + Math.random() * 1.5;
+          const angle = Math.random() * Math.PI * 2;
+          const vx = Math.cos(angle) * speed;
+          const vy = Math.sin(angle) * speed;
 
           layout.push({
             ...skill,
             id: idx,
-            baseX: baseX + (Math.random() - 0.5) * 20,
-            baseY: baseY + (Math.random() - 0.5) * 16,
-            x: baseX,
-            y: baseY,
+            x: baseX + (Math.random() - 0.5) * 10,
+            y: baseY + (Math.random() - 0.5) * 10,
+            vx,
+            vy,
+            savedVx: vx,
+            savedVy: vy,
             currentR: baseR,
             baseR,
-            // Harmonic wave motion parameters ("each boll not fully but little bit")
-            // ampX: floats left & right by 24px - 44px
-            ampX: 24 + Math.random() * 20,
-            // ampY: floats up & down by 20px - 38px
-            ampY: 20 + Math.random() * 18,
-            freqX: 0.6 + Math.random() * 0.5,
-            freqY: 0.5 + Math.random() * 0.5,
-            phaseX: Math.random() * Math.PI * 2,
-            phaseY: Math.random() * Math.PI * 2,
-            // Gentle continuous wander drift
-            driftVx: (Math.random() - 0.5) * 0.35,
-            driftVy: (Math.random() - 0.5) * 0.35,
-            // Interactive forces
-            impulseX: 0,
-            impulseY: 0,
-            scale: 1,
-            depth: Math.random() * 0.4 - 0.2, // subtle 3D depth layer
+            mass: baseR * baseR,
           });
           idx++;
         }
@@ -151,7 +146,7 @@ export default function FloatingSkillBalls() {
     const handleResize = () => {
       if (!container) return;
       width = container.clientWidth;
-      height = container.clientHeight || 500;
+      height = container.clientHeight || 430;
       canvas.width = Math.floor(width * dpr);
       canvas.height = Math.floor(height * dpr);
       ctx.scale(dpr, dpr);
@@ -181,7 +176,7 @@ export default function FloatingSkillBalls() {
       for (let i = nodes.length - 1; i >= 0; i--) {
         const n = nodes[i];
         const dist = Math.hypot(pos.x - n.x, pos.y - n.y);
-        if (dist <= n.currentR + 4) {
+        if (dist <= n.currentR + 6) {
           mouse.draggedNode = n;
           break;
         }
@@ -196,22 +191,48 @@ export default function FloatingSkillBalls() {
       mouse.y = pos.y;
 
       if (mouse.draggedNode) {
-        mouse.draggedNode.baseX = pos.x;
-        mouse.draggedNode.baseY = pos.y;
-        mouse.draggedNode.impulseX = (pos.x - mouse.prevX) * 0.5;
-        mouse.draggedNode.impulseY = (pos.y - mouse.prevY) * 0.5;
+        mouse.draggedNode.x = pos.x;
+        mouse.draggedNode.y = pos.y;
+        mouse.draggedNode.vx = (pos.x - mouse.prevX) * 0.9;
+        mouse.draggedNode.vy = (pos.y - mouse.prevY) * 0.9;
+        mouse.draggedNode.savedVx = mouse.draggedNode.vx;
+        mouse.draggedNode.savedVy = mouse.draggedNode.vy;
       } else {
         // Detect hovered node
         let found = null;
         for (let i = nodes.length - 1; i >= 0; i--) {
           const n = nodes[i];
           const dist = Math.hypot(pos.x - n.x, pos.y - n.y);
-          if (dist <= n.currentR * 1.1) {
+          if (dist <= n.currentR * 1.15) {
             found = n;
             break;
           }
         }
+
         if (found !== hoveredNode) {
+          // If leaving previous hovered node, unfreeze and resume motion!
+          if (hoveredNode && !found) {
+            const spd = Math.hypot(hoveredNode.savedVx || 0, hoveredNode.savedVy || 0);
+            if (spd > 0.6) {
+              hoveredNode.vx = hoveredNode.savedVx;
+              hoveredNode.vy = hoveredNode.savedVy;
+            } else {
+              const ang = Math.random() * Math.PI * 2;
+              hoveredNode.vx = Math.cos(ang) * 2.2;
+              hoveredNode.vy = Math.sin(ang) * 2.2;
+            }
+          }
+
+          // If entering newly hovered node, freeze completely!
+          if (found) {
+            if (found.vx !== 0 || found.vy !== 0) {
+              found.savedVx = found.vx;
+              found.savedVy = found.vy;
+            }
+            found.vx = 0;
+            found.vy = 0;
+          }
+
           hoveredNode = found;
           canvas.style.cursor = found ? 'pointer' : 'grab';
         }
@@ -225,6 +246,11 @@ export default function FloatingSkillBalls() {
     };
 
     const onMouseLeave = () => {
+      if (hoveredNode) {
+        const ang = Math.random() * Math.PI * 2;
+        hoveredNode.vx = hoveredNode.savedVx || Math.cos(ang) * 2.2;
+        hoveredNode.vy = hoveredNode.savedVy || Math.sin(ang) * 2.2;
+      }
       mouse.x = -1000;
       mouse.y = -1000;
       mouse.isDown = false;
@@ -243,7 +269,7 @@ export default function FloatingSkillBalls() {
     window.addEventListener('touchend', onPointerUp);
 
     // ==========================================
-    // MAIN 60FPS ORGANIC FLOATING PHYSICS LOOP
+    // MAIN 60FPS FREE-ROAMING PHYSICS LOOP
     // ==========================================
     let lastTime = performance.now();
 
@@ -252,99 +278,131 @@ export default function FloatingSkillBalls() {
 
       if (!isVisible) return;
 
-      const dt = Math.min((currentTime - lastTime) / 1000, 0.1);
+      const dt = Math.min((currentTime - lastTime) / 1000, 0.08);
       lastTime = currentTime;
 
       ctx.clearRect(0, 0, width, height);
 
-      const timeSec = currentTime * 0.0016;
-      const margin = 45;
+      const margin = 16;
 
-      // 1. UPDATE OMNIDIRECTIONAL FLOATING POSITIONS (Right, Left, Up, Down)
+      // 1. FREE-ROAMING MOTION & 4-WALL BOUNCING
       for (let i = 0; i < N; i++) {
         const node = nodes[i];
+        const isHover = hoveredNode === node;
 
-        if (node !== mouse.draggedNode) {
-          // Slow organic drift across container space
-          node.baseX += node.driftVx * 60 * dt;
-          node.baseY += node.driftVy * 60 * dt;
-
-          // Boundary rebound within container ("according to my square size")
-          if (node.baseX < margin + node.ampX) {
-            node.baseX = margin + node.ampX;
-            node.driftVx = Math.abs(node.driftVx);
-          } else if (node.baseX > width - margin - node.ampX) {
-            node.baseX = width - margin - node.ampX;
-            node.driftVx = -Math.abs(node.driftVx);
-          }
-
-          if (node.baseY < margin + node.ampY) {
-            node.baseY = margin + node.ampY;
-            node.driftVy = Math.abs(node.driftVy);
-          } else if (node.baseY > height - margin - node.ampY) {
-            node.baseY = height - margin - node.ampY;
-            node.driftVy = -Math.abs(node.driftVy);
-          }
-
-          // Gentle multi-axis wandering ("move right, up, down, also left also... little bit")
-          const wanderX = Math.sin(timeSec * node.freqX + node.phaseX) * node.ampX;
-          const wanderY = Math.cos(timeSec * node.freqY + node.phaseY) * node.ampY;
-
-          // Cursor interactive repulsion: gently moves away from pointer
-          if (mouse.x > 0 && mouse.y > 0) {
-            const mdx = node.x - mouse.x;
-            const mdy = node.y - mouse.y;
-            const mdist = Math.hypot(mdx, mdy);
-            const repelRadius = 110;
-            if (mdist < repelRadius && mdist > 1) {
-              const force = (repelRadius - mdist) / repelRadius;
-              node.impulseX += (mdx / mdist) * force * 1.8;
-              node.impulseY += (mdy / mdist) * force * 1.8;
-            }
-          }
-
-          // Soft impulse damping (spring back to floating center)
-          node.impulseX *= 0.94;
-          node.impulseY *= 0.94;
-
-          // If hovered, slow down floating motion so user can easily read
-          const isHover = hoveredNode === node;
-          const motionDamp = isHover ? 0.2 : 1.0;
-
-          node.x = node.baseX + (wanderX + node.impulseX) * motionDamp;
-          node.y = node.baseY + (wanderY + node.impulseY) * motionDamp;
-
-          // Scale transition on hover
-          const targetR = node.baseR * (isHover ? 1.22 : 1.0);
-          node.currentR += (targetR - node.currentR) * 0.25;
+        if (node === mouse.draggedNode) {
+          continue;
         }
 
-        // Soft elastic repulsion between neighboring balls to prevent awkward overlaps
+        if (isHover) {
+          // WHEN CURSOR IS KEPT ON THIS BALL -> COMPLETELY FROZEN & STOPPED!
+          node.vx = 0;
+          node.vy = 0;
+          const targetR = node.baseR * 1.25;
+          node.currentR += (targetR - node.currentR) * 0.3;
+          continue; // Skips all movement updates while cursor is kept on this ball!
+        }
+
+        // Return radius to base smoothly
+        node.currentR += (node.baseR - node.currentR) * 0.2;
+
+        // Keep velocity brisk and energetic
+        const speed = Math.hypot(node.vx, node.vy);
+        if (speed < 1.7) {
+          const factor = 2.2 / (speed || 1);
+          node.vx *= factor;
+          node.vy *= factor;
+        } else if (speed > 3.8) {
+          const factor = 3.8 / speed;
+          node.vx *= factor;
+          node.vy *= factor;
+        }
+
+        // Free motion anywhere across the canvas!
+        node.x += node.vx * 60 * dt;
+        node.y += node.vy * 60 * dt;
+
+        // Wall collisions - bounce off all 4 edges!
+        const r = node.currentR;
+
+        // Left wall
+        if (node.x - r < margin) {
+          node.x = margin + r;
+          node.vx = Math.abs(node.vx);
+        }
+        // Right wall
+        else if (node.x + r > width - margin) {
+          node.x = width - margin - r;
+          node.vx = -Math.abs(node.vx);
+        }
+
+        // Top wall
+        if (node.y - r < margin) {
+          node.y = margin + r;
+          node.vy = Math.abs(node.vy);
+        }
+        // Bottom wall
+        else if (node.y + r > height - margin) {
+          node.y = height - margin - r;
+          node.vy = -Math.abs(node.vy);
+        }
+      }
+
+      // 2. BALL-TO-BALL ELASTIC COLLISIONS (Bounce off each other)
+      for (let i = 0; i < N; i++) {
+        const b1 = nodes[i];
+
         for (let j = i + 1; j < N; j++) {
           const b2 = nodes[j];
-          const cdx = b2.x - node.x;
-          const cdy = b2.y - node.y;
-          const dist = Math.hypot(cdx, cdy);
-          const minDist = node.currentR + b2.currentR + 10;
+          const dx = b2.x - b1.x;
+          const dy = b2.y - b1.y;
+          const dist = Math.hypot(dx, dy);
+          const minDist = b1.currentR + b2.currentR + 3;
 
           if (dist < minDist && dist > 0) {
-            const overlap = (minDist - dist) * 0.04;
-            const nx = cdx / dist;
-            const ny = cdy / dist;
+            const overlap = (minDist - dist);
+            const nx = dx / dist;
+            const ny = dy / dist;
 
-            if (node !== mouse.draggedNode) {
-              node.baseX -= nx * overlap;
-              node.baseY -= ny * overlap;
-            }
-            if (b2 !== mouse.draggedNode) {
-              b2.baseX += nx * overlap;
-              b2.baseY += ny * overlap;
+            const b1Hover = hoveredNode === b1;
+            const b2Hover = hoveredNode === b2;
+
+            if (b1Hover) {
+              // b1 is frozen: b2 bounces off b1 like a solid obstacle
+              b2.x += nx * overlap;
+              b2.y += ny * overlap;
+              const dot = b2.vx * nx + b2.vy * ny;
+              b2.vx -= 2 * dot * nx;
+              b2.vy -= 2 * dot * ny;
+            } else if (b2Hover) {
+              // b2 is frozen: b1 bounces off b2 like a solid obstacle
+              b1.x -= nx * overlap;
+              b1.y -= ny * overlap;
+              const dot = b1.vx * nx + b1.vy * ny;
+              b1.vx -= 2 * dot * nx;
+              b1.vy -= 2 * dot * ny;
+            } else {
+              // Both balls are free: resolve overlap equally
+              b1.x -= nx * overlap * 0.5;
+              b1.y -= ny * overlap * 0.5;
+              b2.x += nx * overlap * 0.5;
+              b2.y += ny * overlap * 0.5;
+
+              // 2D Elastic momentum exchange
+              const kx = b1.vx - b2.vx;
+              const ky = b1.vy - b2.vy;
+              const p = 2 * (nx * kx + ny * ky) / (b1.mass + b2.mass);
+
+              b1.vx -= p * b2.mass * nx;
+              b1.vy -= p * b2.mass * ny;
+              b2.vx += p * b1.mass * nx;
+              b2.vy += p * b1.mass * ny;
             }
           }
         }
       }
 
-      // 2. RENDER VIBRANT 3D COLORED BALLS
+      // 3. RENDER VIBRANT 3D COLORED BALLS
       for (let i = 0; i < N; i++) {
         const node = nodes[i];
         const r = node.currentR;
@@ -354,18 +412,24 @@ export default function FloatingSkillBalls() {
 
         ctx.save();
 
-        // A. Soft Floor Drop Shadow Underneath (Ultra-fast direct render, zero CPU blur)
+        // A. Soft Floor Drop Shadow Underneath
         ctx.beginPath();
         ctx.arc(x + 2.5, y + 5, r * 0.95, 0, Math.PI * 2);
         ctx.fillStyle = 'rgba(0, 4, 15, 0.45)';
         ctx.fill();
 
-        // B. Hover Neon Glow Ring
+        // B. Hover Luminous Neon Halo Ring
         if (isHover) {
           ctx.beginPath();
-          ctx.arc(x, y, r + 5, 0, Math.PI * 2);
-          ctx.fillStyle = node.color + '45';
+          ctx.arc(x, y, r + 6, 0, Math.PI * 2);
+          ctx.fillStyle = node.color + '55';
           ctx.fill();
+
+          ctx.beginPath();
+          ctx.arc(x, y, r + 2, 0, Math.PI * 2);
+          ctx.strokeStyle = '#ffffff';
+          ctx.lineWidth = 2.5;
+          ctx.stroke();
         }
 
         // C. 3D Spherical Volume with Signature Color Gradient
@@ -459,7 +523,7 @@ export default function FloatingSkillBalls() {
   return (
     <div
       ref={containerRef}
-      className="relative w-full h-[440px] sm:h-[500px] md:h-[540px] rounded-3xl bg-transparent overflow-hidden my-4 select-none group [transform:translateZ(0)]"
+      className="relative w-full h-[360px] sm:h-[400px] md:h-[420px] rounded-2xl bg-transparent overflow-hidden mt-1 mb-0 select-none group [transform:translateZ(0)]"
     >
       {/* Central Ambient Depth Glow */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(6,182,212,0.1)_0%,transparent_75%)] pointer-events-none" />

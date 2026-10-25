@@ -16,14 +16,14 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="relative py-20 px-4 sm:px-6 lg:px-8 bg-[#020b18] overflow-hidden">
+    <section id="contact" className="relative min-h-screen flex flex-col justify-center pt-20 pb-12 px-4 sm:px-6 lg:px-8 bg-[#020b18] overflow-hidden border-t border-cyan-500/10">
       {/* Background glow */}
       <div className="absolute top-1/3 -left-32 w-80 h-80 bg-cyan-600/10 rounded-full blur-[140px] pointer-events-none" />
       <div className="absolute bottom-10 right-0 w-80 h-80 bg-blue-600/10 rounded-full blur-[140px] pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-7xl mx-auto w-full">
         {/* Section Header */}
-        <div className="text-center mb-16 space-y-3">
+        <div className="text-center mb-8 sm:mb-10 space-y-2">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-semibold tracking-widest uppercase">
             <span>💬</span>
             <span>Let's Talk</span>

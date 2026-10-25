@@ -1,8 +1,10 @@
 import React from 'react';
+import { triggerTornPaperReveal } from '../utils/tornPaperTrigger';
 
 export default function Footer() {
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+  const scrollToTop = (e) => {
+    e?.preventDefault();
+    triggerTornPaperReveal('home', 'Welcome to AI Hub');
   };
 
   return (
@@ -12,7 +14,8 @@ export default function Footer() {
         <div className="flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
           <a
             href="#home"
-            className="flex items-center gap-2 group text-white font-extrabold tracking-wider text-lg"
+            onClick={scrollToTop}
+            className="flex items-center gap-2 group text-white font-extrabold tracking-wider text-lg cursor-pointer"
           >
             <span className="text-cyan-400 group-hover:rotate-45 transition-transform duration-300 text-xl">
               ⬡

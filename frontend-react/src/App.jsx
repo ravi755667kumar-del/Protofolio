@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import Intro3D from './components/Intro3D';
 import ScrollProgress from './components/ScrollProgress';
+import PageScrollNav from './components/PageScrollNav';
+import TornPaperReveal from './components/TornPaperReveal';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
-import PaintFillWipe from './components/PaintFillWipe';
 import About from './components/About';
 import Experience from './components/Experience';
 import Skills from './components/Skills';
@@ -46,15 +47,18 @@ export default function App() {
           {/* Scroll Progress Bar */}
           <ScrollProgress />
 
+          {/* GSAP Torn Paper Reveal Transition */}
+          <TornPaperReveal />
+
+          {/* Floating Next-Page & Vertical Dot Navigation (Tailwind CSS) */}
+          <PageScrollNav />
+
           {/* Floating Glassmorphic Navbar with Return-to-3D option */}
           <Navbar onBackToIntro={handleBackToIntro} />
 
           <main className="relative">
             {/* Section 1: Hero */}
             <Hero />
-
-            {/* GSAP Scroll-Triggered Organic Paint Fill Wipe Effect */}
-            <PaintFillWipe />
 
             {/* Section 2: About Me */}
             <About />

@@ -23,8 +23,8 @@ export default function ProjectsWave() {
   };
 
   return (
-    <section id="projects" className="relative py-20 bg-[#020b18] overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
+    <section id="projects" className="relative min-h-screen flex flex-col justify-center pt-20 pb-12 bg-[#020b18] overflow-hidden border-t border-cyan-500/10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-6 w-full">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-white/10">
           <div>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-semibold tracking-widest uppercase mb-3">

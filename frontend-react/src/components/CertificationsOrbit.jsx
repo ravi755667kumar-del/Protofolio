@@ -14,14 +14,15 @@ export default function CertificationsOrbit() {
     const ctx = gsap.context(() => {
       gsap.from('.cert-card', {
         scrollTrigger: {
-          trigger: '.certs-grid',
-          start: 'top 85%',
+          trigger: sectionRef.current,
+          start: 'top 95%',
         },
-        y: 60,
+        y: 30,
         opacity: 0,
-        stagger: 0.12,
-        duration: 0.8,
+        stagger: 0.08,
+        duration: 0.6,
         ease: 'power3.out',
+        clearProps: 'all',
       });
     }, sectionRef);
 
@@ -32,14 +33,14 @@ export default function CertificationsOrbit() {
     <section
       ref={sectionRef}
       id="certifications"
-      className="relative py-20 px-4 sm:px-6 lg:px-8 bg-[#040e1f] overflow-hidden"
+      className="relative min-h-screen flex flex-col justify-center pt-20 pb-12 px-4 sm:px-6 lg:px-8 bg-[#040e1f] overflow-hidden border-t border-cyan-500/10"
     >
       {/* Background Glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-cyan-900/10 rounded-full blur-[180px] pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-7xl mx-auto w-full">
         {/* Section Header */}
-        <div className="text-center mb-16 space-y-3">
+        <div className="text-center mb-8 sm:mb-10 space-y-2">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-semibold tracking-widest uppercase">
             <span>🏆</span>
             <span>Credentials</span>

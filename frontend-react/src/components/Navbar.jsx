@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { triggerTornPaperReveal } from '../utils/tornPaperTrigger';
 
 const navItems = [
   { name: 'Home', href: '#home' },
@@ -37,6 +38,12 @@ export default function Navbar({ onBackToIntro }) {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const handleNavClick = (e, item) => {
+    e.preventDefault();
+    setMobileMenuOpen(false);
+    triggerTornPaperReveal(item.href.substring(1), item.name);
+  };
+
   return (
     <nav
       className={`fixed top-0 left-0 w-full z-40 transition-all duration-300 ${
@@ -49,6 +56,7 @@ export default function Navbar({ onBackToIntro }) {
         {/* Logo */}
         <a
           href="#home"
+          onClick={(e) => handleNavClick(e, { name: 'Home', href: '#home' })}
           className="flex items-center gap-2 group text-white font-extrabold tracking-wider text-xl"
         >
           <span className="text-cyan-400 group-hover:rotate-45 transition-transform duration-300 text-2xl">
@@ -67,7 +75,8 @@ export default function Navbar({ onBackToIntro }) {
               <a
                 key={item.name}
                 href={item.href}
-                className={`px-3 py-1 text-sm font-medium rounded-full transition-all duration-200 ${
+                onClick={(e) => handleNavClick(e, item)}
+                className={`px-3 py-1 text-sm font-medium rounded-full transition-all duration-200 cursor-pointer ${
                   isActive
                     ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-md shadow-cyan-500/30'
                     : 'text-slate-300 hover:text-white hover:bg-white/5'
@@ -91,52 +100,59 @@ export default function Navbar({ onBackToIntro }) {
               <span>3D Portal</span>
             </button>
           )}
+
           <a
             href="/Ravi_Kumar_Resume.pdf"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-4 py-2 text-xs uppercase tracking-wider font-semibold rounded-full border border-cyan-400/40 text-cyan-300 hover:bg-cyan-500/10 hover:border-cyan-400 transition-all shadow-sm hover:shadow-cyan-500/20"
+            className="px-4 py-1.5 text-xs font-semibold rounded-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white shadow-md shadow-cyan-500/20 hover:scale-105 active:scale-95 transition-all"
           >
-            <span>Resume</span>
-            <span className="text-sm">↗</span>
+            Resume ↓
           </a>
         </div>
 
-        {/* Hamburger Menu Toggle (Mobile) */}
-        <button
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="md:hidden text-gray-300 hover:text-white p-2 focus:outline-none"
-          aria-label="Toggle menu"
-        >
-          <div className="w-6 h-5 flex flex-col justify-between">
-            <span
-              className={`h-0.5 w-full bg-cyan-400 transition-all duration-300 ${
-                mobileMenuOpen ? 'rotate-45 translate-y-2' : ''
-              }`}
-            />
-            <span
-              className={`h-0.5 w-full bg-cyan-400 transition-opacity duration-300 ${
-                mobileMenuOpen ? 'opacity-0' : 'opacity-100'
-              }`}
-            />
-            <span
-              className={`h-0.5 w-full bg-cyan-400 transition-all duration-300 ${
-                mobileMenuOpen ? '-rotate-45 -translate-y-2' : ''
-              }`}
-            />
-          </div>
-        </button>
+        {/* Mobile menu button */}
+        <div className="md:hidden flex items-center">
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="text-gray-400 hover:text-white focus:outline-none p-2"
+            aria-label="Toggle navigation menu"
+          >
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              {mobileMenuOpen ? (
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              ) : (
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+              )}
+            </svg>
+          </button>
+        </div>
       </div>
 
-      {/* Mobile Drawer */}
+      {/* Mobile menu dropdown */}
       {mobileMenuOpen && (
         <div className="md:hidden bg-[#071326]/95 backdrop-blur-xl border-b border-white/10 px-6 py-6 space-y-3">
           {navItems.map((item) => (
             <a
               key={item.name}
               href={item.href}
-              onClick={() => setMobileMenuOpen(false)}
-              className={`block px-3 py-2 rounded-lg text-base font-medium ${
+              onClick={(e) => handleNavClick(e, item)}
+              className={`block px-3 py-2 rounded-lg text-base font-medium cursor-pointer ${
                 activeSection === item.href.substring(1)
                   ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30'
                   : 'text-gray-300 hover:text-white hover:bg-white/5'
