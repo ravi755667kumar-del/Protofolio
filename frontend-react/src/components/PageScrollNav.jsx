@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { ChevronDown, ArrowUp } from 'lucide-react';
 import { triggerTornPaperReveal } from '../utils/tornPaperTrigger';
-import { triggerOpenResume } from '../utils/openResume';
 
 const SECTIONS = [
   { id: 'home', name: 'Home', num: '01', nextLabel: 'Explore About', title: 'WELCOME TO AI HUB' },
@@ -14,7 +13,6 @@ const SECTIONS = [
 
 export default function PageScrollNav() {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [hoveredDot, setHoveredDot] = useState(null);
   const [isVisible, setIsVisible] = useState(true);
 
   const activeIndexRef = useRef(0);
@@ -77,6 +75,10 @@ export default function PageScrollNav() {
             const isAtSectionBottom = viewportBottom >= sectionBottom - 25;
             if (!isAtSectionBottom) return;
           }
+          const isAtPageEnd =
+            window.scrollY + window.innerHeight >=
+            document.documentElement.scrollHeight - 60;
+          if (!isAtPageEnd) return;
           e.preventDefault();
           navigateToSection(0);
         }
@@ -125,6 +127,10 @@ export default function PageScrollNav() {
             const viewportBottom = window.scrollY + window.innerHeight;
             if (viewportBottom < sectionBottom - 25) return;
           }
+          const isAtPageEnd =
+            window.scrollY + window.innerHeight >=
+            document.documentElement.scrollHeight - 60;
+          if (!isAtPageEnd) return;
           navigateToSection(0);
         }
       } else if (diff < 0 && activeIndexRef.current > 0) {
@@ -158,6 +164,10 @@ export default function PageScrollNav() {
             const viewportBottom = window.scrollY + window.innerHeight;
             if (viewportBottom < sectionBottom - 25) return;
           }
+          const isAtPageEnd =
+            window.scrollY + window.innerHeight >=
+            document.documentElement.scrollHeight - 60;
+          if (!isAtPageEnd) return;
           e.preventDefault();
           navigateToSection(0);
         }
@@ -238,91 +248,13 @@ export default function PageScrollNav() {
     }
   };
 
-  const handleDotClick = (sec, idx) => {
-    navigateToSection(idx);
-  };
-
   const currentSection = SECTIONS[activeIndex] || SECTIONS[0];
   const isLastSection = activeIndex === SECTIONS.length - 1;
 
   return (
     <>
       {/* ========================================================
-          1. RIGHT SIDE VERTICAL PAGE PAGINATION (Executive Light)
-          ======================================================== */}
-      <aside
-        aria-label="Page navigation"
-        className="fixed right-3 sm:right-5 top-1/2 -translate-y-1/2 z-40 flex flex-col items-center gap-2.5 p-2 rounded-full bg-white/90 border border-slate-200/90 shadow-[0_10px_35px_rgba(15,23,42,0.1)] backdrop-blur-xl select-none"
-      >
-        {/* Page counter pill */}
-        <div className="text-[9px] font-mono font-bold text-[#0284C7] pb-1 border-b border-slate-200 hidden sm:block">
-          {currentSection.num}
-        </div>
-
-        {/* 6 Page Dots */}
-        {SECTIONS.map((sec, idx) => {
-          const isActive = activeIndex === idx;
-          const isHovered = hoveredDot === idx;
-
-          return (
-            <div key={sec.id} className="relative flex items-center justify-center">
-              {/* Tooltip on left */}
-              {(isHovered || (isActive && hoveredDot === null)) && (
-                <div className="absolute right-7 px-2.5 py-1 rounded-lg bg-white border border-slate-200 text-[#0284C7] text-[10px] font-mono font-semibold whitespace-nowrap shadow-md pointer-events-none transition-all duration-200 animate-fade-in hidden sm:flex items-center gap-1.5">
-                  <span className="text-[8px] text-slate-500">{sec.num}</span>
-                  <span>{sec.name}</span>
-                </div>
-              )}
-
-              {/* Navigation Dot Button */}
-              <button
-                onClick={() => handleDotClick(sec, idx)}
-                onMouseEnter={() => setHoveredDot(idx)}
-                onMouseLeave={() => setHoveredDot(null)}
-                aria-label={`Scroll to ${sec.name} page`}
-                className={`relative flex items-center justify-center rounded-full transition-all duration-300 cursor-pointer ${
-                  isActive
-                    ? 'w-3 h-7 bg-gradient-to-b from-[#0284C7] to-blue-600 shadow-[0_0_12px_rgba(2,132,199,0.7)] ring-2 ring-sky-300'
-                    : 'w-2.5 h-2.5 bg-slate-300 hover:bg-[#0284C7] hover:scale-125'
-                }`}
-              >
-                {isActive && (
-                  <span className="absolute inset-0 rounded-full animate-ping bg-[#0284C7] opacity-40" />
-                )}
-              </button>
-            </div>
-          );
-        })}
-
-        {/* Total pages label */}
-        <div className="text-[8px] font-mono text-slate-400 pt-1 border-t border-slate-200 hidden sm:block">
-          06
-        </div>
-
-        {/* Quick Resume Access Button Accessible From ANY Section */}
-        <div className="relative flex items-center justify-center pt-1 mt-0.5 border-t border-slate-200/90 w-full">
-          {hoveredDot === 'resume' && (
-            <div className="absolute right-9 px-2.5 py-1 rounded-lg bg-white border border-slate-200 text-[#0284C7] text-[10px] font-mono font-semibold whitespace-nowrap shadow-md pointer-events-none transition-all duration-200 hidden sm:flex items-center gap-1.5 z-50">
-              <span>📄</span>
-              <span>Open Resume (macOS)</span>
-            </div>
-          )}
-          <button
-            type="button"
-            onClick={(e) => triggerOpenResume(e)}
-            onMouseEnter={() => setHoveredDot('resume')}
-            onMouseLeave={() => setHoveredDot(null)}
-            title="Open Resume in macOS Window"
-            aria-label="Open Resume"
-            className="w-6 h-6 rounded-full bg-sky-50 hover:bg-[#0284C7] text-[#0284C7] hover:text-white border border-sky-200 hover:border-[#0284C7] flex items-center justify-center text-[10px] font-bold shadow-2xs hover:scale-115 active:scale-95 transition-all cursor-pointer"
-          >
-            <span>CV</span>
-          </button>
-        </div>
-      </aside>
-
-      {/* ========================================================
-          2. FLOATING NEXT PAGE BUTTON (Bottom Center - Light Theme)
+          FLOATING NEXT PAGE BUTTON (Bottom Center - Light Theme)
           ======================================================== */}
       {isVisible && (
         <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-30 pointer-events-auto">

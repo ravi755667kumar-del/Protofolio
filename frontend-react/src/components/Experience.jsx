@@ -352,23 +352,13 @@ export default function Experience() {
 
       <div className="max-w-4xl mx-auto w-full relative z-10 flex flex-col items-center">
         {/* Section Header */}
-        <div className="exp-header text-center mb-5 sm:mb-6 space-y-2">
-          {/* Badge with normal writing */}
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-sky-50 border border-sky-200 text-[#0284C7] text-xs font-bold tracking-widest uppercase shadow-xs">
-            <span>📓</span>
-            <span>Research Log &amp; Diary</span>
-            <span className="text-sky-500">✦</span>
-          </div>
-
+        <div className="exp-header text-center mb-6 space-y-2">
           <h2 className="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight">
             My Journey:{' '}
             <span className="bg-gradient-to-r from-[#0284C7] via-sky-600 to-teal-600 bg-clip-text text-transparent">
               Experience &amp; Education
             </span>
           </h2>
-          <p className="text-slate-600 text-sm sm:text-base max-w-lg mx-auto">
-            Chronological notes from AI internships, research projects &amp; academic studies
-          </p>
         </div>
 
         {/* ========================================================
@@ -400,7 +390,7 @@ export default function Experience() {
             ======================================================== */}
         <div
           ref={stackContainerRef}
-          className="exp-stack-wrapper relative w-full max-w-2xl sm:max-w-3xl min-h-[460px] sm:min-h-[410px] mb-6"
+          className="exp-stack-wrapper relative w-full max-w-2xl sm:max-w-3xl min-h-[380px] sm:min-h-[340px] mb-2"
         >
           {/* ========================================================
               SMALL CIRCULAR NEXT BUTTON ON THE RIGHT
@@ -508,37 +498,10 @@ export default function Experience() {
                     {item.desc}
                   </p>
                 </div>
-
-                {/* Bottom Tags & Stack Counter */}
-                <div className="pt-3.5 mt-3.5 border-t border-dashed border-slate-200 flex items-center justify-between gap-4 flex-wrap">
-                  {/* Handwritten Tags */}
-                  <div className="flex flex-wrap gap-2">
-                    {item.tags.map((tag, tIdx) => (
-                      <span
-                        key={tIdx}
-                        className="font-handwriting text-base sm:text-lg px-2.5 py-0.5 rounded-full border border-dashed border-sky-300 text-[#0284C7] bg-sky-50/60"
-                      >
-                        #{tag}
-                      </span>
-                    ))}
-                  </div>
-
-                  {/* Sheet index indicator */}
-                  <div className="font-handwriting text-xl text-slate-400">
-                    Sheet {idx + 1} of 5
-                  </div>
-                </div>
               </div>
             );
           })}
         </div>
-
-        {/* Minimalist guide subtext */}
-        <p className="text-xs sm:text-sm text-slate-500 italic text-center select-none font-medium">
-          {isLastSheet
-            ? '~ Click ↺ to cycle back to Sheet 1 or scroll down to explore Skills ~'
-            : '~ Click the circle on the right ➔ to spray out & reveal the next page ~'}
-        </p>
       </div>
     </section>
   );
